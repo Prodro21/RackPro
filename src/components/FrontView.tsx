@@ -6,6 +6,7 @@ import { DEVICES } from '../constants/devices';
 import { FANS } from '../constants/fans';
 import { useReinforcement } from '../hooks/useReinforcement';
 import { loadOutlineIndex, loadOutlinePath, getCachedOutlinePath, hasOutline } from '../catalog/outlines';
+import { useCatalogStore, selectDeviceMap, selectConnectorMap } from '../catalog/useCatalogStore';
 
 const SC = 1.15;
 const OX = 30;
@@ -80,6 +81,23 @@ export function FrontView() {
   const marginWarnings = useConfigStore(selectMarginWarnings);
   const boreDia = useConfigStore(selectMountHoleDiameter);
   const ribs = useReinforcement();
+
+  // Catalog maps for unknown-slug detection (extracted at top per MEMORY.md)
+  const catalogDeviceMap = useCatalogStore(selectDeviceMap);
+  const catalogConnectorMap = useCatalogStore(selectConnectorMap);
+
+  // Build a set of known slugs from both catalog and legacy constants
+  const knownSlugs = useMemo(() => {
+    const slugs = new Set<string>();
+    // Legacy constants
+    for (const key of Object.keys(DEVICES)) slugs.add(key);
+    for (const key of Object.keys(CONNECTORS)) slugs.add(key);
+    for (const key of Object.keys(FANS)) slugs.add(key);
+    // Catalog entries
+    for (const key of Object.keys(catalogDeviceMap)) slugs.add(key);
+    for (const key of Object.keys(catalogConnectorMap)) slugs.add(key);
+    return slugs;
+  }, [catalogDeviceMap, catalogConnectorMap]);
 
   // Outline loading: async load with sync read-back for render
   const [outlineVersion, setOutlineVersion] = useState(0);
@@ -469,6 +487,31 @@ export function FrontView() {
               >
                 {isFan ? '\u2601' : el.type === 'connector' ? (lib && 'icon' in lib ? (lib as typeof CONNECTORS[string]).icon : '') : el.label}
               </text>
+
+              {/* Unknown slug warning badge */}
+              {!knownSlugs.has(el.key) && (
+                <g>
+                  <title>Device not found in current catalog</title>
+                  <polygon
+                    points={`${ex + ew - 1},${ey + 1} ${ex + ew + 7},${ey + 1} ${ex + ew + 3},${ey + 9}`}
+                    fill="#f59e0b"
+                    stroke="#92400e"
+                    strokeWidth={0.5}
+                  />
+                  <text
+                    x={ex + ew + 3}
+                    y={ey + 6.5}
+                    textAnchor="middle"
+                    dominantBaseline="central"
+                    fill="#451a03"
+                    fontSize={6}
+                    fontWeight="bold"
+                    fontFamily="inherit"
+                  >
+                    !
+                  </text>
+                </g>
+              )}
             </g>
           );
         })}
