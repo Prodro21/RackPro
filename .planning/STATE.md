@@ -5,23 +5,23 @@
 See: .planning/PROJECT.md (updated 2026-02-21)
 
 **Core value:** Anyone can design a custom rack mount panel with real equipment dimensions and export a fabrication-ready file — without CAD expertise.
-**Current focus:** Phase 3 — Export Hardening + Web Deployment
+**Current focus:** Phase 4 — Guided Wizard + Smart Auto-Layout
 
 ## Current Position
 
-Phase: 3 of 6 (Export Hardening + Web Deployment) -- COMPLETE
-Plan: 2 of 2 in current phase -- COMPLETE
-Status: Phase Complete
-Last activity: 2026-02-22 — Completed 03-02-PLAN.md (Web Deployment + Safari 3D Fix)
+Phase: 4 of 6 (Guided Wizard + Smart Auto-Layout)
+Plan: 1 of 3 in current phase -- COMPLETE
+Status: Executing
+Last activity: 2026-02-22 — Completed 04-01-PLAN.md (Auto-Layout V2 Engine)
 
-Progress: [██████░░░░] 62%
+Progress: [███████░░░] 67%
 
 ## Performance Metrics
 
 **Velocity:**
-- Total plans completed: 13
+- Total plans completed: 14
 - Average duration: 5min
-- Total execution time: 1.21 hours
+- Total execution time: 1.36 hours
 
 **By Phase:**
 
@@ -31,10 +31,11 @@ Progress: [██████░░░░] 62%
 | 01.1-device-outline-mvp | 4 | 11min | 3min |
 | 02-catalog-browser-routing | 3 | 12min | 4min |
 | 03-export-hardening-web-deployment | 2 | 37min | 19min |
+| 04-guided-wizard-smart-auto-layout | 1 | 9min | 9min |
 
 **Recent Trend:**
-- Last 5 plans: 02-02 (5min), 02-03 (4min), 03-01 (5min), 03-02 (32min)
-- Trend: 03-02 longer due to human-verify checkpoint wait
+- Last 5 plans: 02-03 (4min), 03-01 (5min), 03-02 (32min), 04-01 (9min)
+- Trend: Steady velocity after 03-02 checkpoint outlier
 
 *Updated after each plan completion*
 
@@ -95,6 +96,10 @@ Recent decisions affecting current work:
 - [Phase 03]: [03-02]: PWA registerType='prompt' — user sees toast on update, chooses when to refresh (no forced reload)
 - [Phase 03]: [03-02]: PWA icons deferred — manifest works without icons, install prompt deferred until branding ready
 - [Phase 03]: [03-02]: Cloudflare Web Analytics with PLACEHOLDER token — user replaces after enabling in dashboard
+- [Phase 04]: CONNECTOR_FAMILIES map with slug-prefix fallback for unknown connector types
+- [Phase 04]: Weight-aware placement alternates left/right from ears inward (heaviest first)
+- [Phase 04]: Post-layout validation uses lightweight inline AABB checks (not full validateExportConfig)
+- [Phase 04]: V1 layout.ts preserved unchanged for backward compatibility with MCP tests
 
 ### Pending Todos
 
@@ -103,11 +108,11 @@ None yet.
 ### Blockers/Concerns
 
 - [Pre-Phase 3]: DXF preflight exact failure modes not fully specified — test representative DXF exports via SendCutSend before writing validation assertions
-- [Pre-Phase 4]: Auto-layout connector-grouping priority order (airflow vs cable-type grouping) undefined — define as explicit constants before implementation
+- [Pre-Phase 4]: RESOLVED in 04-01 — CONNECTOR_FAMILIES constant map defines grouping priority (cable-type grouping, alphabetical family sort)
 - [Pre-Phase 6]: OpenSCAD WASM scope unclear — if live WASM preview enters scope, Phase 6 needs a research pass before planning
 
 ## Session Continuity
 
 Last session: 2026-02-22
-Stopped at: Completed 03-02-PLAN.md (Web Deployment + Safari 3D Fix) -- Phase 3 complete
+Stopped at: Completed 04-01-PLAN.md (Auto-Layout V2 Engine)
 Resume file: None

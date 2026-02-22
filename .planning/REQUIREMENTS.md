@@ -33,10 +33,10 @@ Requirements for this milestone. Each maps to roadmap phases.
 
 ### Auto-Layout
 
-- [ ] **LAYOUT-01**: Smart auto-layout groups connectors by type (all RJ45 together, all BNC together) instead of arbitrary left-to-right
-- [ ] **LAYOUT-02**: Auto-layout respects weight distribution preference (heavier devices toward rack ears/center)
-- [ ] **LAYOUT-03**: Auto-layout produces tighter packing than the current greedy algorithm with backtracking for better fit
-- [ ] **LAYOUT-04**: Auto-layout result passes the same validation checks as manual placement (no overlaps, within bounds, margin compliance)
+- [x] **LAYOUT-01**: Smart auto-layout groups connectors by type (all RJ45 together, all BNC together) instead of arbitrary left-to-right
+- [x] **LAYOUT-02**: Auto-layout respects weight distribution preference (heavier devices toward rack ears/center)
+- [x] **LAYOUT-03**: Auto-layout produces tighter packing than the current greedy algorithm with backtracking for better fit
+- [x] **LAYOUT-04**: Auto-layout result passes the same validation checks as manual placement (no overlaps, within bounds, margin compliance)
 
 ### Cost Estimation
 
@@ -121,10 +121,10 @@ Which phases cover which requirements. Updated during roadmap creation.
 | UX-03 | Phase 2 | Complete |
 | UX-04 | Phase 4 | Pending |
 | UX-05 | Phase 2 | Complete |
-| LAYOUT-01 | Phase 4 | Pending |
-| LAYOUT-02 | Phase 4 | Pending |
-| LAYOUT-03 | Phase 4 | Pending |
-| LAYOUT-04 | Phase 4 | Pending |
+| LAYOUT-01 | Phase 4 | Complete |
+| LAYOUT-02 | Phase 4 | Complete |
+| LAYOUT-03 | Phase 4 | Complete |
+| LAYOUT-04 | Phase 4 | Complete |
 | COST-01 | Phase 5 | Pending |
 | COST-02 | Phase 5 | Pending |
 | COST-03 | Phase 5 | Pending |
