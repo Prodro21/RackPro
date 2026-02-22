@@ -12,7 +12,7 @@ RackPro ships a polished, publicly hosted parametric rack mount configurator bui
 
 Decimal phases appear between their surrounding integers in numeric order.
 
-- [ ] **Phase 1: Catalog Schema + Data Infrastructure** - Zod-validated equipment JSON catalog with 50+ seed entries and a versioned schema that everything else builds on
+- [x] **Phase 1: Catalog Schema + Data Infrastructure** - Zod-validated equipment JSON catalog with 50+ seed entries and a versioned schema that everything else builds on
 - [ ] **Phase 1.1: Device Outline MVP** - INSERTED — AI-assisted SVG outlines for 5-10 priority devices (top, front, side faces) for fabrication-accurate tray/bracket generation and visual rendering
 - [ ] **Phase 2: Catalog Browser + Routing** - Multi-view navigation with a searchable equipment browser and URL-shareable design state
 - [ ] **Phase 3: Export Hardening + Web Deployment** - Validated DXF export, Safari WebGL fix, and publicly hosted static site on Cloudflare Pages
@@ -34,10 +34,10 @@ Decimal phases appear between their surrounding integers in numeric order.
 **Plans:** 4 plans
 
 Plans:
-- [ ] 01-01-PLAN.md — Define Zod v4 schemas for CatalogDevice and CatalogConnector with derived types and backward-compat converters
-- [ ] 01-02-PLAN.md — Author devices.json (50+ entries) and connectors.json (30+ entries) with manufacturer-verified dimensions
-- [ ] 01-03-PLAN.md — Build useCatalogStore with fetch-on-load, Zod validation, localStorage cache, and backward-compatible lookup wiring
-- [ ] 01-04-PLAN.md — Gap closure: Wire loadCatalog() bootstrap, invalid entry warning UI, and data confidence badge display
+- [x] 01-01-PLAN.md — Define Zod v4 schemas for CatalogDevice and CatalogConnector with derived types and backward-compat converters
+- [x] 01-02-PLAN.md — Author devices.json (50+ entries) and connectors.json (30+ entries) with manufacturer-verified dimensions
+- [x] 01-03-PLAN.md — Build useCatalogStore with fetch-on-load, Zod validation, localStorage cache, and backward-compatible lookup wiring
+- [x] 01-04-PLAN.md — Gap closure: Wire loadCatalog() bootstrap, invalid entry warning UI, and data confidence badge display
 
 ### Phase 1.1: Device Outline MVP
 **INSERTED** — Added to enable fabrication-accurate device profiles before public launch
@@ -147,7 +147,7 @@ Note: Phases 4 and 5/6 can proceed in parallel after Phase 3 completes (Phase 4 
 
 | Phase | Plans Complete | Status | Completed |
 |-------|----------------|--------|-----------|
-| 1. Catalog Schema + Data Infrastructure | 3/4 | Gap closure | - |
+| 1. Catalog Schema + Data Infrastructure | 4/4 | Complete | 2026-02-22 |
 | 1.1. Device Outline MVP | 0/3 | Not started | - |
 | 2. Catalog Browser + Routing | 0/3 | Not started | - |
 | 3. Export Hardening + Web Deployment | 0/3 | Not started | - |

@@ -10,27 +10,27 @@ See: .planning/PROJECT.md (updated 2026-02-21)
 ## Current Position
 
 Phase: 1 of 6 (Catalog Schema + Data Infrastructure)
-Plan: 3 of 3 in current phase (all complete)
+Plan: 4 of 4 in current phase (all complete)
 Status: Phase Complete
-Last activity: 2026-02-22 — Completed 01-02-PLAN.md (Catalog Data Authoring)
+Last activity: 2026-02-22 — Completed 01-04-PLAN.md (Catalog UI Wiring)
 
-Progress: [██░░░░░░░░] 16%
+Progress: [██░░░░░░░░] 19%
 
 ## Performance Metrics
 
 **Velocity:**
-- Total plans completed: 3
-- Average duration: 4min
-- Total execution time: 0.18 hours
+- Total plans completed: 4
+- Average duration: 3min
+- Total execution time: 0.22 hours
 
 **By Phase:**
 
 | Phase | Plans | Total | Avg/Plan |
 |-------|-------|-------|----------|
-| 01-catalog-schema | 3 | 11min | 4min |
+| 01-catalog-schema | 4 | 13min | 3min |
 
 **Recent Trend:**
-- Last 5 plans: 01-01 (2min), 01-03 (2min), 01-02 (7min)
+- Last 5 plans: 01-01 (2min), 01-03 (2min), 01-02 (7min), 01-04 (2min)
 - Trend: Stable
 
 *Updated after each plan completion*
@@ -56,6 +56,8 @@ Recent decisions affecting current work:
 - [Phase 01]: [01-02]: Legacy slug aliases added for backward compat (usw-pm16, usw-pro-24, rj45-ks, fiber-lc, fiber-sc, db9, powercon)
 - [Phase 01]: [01-02]: USW-Lite-8-PoE dimensions corrected to manufacturer datasheet (99.6x163.7x31.7mm)
 - [Phase 01]: [01-02]: Cutout+module architecture for connectors: Neutrik D-type 14 modules, keystone 10 modules
+- [Phase 01]: [01-04]: getState() over hook selector for catalog reads in Sidebar/SpecsTab — catalog data is static after boot
+- [Phase 01]: [01-04]: Duplicated confidenceBadge() in Sidebar and SpecsTab — extraction to shared util deferred to Phase 2
 
 ### Pending Todos
 
@@ -70,5 +72,5 @@ None yet.
 ## Session Continuity
 
 Last session: 2026-02-22
-Stopped at: Completed 01-02-PLAN.md (all Phase 1 plans complete)
+Stopped at: Completed 01-04-PLAN.md (all Phase 1 plans complete, including gap closure)
 Resume file: None
