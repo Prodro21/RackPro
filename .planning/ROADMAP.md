@@ -31,12 +31,13 @@ Decimal phases appear between their surrounding integers in numeric order.
   2. User can see a data confidence badge on each catalog entry indicating whether dimensions came from a manufacturer datasheet, community measurement, or estimation
   3. Any malformed or schema-invalid catalog entry is rejected at load time with a visible warning rather than silently corrupting the panel dimensions
   4. A new catalog JSON file (updated independently from app code) can be dropped into `public/catalog/` and the app picks it up on next load without a code release
-**Plans:** 3 plans
+**Plans:** 4 plans
 
 Plans:
 - [ ] 01-01-PLAN.md — Define Zod v4 schemas for CatalogDevice and CatalogConnector with derived types and backward-compat converters
 - [ ] 01-02-PLAN.md — Author devices.json (50+ entries) and connectors.json (30+ entries) with manufacturer-verified dimensions
 - [ ] 01-03-PLAN.md — Build useCatalogStore with fetch-on-load, Zod validation, localStorage cache, and backward-compatible lookup wiring
+- [ ] 01-04-PLAN.md — Gap closure: Wire loadCatalog() bootstrap, invalid entry warning UI, and data confidence badge display
 
 ### Phase 1.1: Device Outline MVP
 **INSERTED** — Added to enable fabrication-accurate device profiles before public launch
@@ -146,7 +147,7 @@ Note: Phases 4 and 5/6 can proceed in parallel after Phase 3 completes (Phase 4 
 
 | Phase | Plans Complete | Status | Completed |
 |-------|----------------|--------|-----------|
-| 1. Catalog Schema + Data Infrastructure | 0/3 | Planned | - |
+| 1. Catalog Schema + Data Infrastructure | 3/4 | Gap closure | - |
 | 1.1. Device Outline MVP | 0/3 | Not started | - |
 | 2. Catalog Browser + Routing | 0/3 | Not started | - |
 | 3. Export Hardening + Web Deployment | 0/3 | Not started | - |
