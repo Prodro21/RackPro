@@ -49,12 +49,13 @@ Plans:
   2. 5-10 user-selected priority devices have SVG outlines in `public/catalog/outlines/{slug}-{face}.svg` for top and front faces (side face deferred to batch 2 per RESEARCH.md recommendation -- the SideView renders enclosure cross-sections, not device face silhouettes)
   3. The SVG outlines are fabrication-accurate — scaled to match the manufacturer bounding box dimensions within 0.5mm tolerance
   4. The app loads outline data on-demand and falls back to rectangular bounding box when outlines are absent
-**Plans:** 3 plans
+**Plans:** 4 plans
 
 Plans:
 - [x] 01.1-01-PLAN.md — Build outline generation CLI toolchain (generate-outline.ts + validate-outlines.ts) using Claude Vision API
 - [x] 01.1-02-PLAN.md — Generate and validate SVG outlines for 5-10 priority devices, create index.json manifest
 - [x] 01.1-03-PLAN.md — Wire outline loading into the app with on-demand fetch, memory cache, rectangle fallback, and export config integration
+- [ ] 01.1-04-PLAN.md — Gap closure: Fix slug mismatch between DEVICES keys and outline index slugs, fix export top-face cache timing
 
 ### Phase 2: Catalog Browser + Routing
 **Goal**: Users can navigate to a dedicated catalog view, search and filter it, add items to their panel with one click, share a design via URL, and save progress across sessions
@@ -112,14 +113,14 @@ Plans:
 **Depends on**: Phase 3
 **Requirements**: COST-01, COST-02, COST-03, COST-04, PLAT-03, PLAT-04
 **Success Criteria** (what must be TRUE):
-  1. User can see a filament cost estimate displayed as a range (e.g., "$12–$18 FDM") with explicit assumptions shown (filament cost per kg, infill %, support factor)
+  1. User can see a filament cost estimate displayed as a range (e.g., "$12-$18 FDM") with explicit assumptions shown (filament cost per kg, infill %, support factor)
   2. User can see a sheet metal cost estimate as a range with material selection context and a direct link to SendCutSend or Protocase for exact quoting, accompanied by a clear "estimate only" disclaimer
   3. All dropdown selects, text inputs, and modal dialogs in the app use shadcn/ui components rather than raw HTML form elements
   4. Every Zustand selector returning an object or array passes a stability test (call twice, assert `===`) and has its cache key composition documented inline
 **Plans**: TBD
 
 Plans:
-- [ ] 05-01: Build `src/lib/costEstimation.ts` with `estimatePrintCost()` (volume × density × $/kg × support factor) and `estimateSheetMetalCost()` (flat pattern area × material cost); build `CostPanel.tsx` with range display, visible assumptions, disclaimer, and fabricator links
+- [ ] 05-01: Build `src/lib/costEstimation.ts` with `estimatePrintCost()` (volume x density x $/kg x support factor) and `estimateSheetMetalCost()` (flat pattern area x material cost); build `CostPanel.tsx` with range display, visible assumptions, disclaimer, and fabricator links
 - [ ] 05-02: Replace raw HTML `<select>`, `<input>`, and dialog elements with shadcn/ui components (`Select`, `Input`, `Dialog`, `Badge`, `Tooltip`, `Command`); initialize shadcn/ui via copy-to-source pattern
 - [ ] 05-03: Audit all existing and new Zustand selectors returning objects/arrays; add module-level memoization with documented cache keys; add selector stability tests
 
@@ -148,7 +149,7 @@ Note: Phases 4 and 5/6 can proceed in parallel after Phase 3 completes (Phase 4 
 | Phase | Plans Complete | Status | Completed |
 |-------|----------------|--------|-----------|
 | 1. Catalog Schema + Data Infrastructure | 4/4 | Complete | 2026-02-22 |
-| 1.1. Device Outline MVP | 3/3 | Complete | 2026-02-22 |
+| 1.1. Device Outline MVP | 3/4 | Gap closure | - |
 | 2. Catalog Browser + Routing | 0/3 | Not started | - |
 | 3. Export Hardening + Web Deployment | 0/3 | Not started | - |
 | 4. Guided Wizard + Smart Auto-Layout | 0/3 | Not started | - |
