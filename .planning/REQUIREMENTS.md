@@ -54,14 +54,14 @@ Requirements for this milestone. Each maps to roadmap phases.
 
 ### 3D Preview
 
-- [ ] **3D-01**: 3D preview canvas stays alive across tab switches (CSS visibility toggle, not unmount/remount) to prevent WebGL context exhaustion on Safari
+- [x] **3D-01**: 3D preview canvas stays alive across tab switches (CSS visibility toggle, not unmount/remount) to prevent WebGL context exhaustion on Safari
 - [ ] **3D-02**: 3D preview shows environment lighting and material-appropriate shading (plastic look for FDM, brushed metal for sheet metal)
 - [ ] **3D-03**: 3D preview renders connector cutouts and device bay openings accurately in the panel geometry
 
 ### Platform
 
 - [x] **PLAT-01**: App uses hash-based client-side routing with lazy-loaded route components for catalog, configurator, and wizard views
-- [ ] **PLAT-02**: App is deployed as a static site on Cloudflare Pages (or equivalent) with SPA fallback routing
+- [x] **PLAT-02**: App is deployed as a static site on Cloudflare Pages (or equivalent) with SPA fallback routing
 - [ ] **PLAT-03**: UI uses shadcn/ui components replacing raw HTML form elements (selects, inputs, dialogs) for a professional appearance
 - [ ] **PLAT-04**: All new Zustand selectors returning objects/arrays include module-level memoization with documented cache keys and stability tests
 
@@ -133,11 +133,11 @@ Which phases cover which requirements. Updated during roadmap creation.
 | EXP-02 | Phase 3 | Complete |
 | EXP-03 | Phase 3 | Complete |
 | EXP-04 | Phase 3 | Complete |
-| 3D-01 | Phase 3 | Pending |
+| 3D-01 | Phase 3 | Complete |
 | 3D-02 | Phase 6 | Pending |
 | 3D-03 | Phase 6 | Pending |
 | PLAT-01 | Phase 2 | Complete |
-| PLAT-02 | Phase 3 | Pending |
+| PLAT-02 | Phase 3 | Complete |
 | PLAT-03 | Phase 5 | Pending |
 | PLAT-04 | Phase 5 | Pending |
 

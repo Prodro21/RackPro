@@ -15,7 +15,7 @@ Decimal phases appear between their surrounding integers in numeric order.
 - [x] **Phase 1: Catalog Schema + Data Infrastructure** - Zod-validated equipment JSON catalog with 50+ seed entries and a versioned schema that everything else builds on
 - [x] **Phase 1.1: Device Outline MVP** - INSERTED — AI-assisted SVG outlines for 5-10 priority devices (top and front faces) for fabrication-accurate tray/bracket generation and visual rendering
 - [x] **Phase 2: Catalog Browser + Routing** - Multi-view navigation with a searchable equipment browser and URL-shareable design state (completed 2026-02-22)
-- [ ] **Phase 3: Export Hardening + Web Deployment** - Validated DXF export, Safari WebGL fix, and publicly hosted static site on Cloudflare Pages
+- [x] **Phase 3: Export Hardening + Web Deployment** - Validated DXF export, Safari WebGL fix, and publicly hosted static site on Cloudflare Workers (completed 2026-02-22)
 - [ ] **Phase 4: Guided Wizard + Smart Auto-Layout** - Multi-step onboarding wizard and connector-grouping auto-layout replacing the greedy left-to-right algorithm
 - [ ] **Phase 5: Cost Estimation + UI Polish** - Filament and sheet metal cost range estimates with shadcn/ui component upgrades and stable selector tests
 - [ ] **Phase 6: 3D Preview Polish + Community Contributions** - Orbit controls, material shading, accurate geometry in 3D preview, and GitHub PR contribution pipeline for community equipment submissions
@@ -88,7 +88,7 @@ Plans:
 
 Plans:
 - [x] 03-01-PLAN.md — Build export preflight validation engine (closed contour, hole-to-edge, missing def, overlap, OOB checks) with PreflightReport UI inline in ExportTab and red highlighting on FrontView
-- [ ] 03-02-PLAN.md — Fix Safari 3D preview (persistent Canvas mount with CSS visibility toggle), deploy to Cloudflare Workers with GitHub Actions CI/CD, PWA offline support, update prompting, and analytics
+- [x] 03-02-PLAN.md — Fix Safari 3D preview (persistent Canvas mount with CSS visibility toggle), deploy to Cloudflare Workers with GitHub Actions CI/CD, PWA offline support, update prompting, and analytics
 
 ### Phase 4: Guided Wizard + Smart Auto-Layout
 **Goal**: A newcomer can complete a panel design end-to-end through a guided wizard, and the auto-layout groups connectors intelligently with weight distribution awareness
@@ -150,7 +150,7 @@ Note: Phases 4 and 5/6 can proceed in parallel after Phase 3 completes (Phase 4 
 | 1. Catalog Schema + Data Infrastructure | 4/4 | Complete | 2026-02-22 |
 | 1.1. Device Outline MVP | 3/4 | Gap closure | - |
 | 2. Catalog Browser + Routing | 0/3 | Complete    | 2026-02-22 |
-| 3. Export Hardening + Web Deployment | 1/2 | In Progress | - |
+| 3. Export Hardening + Web Deployment | 2/2 | Complete | 2026-02-22 |
 | 4. Guided Wizard + Smart Auto-Layout | 0/3 | Not started | - |
 | 5. Cost Estimation + UI Polish | 0/3 | Not started | - |
 | 6. 3D Preview Polish + Community Contributions | 0/2 | Not started | - |

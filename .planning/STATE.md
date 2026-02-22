@@ -9,19 +9,19 @@ See: .planning/PROJECT.md (updated 2026-02-21)
 
 ## Current Position
 
-Phase: 3 of 6 (Export Hardening + Web Deployment)
-Plan: 2 of 2 in current phase
-Status: Executing
-Last activity: 2026-02-22 — Completed 03-01-PLAN.md (Export Preflight Validation)
+Phase: 3 of 6 (Export Hardening + Web Deployment) -- COMPLETE
+Plan: 2 of 2 in current phase -- COMPLETE
+Status: Phase Complete
+Last activity: 2026-02-22 — Completed 03-02-PLAN.md (Web Deployment + Safari 3D Fix)
 
-Progress: [██████░░░░] 57%
+Progress: [██████░░░░] 62%
 
 ## Performance Metrics
 
 **Velocity:**
-- Total plans completed: 12
-- Average duration: 3min
-- Total execution time: 0.68 hours
+- Total plans completed: 13
+- Average duration: 5min
+- Total execution time: 1.21 hours
 
 **By Phase:**
 
@@ -30,11 +30,11 @@ Progress: [██████░░░░] 57%
 | 01-catalog-schema | 4 | 13min | 3min |
 | 01.1-device-outline-mvp | 4 | 11min | 3min |
 | 02-catalog-browser-routing | 3 | 12min | 4min |
-| 03-export-hardening-web-deployment | 1 | 5min | 5min |
+| 03-export-hardening-web-deployment | 2 | 37min | 19min |
 
 **Recent Trend:**
-- Last 5 plans: 02-01 (3min), 02-02 (5min), 02-03 (4min), 03-01 (5min)
-- Trend: Stable
+- Last 5 plans: 02-02 (5min), 02-03 (4min), 03-01 (5min), 03-02 (32min)
+- Trend: 03-02 longer due to human-verify checkpoint wait
 
 *Updated after each plan completion*
 
@@ -90,6 +90,11 @@ Recent decisions affecting current work:
 - [Phase 03]: [03-01]: HOLE_TO_EDGE is warning severity (SM only); 3D print hole-to-edge is structurally less critical
 - [Phase 03]: [03-01]: validationIssueIds is UI-only Zustand state (not undoable) for cross-component issue communication
 - [Phase 03]: [03-01]: DXF dxfRect/dxfTrapezoid upgraded to LWPOLYLINE for guaranteed closed contours
+- [Phase 03]: [03-02]: CSS display:none toggle instead of conditional render for 3D Canvas — prevents Safari WebGL context creation/destruction
+- [Phase 03]: [03-02]: frameloop='never' when 3D tab hidden — pauses render loop to save GPU while Canvas stays mounted
+- [Phase 03]: [03-02]: PWA registerType='prompt' — user sees toast on update, chooses when to refresh (no forced reload)
+- [Phase 03]: [03-02]: PWA icons deferred — manifest works without icons, install prompt deferred until branding ready
+- [Phase 03]: [03-02]: Cloudflare Web Analytics with PLACEHOLDER token — user replaces after enabling in dashboard
 
 ### Pending Todos
 
@@ -104,5 +109,5 @@ None yet.
 ## Session Continuity
 
 Last session: 2026-02-22
-Stopped at: Completed 03-01-PLAN.md (Export Preflight Validation)
+Stopped at: Completed 03-02-PLAN.md (Web Deployment + Safari 3D Fix) -- Phase 3 complete
 Resume file: None
