@@ -106,46 +106,46 @@ Which phases cover which requirements. Updated during roadmap creation.
 
 | Requirement | Phase | Status |
 |-------------|-------|--------|
-| CAT-01 | — | Pending |
-| CAT-02 | — | Pending |
-| CAT-03 | — | Pending |
-| CAT-04 | — | Pending |
-| CAT-05 | — | Pending |
-| CAT-06 | — | Pending |
-| CAT-07 | — | Pending |
-| COMM-01 | — | Pending |
-| COMM-02 | — | Pending |
-| COMM-03 | — | Pending |
-| UX-01 | — | Pending |
-| UX-02 | — | Pending |
-| UX-03 | — | Pending |
-| UX-04 | — | Pending |
-| UX-05 | — | Pending |
-| LAYOUT-01 | — | Pending |
-| LAYOUT-02 | — | Pending |
-| LAYOUT-03 | — | Pending |
-| LAYOUT-04 | — | Pending |
-| COST-01 | — | Pending |
-| COST-02 | — | Pending |
-| COST-03 | — | Pending |
-| COST-04 | — | Pending |
-| EXP-01 | — | Pending |
-| EXP-02 | — | Pending |
-| EXP-03 | — | Pending |
-| EXP-04 | — | Pending |
-| 3D-01 | — | Pending |
-| 3D-02 | — | Pending |
-| 3D-03 | — | Pending |
-| PLAT-01 | — | Pending |
-| PLAT-02 | — | Pending |
-| PLAT-03 | — | Pending |
-| PLAT-04 | — | Pending |
+| CAT-01 | Phase 1 | Pending |
+| CAT-02 | Phase 1 | Pending |
+| CAT-03 | Phase 2 | Pending |
+| CAT-04 | Phase 2 | Pending |
+| CAT-05 | Phase 1 | Pending |
+| CAT-06 | Phase 1 | Pending |
+| CAT-07 | Phase 2 | Pending |
+| COMM-01 | Phase 6 | Pending |
+| COMM-02 | Phase 6 | Pending |
+| COMM-03 | Phase 1 | Pending |
+| UX-01 | Phase 4 | Pending |
+| UX-02 | Phase 2 | Pending |
+| UX-03 | Phase 2 | Pending |
+| UX-04 | Phase 4 | Pending |
+| UX-05 | Phase 2 | Pending |
+| LAYOUT-01 | Phase 4 | Pending |
+| LAYOUT-02 | Phase 4 | Pending |
+| LAYOUT-03 | Phase 4 | Pending |
+| LAYOUT-04 | Phase 4 | Pending |
+| COST-01 | Phase 5 | Pending |
+| COST-02 | Phase 5 | Pending |
+| COST-03 | Phase 5 | Pending |
+| COST-04 | Phase 5 | Pending |
+| EXP-01 | Phase 3 | Pending |
+| EXP-02 | Phase 3 | Pending |
+| EXP-03 | Phase 3 | Pending |
+| EXP-04 | Phase 3 | Pending |
+| 3D-01 | Phase 3 | Pending |
+| 3D-02 | Phase 6 | Pending |
+| 3D-03 | Phase 6 | Pending |
+| PLAT-01 | Phase 2 | Pending |
+| PLAT-02 | Phase 3 | Pending |
+| PLAT-03 | Phase 5 | Pending |
+| PLAT-04 | Phase 5 | Pending |
 
 **Coverage:**
 - v1 requirements: 34 total
-- Mapped to phases: 0
-- Unmapped: 34 ⚠️
+- Mapped to phases: 34
+- Unmapped: 0 ✓
 
 ---
 *Requirements defined: 2026-02-21*
-*Last updated: 2026-02-21 after initial definition*
+*Last updated: 2026-02-21 — traceability mapped to 6-phase roadmap*
