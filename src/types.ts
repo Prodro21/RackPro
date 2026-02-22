@@ -13,6 +13,13 @@ export type AssemblyMode = 'monolithic' | 'modular';
 export type EnclosureStyle = 'tray' | 'box';
 export type MountHoleType = '#10-32' | '#12-24' | 'M5' | 'M6';
 
+export interface ElementLabel {
+  text: string;                                    // user's custom label text
+  position: 'above' | 'below' | 'inside';         // placement relative to cutout
+  autoNumber?: boolean;                            // append sequential number for grouped connectors
+  icon?: 'network' | 'video' | 'audio' | 'power'; // category icon (small SVG symbol)
+}
+
 export interface PanelElement {
   id: string;
   type: ElementType;
@@ -23,6 +30,7 @@ export interface PanelElement {
   h: number;       // element height (mm)
   label: string;
   surface?: PlacementSurface;  // defaults to 'faceplate'
+  labelConfig?: ElementLabel;  // custom text label for fabrication output
 }
 
 // ─── Connector Definition ─────────────────────────────────────

@@ -40,6 +40,12 @@ export interface SerializedDesign {
     h: number;
     label: string;
     surface?: string;
+    labelConfig?: {
+      text: string;
+      position: 'above' | 'below' | 'inside';
+      autoNumber?: boolean;
+      icon?: 'network' | 'video' | 'audio' | 'power';
+    };
   }>;
 }
 
@@ -80,6 +86,7 @@ export function extractSerializable(state: ConfigState): SerializedDesign {
       h: el.h,
       label: el.label,
       ...(el.surface ? { surface: el.surface } : {}),
+      ...(el.labelConfig ? { labelConfig: el.labelConfig } : {}),
     })),
   };
 }
@@ -141,6 +148,7 @@ export function applyDesignToStore(design: SerializedDesign): void {
       h: el.h,
       label: el.label,
       surface: el.surface as 'faceplate' | 'rear' | 'side-top' | 'side-bottom' | undefined,
+      ...(el.labelConfig ? { labelConfig: el.labelConfig } : {}),
     })),
     // Reset transient state on design load
     selectedId: null,

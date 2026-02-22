@@ -1,6 +1,6 @@
 import { create } from 'zustand';
 import { produce } from 'immer';
-import type { PanelElement, RackStandard, FabMethod, TabId, AddMode, ElementType, PlacementSurface, AssemblyMode, EnclosureStyle, MountHoleType } from '../types';
+import type { PanelElement, ElementLabel, RackStandard, FabMethod, TabId, AddMode, ElementType, PlacementSurface, AssemblyMode, EnclosureStyle, MountHoleType } from '../types';
 import { FANS } from '../constants/fans';
 import { lookupDevice } from '../constants/deviceLookup';
 import { lookupConnector } from '../constants/connectorLookup';
@@ -137,6 +137,7 @@ export interface ConfigState {
   setTrayFabMethod: (fab: FabMethod) => void;
   setEnclosureStyle: (style: EnclosureStyle) => void;
   setElementSurface: (id: string, surface: PlacementSurface) => void;
+  setElementLabel: (id: string, labelConfig: ElementLabel | undefined) => void;
   setValidationIssueIds: (ids: string[]) => void;
 
   // Element actions
@@ -214,6 +215,14 @@ export const useConfigStore = create<ConfigState>()(
         set(produce((s: ConfigState) => {
           const el = s.elements.find(e => e.id === id);
           if (el) el.surface = surface;
+        }));
+      },
+
+      setElementLabel: (id, labelConfig) => {
+        pushUndo(get());
+        set(produce((s: ConfigState) => {
+          const el = s.elements.find(e => e.id === id);
+          if (el) el.labelConfig = labelConfig;
         }));
       },
 
