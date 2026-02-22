@@ -1,4 +1,4 @@
-import { useState, useEffect, useCallback } from 'react';
+import { useState, useEffect, useCallback, useMemo } from 'react';
 import { useConfigStore, selectPanelDims, selectPanelHeight, selectEnclosureDepth, selectNeedsSplit, selectSplitInfo, selectBendAllowance90, selectPrinter, selectAssemblyMode, selectFaceFabMethod, selectTrayFabMethod } from '../store';
 import { generateConfig, exportJSON, downloadFile } from '../export/configJson';
 import { generateOpenSCAD } from '../export/openscadGen';
@@ -10,6 +10,9 @@ import { generateShareUrl } from '../hooks/useDesignPersistence';
 import { showToast } from './Toast';
 import { SectionLabel } from './ui/SectionLabel';
 import { ExportCard } from './ui/ExportCard';
+import { PreflightReport } from './PreflightReport';
+import { validateExportConfig } from '../lib/validation';
+import type { ValidationResult } from '../lib/validation';
 
 export function ExportTab() {
   const [copied, setCopied] = useState<string | null>(null);
@@ -28,6 +31,52 @@ export function ExportTab() {
   const faceFab = useConfigStore(selectFaceFabMethod);
   const trayFab = useConfigStore(selectTrayFabMethod);
   const isModular = assemblyMode === 'modular';
+
+  // Preflight validation state
+  const [preflightResult, setPreflightResult] = useState<ValidationResult | null>(null);
+
+  const runPreflight = useCallback(() => {
+    const config = generateConfig();
+    const result = validateExportConfig(config);
+    setPreflightResult(result);
+    // Map validation issue elementIds (key-index format) to PanelElement.id values
+    // for FrontView red highlighting. The store elements array matches config.elements
+    // order, so we extract indices from issue IDs and look up the actual element IDs.
+    const storeElements = useConfigStore.getState().elements;
+    const panelElementIds = new Set<string>();
+    for (const issue of result.issues) {
+      // elementId format is "key-index", extract the index
+      const lastDash = issue.elementId.lastIndexOf('-');
+      const idx = parseInt(issue.elementId.slice(lastDash + 1), 10);
+      if (!isNaN(idx) && idx >= 0 && idx < storeElements.length) {
+        panelElementIds.add(storeElements[idx].id);
+      }
+    }
+    useConfigStore.getState().setValidationIssueIds([...panelElementIds]);
+    return result;
+  }, []);
+
+  // Run preflight on mount and when elements or fab method change
+  useEffect(() => {
+    runPreflight();
+  }, [elements.length, fabMethod, runPreflight]);
+
+  // Clear validation IDs when unmounting (leaving export tab)
+  useEffect(() => {
+    return () => {
+      useConfigStore.getState().setValidationIssueIds([]);
+    };
+  }, []);
+
+  /** Gate function: re-runs validation and returns true if export is allowed. */
+  const checkBeforeExport = useCallback((): boolean => {
+    const result = runPreflight();
+    if (result.hasCritical) {
+      showToast(`Export blocked: ${result.summary.critical} critical issue(s) found`);
+      return false;
+    }
+    return true;
+  }, [runPreflight]);
 
   // Fusion 360 bridge state
   const [bridgeStatus, setBridgeStatus] = useState<'unknown' | 'connected' | 'disconnected'>('unknown');
@@ -145,40 +194,47 @@ export function ExportTab() {
   };
 
   const downloadJSON = () => {
+    if (!checkBeforeExport()) return;
     downloadFile(getJSON(), 'rack-config.json', 'application/json');
   };
 
   const copyOpenSCAD = () => {
+    if (!checkBeforeExport()) return;
     const config = getConfig();
     const scad = generateOpenSCAD(config);
     copyText(scad, 'scad');
   };
 
   const downloadOpenSCAD = () => {
+    if (!checkBeforeExport()) return;
     const config = getConfig();
     const scad = generateOpenSCAD(config);
     downloadFile(scad, 'rackmount.scad', 'text/plain');
   };
 
   const copyFusion360 = () => {
+    if (!checkBeforeExport()) return;
     const config = getConfig();
     const py = generateFusion360(config);
     copyText(py, 'fusion');
   };
 
   const downloadFusion360 = () => {
+    if (!checkBeforeExport()) return;
     const config = getConfig();
     const py = generateFusion360(config);
     downloadFile(py, 'rackmount_fusion360.py', 'text/x-python');
   };
 
   const downloadDXF = () => {
+    if (!checkBeforeExport()) return;
     const config = getConfig();
     const dxf = generateDXF(config);
     downloadFile(dxf, 'rackmount-flat.dxf', 'application/dxf');
   };
 
   const downloadTrayDXF = (elementIndex: number) => {
+    if (!checkBeforeExport()) return;
     const config = getConfig();
     const el = config.elements[elementIndex];
     const dxf = generateTrayDXF(config, elementIndex);
@@ -187,6 +243,7 @@ export function ExportTab() {
   };
 
   const downloadProductionDocs = () => {
+    if (!checkBeforeExport()) return;
     const config = getConfig();
     const md = generateProductionDocs(config);
     downloadFile(md, 'rackpro-production-notes.md', 'text/markdown');
@@ -220,6 +277,20 @@ export function ExportTab() {
         onClick={() => { handleCopyShareUrl(); flash('share'); }}
         note="Design is encoded in the URL — no server required"
       />
+
+      {/* Preflight Validation Report */}
+      {preflightResult && (
+        <PreflightReport
+          result={preflightResult}
+          onProceed={() => {
+            // Generic proceed — user can download any format below
+            if (preflightResult.hasCritical) {
+              showToast(`Export blocked: ${preflightResult.summary.critical} critical issue(s)`);
+            }
+          }}
+          format="All Formats"
+        />
+      )}
 
       <SectionLabel>EXPORT</SectionLabel>
 

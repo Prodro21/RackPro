@@ -107,6 +107,9 @@ export interface ConfigState {
   // Enclosure style
   enclosureStyle: EnclosureStyle;
 
+  // Validation (UI-only, not undoable)
+  validationIssueIds: string[];
+
   // Actions
   setStandard: (std: RackStandard) => void;
   setUHeight: (u: number) => void;
@@ -132,6 +135,7 @@ export interface ConfigState {
   setTrayFabMethod: (fab: FabMethod) => void;
   setEnclosureStyle: (style: EnclosureStyle) => void;
   setElementSurface: (id: string, surface: PlacementSurface) => void;
+  setValidationIssueIds: (ids: string[]) => void;
 
   // Element actions
   addElement: (type: ElementType, key: string) => void;
@@ -173,6 +177,7 @@ export const useConfigStore = create<ConfigState>()(
       faceFabMethod: '3dp',
       trayFabMethod: '3dp',
       enclosureStyle: 'tray',
+      validationIssueIds: [],
 
       // Simple setters (push undo for config changes)
       setStandard: (std) => { pushUndo(get()); set({ standard: std }); },
@@ -207,6 +212,7 @@ export const useConfigStore = create<ConfigState>()(
       // UI-only setters (no undo)
       setActiveTab: (tab) => set({ activeTab: tab }),
       setAddMode: (mode) => set({ addMode: mode }),
+      setValidationIssueIds: (ids) => set({ validationIssueIds: ids }),
 
       // Element CRUD
       addElement: (type, key) => {

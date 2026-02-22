@@ -1,5 +1,5 @@
 import { useRef, useCallback, useEffect, useState, useMemo } from 'react';
-import { useConfigStore, selectPanelDims, selectPanelHeight, selectBores, selectNeedsSplit, selectSplitInfo, selectOverlaps, selectOutOfBounds, selectMarginWarnings, selectMountHoleDiameter } from '../store';
+import { useConfigStore, selectPanelDims, selectPanelHeight, selectBores, selectNeedsSplit, selectSplitInfo, selectOverlaps, selectOutOfBounds, selectMarginWarnings, selectMountHoleDiameter, selectValidationIssueIds } from '../store';
 import { EIA, BASE } from '../constants/eia310';
 import { CONNECTORS } from '../constants/connectors';
 import { DEVICES } from '../constants/devices';
@@ -81,6 +81,7 @@ export function FrontView() {
   const outOfBounds = useConfigStore(selectOutOfBounds);
   const marginWarnings = useConfigStore(selectMarginWarnings);
   const boreDia = useConfigStore(selectMountHoleDiameter);
+  const validationIssueIds = useConfigStore(selectValidationIssueIds);
   const ribs = useReinforcement();
 
   // Catalog maps for unknown-slug detection (extracted at top per MEMORY.md)
@@ -135,6 +136,7 @@ export function FrontView() {
   const overlapIds = useMemo(() => new Set(overlaps.flatMap(([a, b]) => [a, b])), [overlaps]);
   const oobIds = useMemo(() => new Set(outOfBounds), [outOfBounds]);
   const marginIds = useMemo(() => new Set(marginWarnings.map(w => w.elementId)), [marginWarnings]);
+  const validationIds = useMemo(() => new Set(validationIssueIds), [validationIssueIds]);
 
   const onDown = (ev: React.MouseEvent, id: string) => {
     ev.stopPropagation();
@@ -440,6 +442,7 @@ export function FrontView() {
           const isOverlap = overlapIds.has(el.id);
           const isOOB = oobIds.has(el.id);
           const hasMarginWarn = marginIds.has(el.id);
+          const hasValidationIssue = validationIds.size > 0 && validationIds.has(el.id);
           const isR = el.type === 'connector' && lib && 'cut' in lib && ((lib as typeof CONNECTORS[string]).cut === 'round' || (lib as typeof CONNECTORS[string]).cut === 'd-shape');
           const isFan = el.type === 'fan';
 
@@ -479,6 +482,15 @@ export function FrontView() {
                   x={ex - 1.5} y={ey - 1.5}
                   width={ew + 3} height={eh + 3}
                   fill="none" stroke="#fb923c" strokeWidth={0.6} strokeDasharray="3,1" rx={2}
+                />
+              )}
+
+              {/* Validation preflight issue highlight (red dashed) */}
+              {hasValidationIssue && !isOverlap && !isOOB && (
+                <rect
+                  x={ex - 2.5} y={ey - 2.5}
+                  width={ew + 5} height={eh + 5}
+                  fill="#ff444410" stroke="#ff4444" strokeWidth={1} strokeDasharray="4,2" rx={2}
                 />
               )}
 
