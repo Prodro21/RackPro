@@ -14,7 +14,7 @@ Decimal phases appear between their surrounding integers in numeric order.
 
 - [x] **Phase 1: Catalog Schema + Data Infrastructure** - Zod-validated equipment JSON catalog with 50+ seed entries and a versioned schema that everything else builds on
 - [x] **Phase 1.1: Device Outline MVP** - INSERTED — AI-assisted SVG outlines for 5-10 priority devices (top and front faces) for fabrication-accurate tray/bracket generation and visual rendering
-- [ ] **Phase 2: Catalog Browser + Routing** - Multi-view navigation with a searchable equipment browser and URL-shareable design state
+- [x] **Phase 2: Catalog Browser + Routing** - Multi-view navigation with a searchable equipment browser and URL-shareable design state (completed 2026-02-22)
 - [ ] **Phase 3: Export Hardening + Web Deployment** - Validated DXF export, Safari WebGL fix, and publicly hosted static site on Cloudflare Pages
 - [ ] **Phase 4: Guided Wizard + Smart Auto-Layout** - Multi-step onboarding wizard and connector-grouping auto-layout replacing the greedy left-to-right algorithm
 - [ ] **Phase 5: Cost Estimation + UI Polish** - Filament and sheet metal cost range estimates with shadcn/ui component upgrades and stable selector tests
@@ -68,7 +68,7 @@ Plans:
   4. User can switch between Catalog, Configurator, and Wizard views via navigation without losing their current design state
   5. User can copy a URL that, when opened in a new tab, recreates the exact same panel design
   6. User can close and reopen the browser tab and find their design still present (localStorage persistence)
-**Plans:** 3 plans
+**Plans:** 3/3 plans complete
 
 Plans:
 - [ ] 02-01-PLAN.md — Install TanStack Router + Fuse.js, create hash-based routing with three lazy-loaded routes, add NavSidebar, restructure App.tsx
@@ -150,7 +150,7 @@ Note: Phases 4 and 5/6 can proceed in parallel after Phase 3 completes (Phase 4 
 |-------|----------------|--------|-----------|
 | 1. Catalog Schema + Data Infrastructure | 4/4 | Complete | 2026-02-22 |
 | 1.1. Device Outline MVP | 3/4 | Gap closure | - |
-| 2. Catalog Browser + Routing | 0/3 | Not started | - |
+| 2. Catalog Browser + Routing | 0/3 | Complete    | 2026-02-22 |
 | 3. Export Hardening + Web Deployment | 0/3 | Not started | - |
 | 4. Guided Wizard + Smart Auto-Layout | 0/3 | Not started | - |
 | 5. Cost Estimation + UI Polish | 0/3 | Not started | - |
