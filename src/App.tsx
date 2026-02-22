@@ -1,12 +1,7 @@
-import { Component, useEffect } from 'react';
+import { Component } from 'react';
 import type { ReactNode } from 'react';
-import { Header } from './components/Header';
-import { Sidebar } from './components/Sidebar';
-import { MainContent } from './components/MainContent';
-import { useKeyboard } from './hooks/useKeyboard';
-import { useCatalogStore } from './catalog/useCatalogStore';
 
-class AppErrorBoundary extends Component<
+export class AppErrorBoundary extends Component<
   { children: ReactNode },
   { error: Error | null }
 > {
@@ -38,30 +33,4 @@ class AppErrorBoundary extends Component<
     }
     return this.props.children;
   }
-}
-
-function AppContent() {
-  useEffect(() => {
-    useCatalogStore.getState().loadCatalog();
-  }, []);
-
-  useKeyboard();
-
-  return (
-    <div className="w-screen h-screen overflow-hidden bg-bg-primary text-text-primary font-mono flex flex-col">
-      <Header />
-      <div className="flex flex-1 min-h-0 overflow-hidden">
-        <Sidebar />
-        <MainContent />
-      </div>
-    </div>
-  );
-}
-
-export default function App() {
-  return (
-    <AppErrorBoundary>
-      <AppContent />
-    </AppErrorBoundary>
-  );
 }
