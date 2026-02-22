@@ -1,9 +1,19 @@
 /**
  * StepConnectors -- Wizard Step 4: Add connectors with zone picker.
- * Placeholder -- full implementation in Task 2.
+ *
+ * Includes connector zone picker (between, left, right, split) per CONTEXT.md Section 2.
+ * Reuses useCatalogSearch and CatalogCardGrid from Phase 2.
+ * Event-driven auto-layout on add/remove/zone-change.
+ * Skippable step -- supports device-only or blank panels.
  */
 
-import type { ConnectorZone } from '../../lib/autoLayoutV2';
+import { useState, useCallback } from 'react';
+import { useConfigStore } from '../../store/useConfigStore';
+import { useCatalogSearch, type CatalogItem } from '../../hooks/useCatalogSearch';
+import { CatalogCardGrid } from '../CatalogCardGrid';
+import { autoLayoutV2, type ConnectorZone } from '../../lib/autoLayoutV2';
+import { panelDimensions, panelHeight } from '../../constants/eia310';
+import { showToast } from '../Toast';
 
 interface StepConnectorsProps {
   onNext: () => void;
@@ -12,21 +22,199 @@ interface StepConnectorsProps {
   onConnectorZoneChange: (zone: ConnectorZone) => void;
 }
 
-export function StepConnectors({ onNext, onBack }: StepConnectorsProps) {
+const ZONE_OPTIONS: Array<{
+  value: ConnectorZone;
+  label: string;
+  desc: string;
+}> = [
+  { value: 'between', label: 'Between', desc: 'Between devices' },
+  { value: 'left', label: 'Left', desc: 'Left side of panel' },
+  { value: 'right', label: 'Right', desc: 'Right side of panel' },
+  { value: 'split', label: 'Split', desc: 'Split evenly, both sides' },
+];
+
+export function StepConnectors({
+  onNext,
+  onBack,
+  connectorZone,
+  onConnectorZoneChange,
+}: StepConnectorsProps) {
+  // Extract store selectors at top level per MEMORY.md
+  const elements = useConfigStore((s) => s.elements);
+
+  // Catalog search -- we want connectors
+  const {
+    query,
+    setQuery,
+    categories,
+    toggleCategory,
+    results,
+    clearFilters,
+  } = useCatalogSearch();
+
+  const [expandedSlug, setExpandedSlug] = useState<string | null>(null);
+
+  // Filter results to connectors only
+  const connectorResults = results.filter(
+    (r): r is CatalogItem & { itemType: 'connector' } => r.itemType === 'connector',
+  );
+
+  // Re-run auto-layout with all current elements
+  const runAutoLayout = useCallback(
+    (zone: ConnectorZone = connectorZone) => {
+      const store = useConfigStore.getState();
+      const els = store.elements;
+      if (els.length === 0) return;
+      const { panelWidth: panW } = panelDimensions(store.standard);
+      const panH = panelHeight(store.uHeight);
+      const result = autoLayoutV2(
+        els.map((e) => ({ type: e.type, key: e.key })),
+        panW,
+        panH,
+        { connectorZone: zone },
+      );
+      store.replaceElements(result.elements);
+      if (result.overflow) {
+        showToast(result.overflow.message);
+      }
+    },
+    [connectorZone],
+  );
+
+  // CRITICAL: Event-driven auto-layout, NOT effect-driven
+  const handleAddConnector = useCallback(
+    (item: CatalogItem) => {
+      const store = useConfigStore.getState();
+      store.addElement('connector', item.slug);
+      runAutoLayout();
+    },
+    [runAutoLayout],
+  );
+
+  const handleRemoveConnector = useCallback(
+    (id: string) => {
+      const store = useConfigStore.getState();
+      store.removeElement(id);
+      runAutoLayout();
+    },
+    [runAutoLayout],
+  );
+
+  const handleZoneChange = useCallback(
+    (zone: ConnectorZone) => {
+      onConnectorZoneChange(zone);
+      // Re-run auto-layout with new zone immediately
+      runAutoLayout(zone);
+    },
+    [onConnectorZoneChange, runAutoLayout],
+  );
+
+  const placedConnectors = elements.filter((e) => e.type === 'connector');
+
+  // Force 'connector' category active so catalog shows connectors
+  const isConnectorCategoryActive = categories.has('connector');
+
   return (
-    <div className="flex flex-col gap-4 p-4">
-      <div>
+    <div className="flex flex-col h-full">
+      <div className="p-4 pb-2">
         <h2 className="text-sm font-bold text-text-primary mb-1">Add Connectors</h2>
-        <p className="text-[10px] text-text-muted">
-          Browse the connector catalog and add items to your panel. This step is optional.
+        <p className="text-[10px] text-text-muted mb-3">
+          Browse the connector catalog and add pass-through connectors. This step is optional.
         </p>
+
+        {/* Connector zone picker */}
+        <div className="mb-3">
+          <div className="text-[9px] font-mono text-text-muted mb-1.5 tracking-wide">
+            CONNECTOR ZONE
+          </div>
+          <div className="grid grid-cols-4 gap-1">
+            {ZONE_OPTIONS.map((opt) => {
+              const isActive = connectorZone === opt.value;
+              return (
+                <button
+                  key={opt.value}
+                  onClick={() => handleZoneChange(opt.value)}
+                  className={`
+                    flex flex-col items-center gap-0.5 px-2 py-1.5 rounded border text-center transition-all
+                    ${isActive
+                      ? 'border-accent-gold bg-accent-gold/10 text-accent-gold'
+                      : 'border-border text-text-dim hover:border-text-muted'
+                    }
+                  `}
+                >
+                  <span className="text-[9px] font-bold">{opt.label}</span>
+                  <span className="text-[7px]">{opt.desc}</span>
+                </button>
+              );
+            })}
+          </div>
+        </div>
+
+        {/* Search input */}
+        <input
+          type="text"
+          value={query}
+          onChange={(e) => setQuery(e.target.value)}
+          placeholder="Search connectors..."
+          className="w-full px-3 py-1.5 text-xs rounded border border-border bg-bg-input text-text-primary font-mono placeholder:text-text-dim"
+        />
+
+        {/* Category shortcut: ensure connector filter is active */}
+        {!isConnectorCategoryActive && (
+          <button
+            onClick={() => toggleCategory('connector')}
+            className="mt-1.5 text-[9px] font-mono text-accent-gold hover:underline"
+          >
+            Show connectors only
+          </button>
+        )}
+        {(categories.size > 0 || query) && (
+          <button
+            onClick={clearFilters}
+            className="mt-1 ml-2 text-[9px] font-mono text-text-dim hover:text-text-muted"
+          >
+            Clear filters
+          </button>
+        )}
       </div>
 
-      <div className="flex-1 flex items-center justify-center text-text-dim text-[10px] py-8">
-        Connector catalog loading...
+      {/* Connector catalog grid */}
+      <div className="flex-1 min-h-0 overflow-y-auto">
+        <CatalogCardGrid
+          items={connectorResults}
+          expandedSlug={expandedSlug}
+          onToggle={(slug) => setExpandedSlug(expandedSlug === slug ? null : slug)}
+          onAdd={handleAddConnector}
+        />
       </div>
 
-      <div className="flex items-center justify-between mt-2">
+      {/* Placed connectors list */}
+      {placedConnectors.length > 0 && (
+        <div className="border-t border-border p-3">
+          <div className="text-[9px] font-mono text-text-muted mb-1 tracking-wide">
+            PLACED CONNECTORS ({placedConnectors.length})
+          </div>
+          <div className="flex flex-col gap-1 max-h-[120px] overflow-y-auto">
+            {placedConnectors.map((el) => (
+              <div
+                key={el.id}
+                className="flex items-center justify-between px-2 py-1 rounded bg-bg-card border border-border text-[10px]"
+              >
+                <span className="text-text-primary truncate">{el.label}</span>
+                <button
+                  onClick={() => handleRemoveConnector(el.id)}
+                  className="text-danger hover:text-danger/80 text-[9px] font-mono shrink-0 ml-2"
+                >
+                  Remove
+                </button>
+              </div>
+            ))}
+          </div>
+        </div>
+      )}
+
+      {/* Navigation */}
+      <div className="flex items-center justify-between p-3 border-t border-border">
         <button
           onClick={onBack}
           className="px-4 py-1.5 rounded text-xs font-mono text-text-muted border border-border hover:border-text-muted transition-all"
@@ -34,12 +222,14 @@ export function StepConnectors({ onNext, onBack }: StepConnectorsProps) {
           Back
         </button>
         <div className="flex items-center gap-2">
-          <button
-            onClick={onNext}
-            className="px-4 py-1.5 rounded text-xs font-mono text-text-muted border border-border hover:border-text-muted transition-all"
-          >
-            Skip
-          </button>
+          {placedConnectors.length === 0 && (
+            <button
+              onClick={onNext}
+              className="px-4 py-1.5 rounded text-xs font-mono text-text-muted border border-border hover:border-text-muted transition-all"
+            >
+              Skip
+            </button>
+          )}
           <button
             onClick={onNext}
             className="px-4 py-1.5 rounded text-xs font-bold font-mono bg-accent-gold text-bg-primary hover:brightness-110 transition-all"
