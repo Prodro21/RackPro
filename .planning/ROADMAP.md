@@ -76,7 +76,7 @@ Plans:
 - [ ] 02-03-PLAN.md — Implement URL-shareable design state (base64 in hash fragment) and debounced localStorage auto-save/restore with conflict toast
 
 ### Phase 3: Export Hardening + Web Deployment
-**Goal**: DXF exports pass fabricator preflight, the 3D tab survives tab-switching on Safari, and the app is live at a public URL on Cloudflare Pages
+**Goal**: DXF exports pass fabricator preflight, the 3D tab survives tab-switching on Safari, and the app is live at a public URL on Cloudflare Workers
 **Depends on**: Phase 2
 **Requirements**: EXP-01, EXP-02, EXP-03, EXP-04, PLAT-02, 3D-01
 **Success Criteria** (what must be TRUE):
@@ -84,12 +84,11 @@ Plans:
   2. User sees a visible error before download if any placed element references a missing device or connector definition, rather than silently exporting a broken file
   3. User can switch between tabs multiple times on Safari without the 3D preview losing its WebGL context or becoming blank
   4. Anyone can open the app by navigating to a public URL (no localhost required, no install step)
-**Plans**: TBD
+**Plans:** 2 plans
 
 Plans:
-- [ ] 03-01: Add DXF preflight validation (closed contour check, hole-to-edge 2T check, missing definition check) and expose validation report UI step before download
-- [ ] 03-02: Fix 3D preview tab mounting (CSS `display:none` instead of conditional unmount) to prevent Safari WebGL context exhaustion
-- [ ] 03-03: Configure Vite `base`, GitHub Actions CI/CD pipeline, Cloudflare Pages `_redirects` for SPA routing, and `Cache-Control: no-cache` on `index.html`; verify public deployment
+- [ ] 03-01-PLAN.md — Build export preflight validation engine (closed contour, hole-to-edge, missing def, overlap, OOB checks) with PreflightReport UI inline in ExportTab and red highlighting on FrontView
+- [ ] 03-02-PLAN.md — Fix Safari 3D preview (persistent Canvas mount with CSS visibility toggle), deploy to Cloudflare Workers with GitHub Actions CI/CD, PWA offline support, update prompting, and analytics
 
 ### Phase 4: Guided Wizard + Smart Auto-Layout
 **Goal**: A newcomer can complete a panel design end-to-end through a guided wizard, and the auto-layout groups connectors intelligently with weight distribution awareness
