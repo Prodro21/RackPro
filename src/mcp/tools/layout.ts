@@ -1,6 +1,7 @@
 import { z } from 'zod';
 import { getState, updateState } from '../state';
-import { autoLayout } from '../../lib/layout';
+import { autoLayoutV2 } from '../../lib/autoLayoutV2';
+import type { ConnectorZone } from '../../lib/autoLayoutV2';
 import { panelDimensions, panelHeight } from '../../constants/eia310';
 import type { ElementType } from '../../types';
 
@@ -10,6 +11,8 @@ export const suggestLayoutSchema = z.object({
     key: z.string().describe('Element key from catalog'),
   })).describe('Elements to auto-arrange'),
   spacing: z.number().optional().describe('Minimum spacing between elements in mm (default 4)'),
+  connectorZone: z.enum(['between', 'left', 'right', 'split']).optional()
+    .describe('Where to place connectors relative to devices (default: between)'),
 });
 
 export function handleSuggestLayout(args: z.infer<typeof suggestLayoutSchema>) {
@@ -17,23 +20,30 @@ export function handleSuggestLayout(args: z.infer<typeof suggestLayoutSchema>) {
   const dims = panelDimensions(s.standard);
   const panH = panelHeight(s.uHeight);
 
-  const placed = autoLayout(
+  const result = autoLayoutV2(
     args.elements.map(e => ({ type: e.type as ElementType, key: e.key })),
     dims.panelWidth,
     panH,
-    { spacing: args.spacing },
+    {
+      spacing: args.spacing,
+      connectorZone: args.connectorZone as ConnectorZone | undefined,
+    },
   );
 
-  if (placed.length === 0) {
-    return { success: false, error: 'Could not fit any elements on the panel' };
+  if (result.elements.length === 0) {
+    return {
+      success: false,
+      error: 'Could not fit any elements on the panel',
+      overflow: result.overflow,
+    };
   }
 
   // Replace current elements with the layout
-  updateState({ elements: placed });
+  updateState({ elements: result.elements });
 
   return {
     success: true,
-    placed: placed.map(e => ({
+    placed: result.elements.map(e => ({
       id: e.id,
       type: e.type,
       key: e.key,
@@ -46,7 +56,9 @@ export function handleSuggestLayout(args: z.infer<typeof suggestLayoutSchema>) {
     })),
     panelWidth: dims.panelWidth,
     panelHeight: panH,
-    fitted: placed.length,
+    fitted: result.elements.length,
     requested: args.elements.length,
+    overflow: result.overflow,
+    validationIssues: result.validationIssues,
   };
 }

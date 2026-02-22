@@ -5,6 +5,8 @@ import { FANS } from '../constants/fans';
 import { lookupDevice } from '../constants/deviceLookup';
 import { lookupConnector } from '../constants/connectorLookup';
 import { panelDimensions, panelHeight } from '../constants/eia310';
+import { autoLayoutV2 } from '../lib/autoLayoutV2';
+import type { ConnectorZone } from '../lib/autoLayoutV2';
 
 const uid = () => Math.random().toString(36).slice(2, 9);
 
@@ -143,6 +145,12 @@ export interface ConfigState {
   duplicateElement: (id: string) => void;
   moveElement: (id: string, x: number, y: number) => void;
   selectElement: (id: string | null) => void;
+
+  // Layout V2
+  suggestLayoutV2: (elementDefs: Array<{ type: ElementType; key: string }>, options?: { spacing?: number; connectorZone?: ConnectorZone }) => void;
+  replaceElements: (elements: PanelElement[]) => void;
+  saveCheckpoint: () => void;
+  getUndoDepth: () => number;
 
   // Undo/redo
   undo: () => void;
@@ -294,6 +302,27 @@ export const useConfigStore = create<ConfigState>()(
       },
 
       selectElement: (id) => set({ selectedId: id }),
+
+      // Layout V2
+      suggestLayoutV2: (elementDefs, options) => {
+        pushUndo(get());
+        const { standard, uHeight } = get();
+        const { panelWidth: panW } = panelDimensions(standard);
+        const panH = panelHeight(uHeight);
+        const result = autoLayoutV2(elementDefs, panW, panH, options);
+        set({ elements: result.elements, selectedId: null });
+      },
+
+      replaceElements: (elements) => {
+        pushUndo(get());
+        set({ elements, selectedId: null });
+      },
+
+      saveCheckpoint: () => {
+        pushUndo(get());
+      },
+
+      getUndoDepth: () => past.length,
 
       // Undo / Redo
       undo: () => {
