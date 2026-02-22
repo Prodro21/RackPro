@@ -89,14 +89,20 @@ export function FrontView() {
     loadOutlineIndex().then(() => setOutlineVersion(v => v + 1));
   }, []);
 
-  // Load outlines for placed device elements
+  // Load outlines for placed device elements (both front and top faces)
   useEffect(() => {
     const deviceEls = elements.filter(el => el.type === 'device');
-    const toLoad = deviceEls.filter(el => hasOutline(el.key, 'front') && getCachedOutlinePath(el.key, 'front') === null);
-    if (toLoad.length === 0) return;
-    Promise.all(toLoad.map(el => loadOutlinePath(el.key, 'front'))).then(() => {
-      setOutlineVersion(v => v + 1);
-    });
+    const promises: Promise<string | null>[] = [];
+    for (const el of deviceEls) {
+      if (hasOutline(el.key, 'front') && getCachedOutlinePath(el.key, 'front') === null) {
+        promises.push(loadOutlinePath(el.key, 'front'));
+      }
+      if (hasOutline(el.key, 'top') && getCachedOutlinePath(el.key, 'top') === null) {
+        promises.push(loadOutlinePath(el.key, 'top'));
+      }
+    }
+    if (promises.length === 0) return;
+    Promise.all(promises).then(() => setOutlineVersion(v => v + 1));
   }, [elements, outlineVersion]);
 
   const { totalWidth: totW, panelWidth: panW } = panDims;

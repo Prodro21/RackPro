@@ -24,6 +24,34 @@ let indexPromise: Promise<OutlineIndex> | null = null;
 let indexData: OutlineIndex | null = null;
 const pathCache = new Map<string, string | null>();
 
+// ─── Slug normalization ──────────────────────────────────────
+//
+// DEVICES constant keys (e.g. 'usw-lite-16') don't always match
+// outline index slugs (e.g. 'usw-lite-16-poe'). This mapping
+// bridges the gap so all API functions work with either form.
+
+const SLUG_ALIASES: Record<string, string> = {
+  'usw-lite-16': 'usw-lite-16-poe',
+  'usw-lite-8': 'usw-lite-8-poe',
+};
+
+/**
+ * Resolve a device key to its outline index slug.
+ * - If the key exists directly in the index, return as-is.
+ * - If a known alias exists, return the mapped slug.
+ * - Otherwise return unchanged (hasOutline will return false).
+ */
+export function resolveOutlineSlug(key: string): string {
+  // Direct match in index — most common path
+  if (indexData?.outlines[key]) return key;
+
+  // Known alias mapping
+  if (key in SLUG_ALIASES) return SLUG_ALIASES[key];
+
+  // Unknown key — return as-is, downstream will handle gracefully
+  return key;
+}
+
 // ─── Cache key helper ────────────────────────────────────────
 
 function cacheKey(slug: string, face: DeviceFace): string {
@@ -65,14 +93,16 @@ export async function loadOutlineIndex(): Promise<OutlineIndex> {
  * Returns empty array if index not loaded or device has no outlines.
  */
 export function getOutlineFaces(slug: string): DeviceFace[] {
-  return indexData?.outlines[slug]?.faces ?? [];
+  const resolved = resolveOutlineSlug(slug);
+  return indexData?.outlines[resolved]?.faces ?? [];
 }
 
 /**
  * Check if a device has an outline for a given face (sync, from cached index).
  */
 export function hasOutline(slug: string, face: DeviceFace): boolean {
-  return indexData?.outlines[slug]?.faces.includes(face) ?? false;
+  const resolved = resolveOutlineSlug(slug);
+  return indexData?.outlines[resolved]?.faces.includes(face) ?? false;
 }
 
 /**
@@ -86,7 +116,8 @@ export async function loadOutlinePath(
   slug: string,
   face: DeviceFace,
 ): Promise<string | null> {
-  const key = cacheKey(slug, face);
+  const resolved = resolveOutlineSlug(slug);
+  const key = cacheKey(resolved, face);
 
   // Return cached value (including cached null for missing outlines)
   if (pathCache.has(key)) return pathCache.get(key)!;
@@ -94,14 +125,14 @@ export async function loadOutlinePath(
   // Ensure index is loaded
   await loadOutlineIndex();
 
-  // Check if slug+face exists in index
-  if (!hasOutline(slug, face)) {
+  // Check if resolved slug+face exists in index
+  if (!hasOutline(resolved, face)) {
     pathCache.set(key, null);
     return null;
   }
 
   try {
-    const res = await fetch(`/catalog/outlines/${slug}-${face}.svg`);
+    const res = await fetch(`/catalog/outlines/${resolved}-${face}.svg`);
     if (!res.ok) {
       pathCache.set(key, null);
       return null;
@@ -111,7 +142,7 @@ export async function loadOutlinePath(
     // Extract path d attribute using regex
     const match = svgText.match(/d="([^"]+)"/);
     if (!match) {
-      console.warn(`No path d="" found in ${slug}-${face}.svg`);
+      console.warn(`No path d="" found in ${resolved}-${face}.svg`);
       pathCache.set(key, null);
       return null;
     }
@@ -134,5 +165,6 @@ export function getCachedOutlinePath(
   slug: string,
   face: DeviceFace,
 ): string | null {
-  return pathCache.get(cacheKey(slug, face)) ?? null;
+  const resolved = resolveOutlineSlug(slug);
+  return pathCache.get(cacheKey(resolved, face)) ?? null;
 }
