@@ -5,32 +5,33 @@
 See: .planning/PROJECT.md (updated 2026-02-21)
 
 **Core value:** Anyone can design a custom rack mount panel with real equipment dimensions and export a fabrication-ready file — without CAD expertise.
-**Current focus:** Phase 1 — Catalog Schema + Data Infrastructure
+**Current focus:** Phase 1.1 — Device Outline MVP
 
 ## Current Position
 
-Phase: 1 of 6 (Catalog Schema + Data Infrastructure)
-Plan: 4 of 4 in current phase (all complete)
-Status: Phase Complete
-Last activity: 2026-02-22 — Completed 01-04-PLAN.md (Catalog UI Wiring)
+Phase: 1.1 of 6 (Device Outline MVP)
+Plan: 1 of 3 in current phase
+Status: In Progress
+Last activity: 2026-02-22 — Completed 01.1-01-PLAN.md (Outline Generation CLI Toolchain)
 
-Progress: [██░░░░░░░░] 19%
+Progress: [██░░░░░░░░] 24%
 
 ## Performance Metrics
 
 **Velocity:**
-- Total plans completed: 4
+- Total plans completed: 5
 - Average duration: 3min
-- Total execution time: 0.22 hours
+- Total execution time: 0.28 hours
 
 **By Phase:**
 
 | Phase | Plans | Total | Avg/Plan |
 |-------|-------|-------|----------|
 | 01-catalog-schema | 4 | 13min | 3min |
+| 01.1-device-outline-mvp | 1 | 4min | 4min |
 
 **Recent Trend:**
-- Last 5 plans: 01-01 (2min), 01-03 (2min), 01-02 (7min), 01-04 (2min)
+- Last 5 plans: 01-03 (2min), 01-02 (7min), 01-04 (2min), 01.1-01 (4min)
 - Trend: Stable
 
 *Updated after each plan completion*
@@ -58,6 +59,9 @@ Recent decisions affecting current work:
 - [Phase 01]: [01-02]: Cutout+module architecture for connectors: Neutrik D-type 14 modules, keystone 10 modules
 - [Phase 01]: [01-04]: getState() over hook selector for catalog reads in Sidebar/SpecsTab — catalog data is static after boot
 - [Phase 01]: [01-04]: Duplicated confidenceBadge() in Sidebar and SpecsTab — extraction to shared util deferred to Phase 2
+- [Phase 01.1]: [01.1-01]: Shared SVG path utils extracted to scripts/lib/svg-path-utils.ts to avoid circular dependency between generate-outline and validate-outlines
+- [Phase 01.1]: [01.1-01]: Scripts tsconfig.json does NOT extend root tsconfig -- uses NodeNext module resolution vs bundler
+- [Phase 01.1]: [01.1-01]: Arc bounding box uses conservative endpoint +/- radius approach rather than exact arc math
 
 ### Pending Todos
 
@@ -72,5 +76,5 @@ None yet.
 ## Session Continuity
 
 Last session: 2026-02-22
-Stopped at: Completed 01-04-PLAN.md (all Phase 1 plans complete, including gap closure)
+Stopped at: Completed 01.1-01-PLAN.md (Outline Generation CLI Toolchain)
 Resume file: None
