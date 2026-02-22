@@ -10,28 +10,28 @@ See: .planning/PROJECT.md (updated 2026-02-21)
 ## Current Position
 
 Phase: 1.1 of 6 (Device Outline MVP)
-Plan: 1 of 3 in current phase
+Plan: 2 of 3 in current phase
 Status: In Progress
-Last activity: 2026-02-22 — Completed 01.1-01-PLAN.md (Outline Generation CLI Toolchain)
+Last activity: 2026-02-22 — Completed 01.1-02-PLAN.md (Device Outline Assets)
 
-Progress: [██░░░░░░░░] 24%
+Progress: [███░░░░░░░] 33%
 
 ## Performance Metrics
 
 **Velocity:**
-- Total plans completed: 5
+- Total plans completed: 6
 - Average duration: 3min
-- Total execution time: 0.28 hours
+- Total execution time: 0.31 hours
 
 **By Phase:**
 
 | Phase | Plans | Total | Avg/Plan |
 |-------|-------|-------|----------|
 | 01-catalog-schema | 4 | 13min | 3min |
-| 01.1-device-outline-mvp | 1 | 4min | 4min |
+| 01.1-device-outline-mvp | 2 | 6min | 3min |
 
 **Recent Trend:**
-- Last 5 plans: 01-03 (2min), 01-02 (7min), 01-04 (2min), 01.1-01 (4min)
+- Last 5 plans: 01-02 (7min), 01-04 (2min), 01.1-01 (4min), 01.1-02 (2min)
 - Trend: Stable
 
 *Updated after each plan completion*
@@ -62,6 +62,9 @@ Recent decisions affecting current work:
 - [Phase 01.1]: [01.1-01]: Shared SVG path utils extracted to scripts/lib/svg-path-utils.ts to avoid circular dependency between generate-outline and validate-outlines
 - [Phase 01.1]: [01.1-01]: Scripts tsconfig.json does NOT extend root tsconfig -- uses NodeNext module resolution vs bundler
 - [Phase 01.1]: [01.1-01]: Arc bounding box uses conservative endpoint +/- radius approach rather than exact arc math
+- [Phase 01.1]: [01.1-02]: Generated outlines for all 10 priority devices (stretch goal) rather than minimum 5
+- [Phase 01.1]: [01.1-02]: Separate generate-outline-index.ts script for manifest generation from filesystem scan
+- [Phase 01.1]: [01.1-02]: public/catalog/outlines/{slug}-{face}.svg naming convention for outline assets
 
 ### Pending Todos
 
@@ -76,5 +79,5 @@ None yet.
 ## Session Continuity
 
 Last session: 2026-02-22
-Stopped at: Completed 01.1-01-PLAN.md (Outline Generation CLI Toolchain)
+Stopped at: Completed 01.1-02-PLAN.md (Device Outline Assets)
 Resume file: None
