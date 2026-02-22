@@ -12,26 +12,26 @@ See: .planning/PROJECT.md (updated 2026-02-21)
 Phase: 2 of 6 (Catalog Browser + Routing)
 Plan: 0 of 3 in current phase
 Status: Ready for Planning
-Last activity: 2026-02-22 — Completed 01.1-03-PLAN.md (Outline Loading + Rendering Integration)
+Last activity: 2026-02-22 — Completed 01.1-04-PLAN.md (Slug Normalization + Export Cache Fix)
 
 Progress: [████░░░░░░] 38%
 
 ## Performance Metrics
 
 **Velocity:**
-- Total plans completed: 7
+- Total plans completed: 8
 - Average duration: 3min
-- Total execution time: 0.36 hours
+- Total execution time: 0.39 hours
 
 **By Phase:**
 
 | Phase | Plans | Total | Avg/Plan |
 |-------|-------|-------|----------|
 | 01-catalog-schema | 4 | 13min | 3min |
-| 01.1-device-outline-mvp | 3 | 9min | 3min |
+| 01.1-device-outline-mvp | 4 | 11min | 3min |
 
 **Recent Trend:**
-- Last 5 plans: 01-04 (2min), 01.1-01 (4min), 01.1-02 (2min), 01.1-03 (3min)
+- Last 5 plans: 01.1-01 (4min), 01.1-02 (2min), 01.1-03 (3min), 01.1-04 (2min)
 - Trend: Stable
 
 *Updated after each plan completion*
@@ -69,6 +69,9 @@ Recent decisions affecting current work:
 - [Phase 01.1]: [01.1-03]: Async fetch with sync read-back pattern for outline loading: loadOutlinePath triggers fetch, getCachedOutlinePath reads cache synchronously for render
 - [Phase 01.1]: [01.1-03]: null cached intentionally for missing outlines to prevent re-fetch attempts
 - [Phase 01.1]: [01.1-03]: Top face for export outlinePath (tray generation), front face for FrontView rendering
+- [Phase 01.1]: [01.1-04]: SLUG_ALIASES constant for hardcoded known mismatches (usw-lite-16 -> usw-lite-16-poe) rather than fuzzy matching
+- [Phase 01.1]: [01.1-04]: Slug resolution inside all public API functions so callers never need to know about the mapping
+- [Phase 01.1]: [01.1-04]: Cache keys use resolved slugs so both short and full form keys hit same cache entry
 
 ### Pending Todos
 
@@ -83,5 +86,5 @@ None yet.
 ## Session Continuity
 
 Last session: 2026-02-22
-Stopped at: Completed 01.1-03-PLAN.md (Outline Loading + Rendering Integration) -- Phase 1.1 complete
+Stopped at: Completed 01.1-04-PLAN.md (Slug Normalization + Export Cache Fix) -- Phase 1.1 gap closure complete
 Resume file: None
