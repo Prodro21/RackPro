@@ -25,7 +25,7 @@ Requirements for this milestone. Each maps to roadmap phases.
 
 ### User Experience
 
-- [ ] **UX-01**: User can complete a panel design through a guided wizard: pick rack standard → select U-height → add devices from catalog → add connectors → review layout → export
+- [x] **UX-01**: User can complete a panel design through a guided wizard: pick rack standard → select U-height → add devices from catalog → add connectors → review layout → export
 - [x] **UX-02**: User can share a panel design as a URL link that recreates the exact configuration when opened
 - [x] **UX-03**: User can save their current design to localStorage and reload it on next visit without losing work
 - [ ] **UX-04**: User can add custom text labels to any placed element, visible in SVG front view and DXF exports
@@ -116,7 +116,7 @@ Which phases cover which requirements. Updated during roadmap creation.
 | COMM-01 | Phase 6 | Pending |
 | COMM-02 | Phase 6 | Pending |
 | COMM-03 | Phase 1 | Complete |
-| UX-01 | Phase 4 | Pending |
+| UX-01 | Phase 4 | Complete |
 | UX-02 | Phase 2 | Complete |
 | UX-03 | Phase 2 | Complete |
 | UX-04 | Phase 4 | Pending |

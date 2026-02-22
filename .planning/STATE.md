@@ -10,18 +10,18 @@ See: .planning/PROJECT.md (updated 2026-02-21)
 ## Current Position
 
 Phase: 4 of 6 (Guided Wizard + Smart Auto-Layout)
-Plan: 1 of 3 in current phase -- COMPLETE
+Plan: 2 of 3 in current phase -- COMPLETE
 Status: Executing
-Last activity: 2026-02-22 — Completed 04-01-PLAN.md (Auto-Layout V2 Engine)
+Last activity: 2026-02-22 — Completed 04-02-PLAN.md (Wizard Shell + Steps)
 
 Progress: [███████░░░] 67%
 
 ## Performance Metrics
 
 **Velocity:**
-- Total plans completed: 14
+- Total plans completed: 15
 - Average duration: 5min
-- Total execution time: 1.36 hours
+- Total execution time: 1.51 hours
 
 **By Phase:**
 
@@ -31,11 +31,11 @@ Progress: [███████░░░] 67%
 | 01.1-device-outline-mvp | 4 | 11min | 3min |
 | 02-catalog-browser-routing | 3 | 12min | 4min |
 | 03-export-hardening-web-deployment | 2 | 37min | 19min |
-| 04-guided-wizard-smart-auto-layout | 1 | 9min | 9min |
+| 04-guided-wizard-smart-auto-layout | 2 | 18min | 9min |
 
 **Recent Trend:**
-- Last 5 plans: 02-03 (4min), 03-01 (5min), 03-02 (32min), 04-01 (9min)
-- Trend: Steady velocity after 03-02 checkpoint outlier
+- Last 5 plans: 03-01 (5min), 03-02 (32min), 04-01 (9min), 04-02 (9min)
+- Trend: Steady 9min velocity for Phase 4 plans
 
 *Updated after each plan completion*
 
@@ -100,6 +100,11 @@ Recent decisions affecting current work:
 - [Phase 04]: Weight-aware placement alternates left/right from ears inward (heaviest first)
 - [Phase 04]: Post-layout validation uses lightweight inline AABB checks (not full validateExportConfig)
 - [Phase 04]: V1 layout.ts preserved unchanged for backward compatibility with MCP tests
+- [Phase 04]: [04-02]: Event-driven auto-layout on add/remove (not useEffect) per RESEARCH.md Pitfall 1
+- [Phase 04]: [04-02]: Connector zone state lifted to WizardShell and passed via props to step components
+- [Phase 04]: [04-02]: useBlocker with withResolver:true for declarative confirmation dialog rendering
+- [Phase 04]: [04-02]: Undo depth saved at mount time; cancel pops stack back to that depth for clean revert
+- [Phase 04]: [04-02]: Placeholder steps in Task 1 enabled type-safe WizardShell compilation before full step implementation
 
 ### Pending Todos
 
@@ -114,5 +119,5 @@ None yet.
 ## Session Continuity
 
 Last session: 2026-02-22
-Stopped at: Completed 04-01-PLAN.md (Auto-Layout V2 Engine)
+Stopped at: Completed 04-02-PLAN.md (Wizard Shell + Steps)
 Resume file: None
