@@ -13,7 +13,7 @@ RackPro ships a polished, publicly hosted parametric rack mount configurator bui
 Decimal phases appear between their surrounding integers in numeric order.
 
 - [x] **Phase 1: Catalog Schema + Data Infrastructure** - Zod-validated equipment JSON catalog with 50+ seed entries and a versioned schema that everything else builds on
-- [ ] **Phase 1.1: Device Outline MVP** - INSERTED — AI-assisted SVG outlines for 5-10 priority devices (top, front, side faces) for fabrication-accurate tray/bracket generation and visual rendering
+- [ ] **Phase 1.1: Device Outline MVP** - INSERTED — AI-assisted SVG outlines for 5-10 priority devices (top and front faces) for fabrication-accurate tray/bracket generation and visual rendering
 - [ ] **Phase 2: Catalog Browser + Routing** - Multi-view navigation with a searchable equipment browser and URL-shareable design state
 - [ ] **Phase 3: Export Hardening + Web Deployment** - Validated DXF export, Safari WebGL fix, and publicly hosted static site on Cloudflare Pages
 - [ ] **Phase 4: Guided Wizard + Smart Auto-Layout** - Multi-step onboarding wizard and connector-grouping auto-layout replacing the greedy left-to-right algorithm
@@ -41,12 +41,12 @@ Plans:
 
 ### Phase 1.1: Device Outline MVP
 **INSERTED** — Added to enable fabrication-accurate device profiles before public launch
-**Goal**: 5-10 priority devices have dimensioned SVG outlines (top, front, side faces) that the configurator can use for snug-fit tray generation and realistic visual rendering, with rectangle fallback for all other devices
+**Goal**: 5-10 priority devices have dimensioned SVG outlines (top and front faces) that the configurator can use for snug-fit tray generation and realistic visual rendering, with rectangle fallback for all other devices
 **Depends on**: Phase 1 (needs catalog schema with optional outlines field)
 **Requirements**: None (new capability, not in original requirements)
 **Success Criteria** (what must be TRUE):
   1. A script/tool exists that takes a product photo + bounding box dimensions and outputs a dimensioned SVG outline for a specified face (top, front, or side)
-  2. 5-10 user-selected priority devices have SVG outlines in `public/catalog/outlines/{slug}-{face}.svg` for all three faces
+  2. 5-10 user-selected priority devices have SVG outlines in `public/catalog/outlines/{slug}-{face}.svg` for top and front faces (side face deferred to batch 2 per RESEARCH.md recommendation -- the SideView renders enclosure cross-sections, not device face silhouettes)
   3. The SVG outlines are fabrication-accurate — scaled to match the manufacturer bounding box dimensions within 0.5mm tolerance
   4. The app loads outline data on-demand and falls back to rectangular bounding box when outlines are absent
 **Plans:** 3 plans
