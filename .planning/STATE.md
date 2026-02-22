@@ -10,18 +10,18 @@ See: .planning/PROJECT.md (updated 2026-02-21)
 ## Current Position
 
 Phase: 2 of 6 (Catalog Browser + Routing)
-Plan: 0 of 3 in current phase
-Status: Ready for Planning
-Last activity: 2026-02-22 — Completed 01.1-04-PLAN.md (Slug Normalization + Export Cache Fix)
+Plan: 1 of 3 in current phase
+Status: Executing
+Last activity: 2026-02-22 — Completed 02-01-PLAN.md (Router + Navigation Foundation)
 
-Progress: [████░░░░░░] 38%
+Progress: [████▒░░░░░] 43%
 
 ## Performance Metrics
 
 **Velocity:**
-- Total plans completed: 8
+- Total plans completed: 9
 - Average duration: 3min
-- Total execution time: 0.39 hours
+- Total execution time: 0.44 hours
 
 **By Phase:**
 
@@ -29,9 +29,10 @@ Progress: [████░░░░░░] 38%
 |-------|-------|-------|----------|
 | 01-catalog-schema | 4 | 13min | 3min |
 | 01.1-device-outline-mvp | 4 | 11min | 3min |
+| 02-catalog-browser-routing | 1 | 3min | 3min |
 
 **Recent Trend:**
-- Last 5 plans: 01.1-01 (4min), 01.1-02 (2min), 01.1-03 (3min), 01.1-04 (2min)
+- Last 5 plans: 01.1-02 (2min), 01.1-03 (3min), 01.1-04 (2min), 02-01 (3min)
 - Trend: Stable
 
 *Updated after each plan completion*
@@ -72,6 +73,10 @@ Recent decisions affecting current work:
 - [Phase 01.1]: [01.1-04]: SLUG_ALIASES constant for hardcoded known mismatches (usw-lite-16 -> usw-lite-16-poe) rather than fuzzy matching
 - [Phase 01.1]: [01.1-04]: Slug resolution inside all public API functions so callers never need to know about the mapping
 - [Phase 01.1]: [01.1-04]: Cache keys use resolved slugs so both short and full form keys hit same cache entry
+- [Phase 02]: [02-01]: Code-based routing (createRootRoute/createRoute) not file-based — no Vite plugin needed
+- [Phase 02]: [02-01]: Named exports for route components with lazyRouteComponent second argument for explicit resolution
+- [Phase 02]: [02-01]: Root layout (__root.tsx) owns catalog bootstrap and keyboard hooks — runs regardless of active route
+- [Phase 02]: [02-01]: AppErrorBoundary standalone export in App.tsx wraps RouterProvider in main.tsx
 
 ### Pending Todos
 
@@ -86,5 +91,5 @@ None yet.
 ## Session Continuity
 
 Last session: 2026-02-22
-Stopped at: Completed 01.1-04-PLAN.md (Slug Normalization + Export Cache Fix) -- Phase 1.1 gap closure complete
+Stopped at: Completed 02-01-PLAN.md (Router + Navigation Foundation)
 Resume file: None

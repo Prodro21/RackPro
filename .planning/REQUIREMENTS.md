@@ -29,7 +29,7 @@ Requirements for this milestone. Each maps to roadmap phases.
 - [ ] **UX-02**: User can share a panel design as a URL link that recreates the exact configuration when opened
 - [ ] **UX-03**: User can save their current design to localStorage and reload it on next visit without losing work
 - [ ] **UX-04**: User can add custom text labels to any placed element, visible in SVG front view and DXF exports
-- [ ] **UX-05**: User can switch between configurator (freeform canvas), catalog browser, and wizard via navigation
+- [x] **UX-05**: User can switch between configurator (freeform canvas), catalog browser, and wizard via navigation
 
 ### Auto-Layout
 
@@ -60,7 +60,7 @@ Requirements for this milestone. Each maps to roadmap phases.
 
 ### Platform
 
-- [ ] **PLAT-01**: App uses hash-based client-side routing with lazy-loaded route components for catalog, configurator, and wizard views
+- [x] **PLAT-01**: App uses hash-based client-side routing with lazy-loaded route components for catalog, configurator, and wizard views
 - [ ] **PLAT-02**: App is deployed as a static site on Cloudflare Pages (or equivalent) with SPA fallback routing
 - [ ] **PLAT-03**: UI uses shadcn/ui components replacing raw HTML form elements (selects, inputs, dialogs) for a professional appearance
 - [ ] **PLAT-04**: All new Zustand selectors returning objects/arrays include module-level memoization with documented cache keys and stability tests
@@ -120,7 +120,7 @@ Which phases cover which requirements. Updated during roadmap creation.
 | UX-02 | Phase 2 | Pending |
 | UX-03 | Phase 2 | Pending |
 | UX-04 | Phase 4 | Pending |
-| UX-05 | Phase 2 | Pending |
+| UX-05 | Phase 2 | Complete |
 | LAYOUT-01 | Phase 4 | Pending |
 | LAYOUT-02 | Phase 4 | Pending |
 | LAYOUT-03 | Phase 4 | Pending |
@@ -136,7 +136,7 @@ Which phases cover which requirements. Updated during roadmap creation.
 | 3D-01 | Phase 3 | Pending |
 | 3D-02 | Phase 6 | Pending |
 | 3D-03 | Phase 6 | Pending |
-| PLAT-01 | Phase 2 | Pending |
+| PLAT-01 | Phase 2 | Complete |
 | PLAT-02 | Phase 3 | Pending |
 | PLAT-03 | Phase 5 | Pending |
 | PLAT-04 | Phase 5 | Pending |
