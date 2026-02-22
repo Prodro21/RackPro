@@ -28,7 +28,7 @@ Requirements for this milestone. Each maps to roadmap phases.
 - [x] **UX-01**: User can complete a panel design through a guided wizard: pick rack standard → select U-height → add devices from catalog → add connectors → review layout → export
 - [x] **UX-02**: User can share a panel design as a URL link that recreates the exact configuration when opened
 - [x] **UX-03**: User can save their current design to localStorage and reload it on next visit without losing work
-- [ ] **UX-04**: User can add custom text labels to any placed element, visible in SVG front view and DXF exports
+- [x] **UX-04**: User can add custom text labels to any placed element, visible in SVG front view and DXF exports
 - [x] **UX-05**: User can switch between configurator (freeform canvas), catalog browser, and wizard via navigation
 
 ### Auto-Layout
@@ -119,7 +119,7 @@ Which phases cover which requirements. Updated during roadmap creation.
 | UX-01 | Phase 4 | Complete |
 | UX-02 | Phase 2 | Complete |
 | UX-03 | Phase 2 | Complete |
-| UX-04 | Phase 4 | Pending |
+| UX-04 | Phase 4 | Complete |
 | UX-05 | Phase 2 | Complete |
 | LAYOUT-01 | Phase 4 | Complete |
 | LAYOUT-02 | Phase 4 | Complete |
