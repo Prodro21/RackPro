@@ -10,28 +10,28 @@ See: .planning/PROJECT.md (updated 2026-02-21)
 ## Current Position
 
 Phase: 1 of 6 (Catalog Schema + Data Infrastructure)
-Plan: 1 of 3 in current phase
+Plan: 3 of 3 in current phase
 Status: Executing
-Last activity: 2026-02-22 — Completed 01-01-PLAN.md (Catalog Schemas)
+Last activity: 2026-02-22 — Completed 01-03-PLAN.md (Catalog Store + Lookups)
 
-Progress: [███░░░░░░░] 5%
+Progress: [██░░░░░░░░] 11%
 
 ## Performance Metrics
 
 **Velocity:**
-- Total plans completed: 1
+- Total plans completed: 2
 - Average duration: 2min
-- Total execution time: 0.04 hours
+- Total execution time: 0.07 hours
 
 **By Phase:**
 
 | Phase | Plans | Total | Avg/Plan |
 |-------|-------|-------|----------|
-| 01-catalog-schema | 1 | 2min | 2min |
+| 01-catalog-schema | 2 | 4min | 2min |
 
 **Recent Trend:**
-- Last 5 plans: 01-01 (2min)
-- Trend: Starting
+- Last 5 plans: 01-01 (2min), 01-03 (2min)
+- Trend: Stable
 
 *Updated after each plan completion*
 
@@ -50,6 +50,9 @@ Recent decisions affecting current work:
 - [01-01]: PortGroup uses array-of-objects pattern for ergonomic JSON authoring
 - [01-01]: Converter functions (toDeviceDef/toConnectorDef) create new objects for React safety
 - [01-01]: All schemas re-exported from types.ts for single-module convenience
+- [Phase 01]: [01-03]: fetchWithCache uses ETag/Last-Modified for localStorage cache invalidation
+- [Phase 01]: [01-03]: catalogVersion string as memoization key for all selectors
+- [Phase 01]: [01-03]: loadCatalog does not set ready:true on fetch failure (distinguishes loaded-empty from failed-to-load)
 
 ### Pending Todos
 
@@ -64,5 +67,5 @@ None yet.
 ## Session Continuity
 
 Last session: 2026-02-22
-Stopped at: Completed 01-01-PLAN.md (Catalog Schemas)
+Stopped at: Completed 01-03-PLAN.md
 Resume file: None
