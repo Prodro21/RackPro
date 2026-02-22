@@ -52,8 +52,8 @@ Plans:
 **Plans:** 3 plans
 
 Plans:
-- [ ] 01.1-01-PLAN.md — Build outline generation CLI toolchain (generate-outline.ts + validate-outlines.ts) using Claude Vision API
-- [ ] 01.1-02-PLAN.md — Generate and validate SVG outlines for 5-10 priority devices, create index.json manifest
+- [x] 01.1-01-PLAN.md — Build outline generation CLI toolchain (generate-outline.ts + validate-outlines.ts) using Claude Vision API
+- [x] 01.1-02-PLAN.md — Generate and validate SVG outlines for 5-10 priority devices, create index.json manifest
 - [ ] 01.1-03-PLAN.md — Wire outline loading into the app with on-demand fetch, memory cache, rectangle fallback, and export config integration
 
 ### Phase 2: Catalog Browser + Routing
@@ -148,7 +148,7 @@ Note: Phases 4 and 5/6 can proceed in parallel after Phase 3 completes (Phase 4 
 | Phase | Plans Complete | Status | Completed |
 |-------|----------------|--------|-----------|
 | 1. Catalog Schema + Data Infrastructure | 4/4 | Complete | 2026-02-22 |
-| 1.1. Device Outline MVP | 0/3 | Not started | - |
+| 1.1. Device Outline MVP | 2/3 | In Progress | - |
 | 2. Catalog Browser + Routing | 0/3 | Not started | - |
 | 3. Export Hardening + Web Deployment | 0/3 | Not started | - |
 | 4. Guided Wizard + Smart Auto-Layout | 0/3 | Not started | - |
