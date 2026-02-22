@@ -9,8 +9,8 @@ Requirements for this milestone. Each maps to roadmap phases.
 
 ### Equipment Catalog
 
-- [ ] **CAT-01**: User can browse a catalog of 50+ real network devices with accurate dimensions from manufacturer datasheets
-- [ ] **CAT-02**: User can browse a catalog of 30+ real connectors (Neutrik D, BNC, keystone, SMA, fiber, D-sub, USB, HDMI, IEC) with precise cutout specs
+- [x] **CAT-01**: User can browse a catalog of 50+ real network devices with accurate dimensions from manufacturer datasheets
+- [x] **CAT-02**: User can browse a catalog of 30+ real connectors (Neutrik D, BNC, keystone, SMA, fiber, D-sub, USB, HDMI, IEC) with precise cutout specs
 - [ ] **CAT-03**: User can search the catalog by name, brand, or type with fuzzy typeahead matching
 - [ ] **CAT-04**: User can filter the catalog by category (switch, router, patch-panel, connector, fan) and brand
 - [x] **CAT-05**: User can see a data confidence badge on each catalog entry (manufacturer-datasheet, community-measured, estimated)
@@ -106,8 +106,8 @@ Which phases cover which requirements. Updated during roadmap creation.
 
 | Requirement | Phase | Status |
 |-------------|-------|--------|
-| CAT-01 | Phase 1 | Pending |
-| CAT-02 | Phase 1 | Pending |
+| CAT-01 | Phase 1 | Complete |
+| CAT-02 | Phase 1 | Complete |
 | CAT-03 | Phase 2 | Pending |
 | CAT-04 | Phase 2 | Pending |
 | CAT-05 | Phase 1 | Complete |
