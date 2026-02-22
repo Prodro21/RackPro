@@ -1,0 +1,57 @@
+import type { DeviceDef } from '../types';
+
+export const DEVICES: Record<string, DeviceDef> = {
+  'usw-lite-16': {
+    name: 'USW-Lite-16-PoE',
+    w: 192, d: 185, h: 43.7,
+    wt: 1.2,
+    color: '#d0d0d0',
+    ports: '16×GbE (8 PoE+)',
+    poe: '45W',
+    portLayout: { rj45: 16, sfp: 0 },
+  },
+  'ux7': {
+    name: 'UniFi Express 7',
+    w: 117, d: 117, h: 42.5,
+    wt: 0.422,
+    color: '#e8e8e8',
+    ports: '10GbE+2.5GbE+WiFi7',
+    poe: '—',
+    portLayout: { rj45: 2, sfp: 0 },
+  },
+  'usw-lite-8': {
+    name: 'USW-Lite-8-PoE',
+    w: 200, d: 119, h: 30.3,
+    wt: 0.8,
+    color: '#dddddd',
+    ports: '8×GbE (4 PoE+)',
+    poe: '52W',
+    portLayout: { rj45: 8, sfp: 0 },
+  },
+  'usw-pm16': {
+    name: 'USW-Pro-Max-16',
+    w: 325.1, d: 160, h: 43.7,
+    wt: 2.8,
+    color: '#cccccc',
+    ports: '12×GbE+4×2.5G+2×SFP+',
+    poe: '180W',
+    portLayout: { rj45: 16, sfp: 2 },
+  },
+  'usw-pro-24': {
+    name: 'USW-Pro-24-PoE',
+    w: 442, d: 285, h: 44,
+    wt: 5.1,
+    color: '#bbbbbb',
+    ports: '24×GbE+2×SFP+',
+    poe: '400W',
+    portLayout: { rj45: 24, sfp: 2 },
+  },
+  'custom': {
+    name: 'Custom Device',
+    w: 150, d: 100, h: 30,
+    wt: 0.5,
+    color: '#cccccc',
+    ports: '–',
+    poe: '–',
+  },
+};

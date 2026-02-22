@@ -1,0 +1,65 @@
+@import "tailwindcss";
+
+@theme {
+  --color-bg-primary: #0b0b0e;
+  --color-bg-secondary: #111116;
+  --color-bg-panel: #1e1e26;
+  --color-bg-input: #1a1a22;
+  --color-bg-card: #161620;
+  --color-bg-hover: #1e1e2a;
+  --color-border: #252530;
+  --color-border-dim: #1e1e28;
+  --color-accent-gold: #f7b600;
+  --color-accent-green: #22c55e;
+  --color-accent-blue: #4a90d9;
+  --color-danger: #ef4444;
+  --color-text-primary: #e2e2e2;
+  --color-text-secondary: #999;
+  --color-text-dim: #555;
+  --color-text-muted: #444;
+  --color-text-label: #4a4a55;
+  --font-family-mono: 'JetBrains Mono', 'SF Mono', 'Fira Code', monospace;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html, body, #root {
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+}
+
+body {
+  background: var(--color-bg-primary);
+  font-family: var(--font-family-mono);
+  color: var(--color-text-primary);
+}
+
+/* Scrollbar styling */
+::-webkit-scrollbar {
+  width: 4px;
+}
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+::-webkit-scrollbar-thumb {
+  background: var(--color-border);
+  border-radius: 2px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #333;
+}
+
+/* Range input styling */
+input[type="range"] {
+  accent-color: var(--color-accent-gold);
+}
+
+/* Checkbox styling */
+input[type="checkbox"] {
+  accent-color: var(--color-accent-gold);
+}
