@@ -49,12 +49,12 @@ Plans:
   2. 5-10 user-selected priority devices have SVG outlines in `public/catalog/outlines/{slug}-{face}.svg` for all three faces
   3. The SVG outlines are fabrication-accurate — scaled to match the manufacturer bounding box dimensions within 0.5mm tolerance
   4. The app loads outline data on-demand and falls back to rectangular bounding box when outlines are absent
-**Plans**: TBD
+**Plans:** 3 plans
 
 Plans:
-- [ ] 01.1-01: Build outline generation script using AI vision (Claude Vision API) to extract device silhouettes from product photos, scale to known dimensions, output dimensioned SVGs
-- [ ] 01.1-02: Generate outlines for 5-10 priority devices, validate dimensional accuracy, store in `public/catalog/outlines/`
-- [ ] 01.1-03: Wire outline loading into the app — on-demand fetch of SVGs, parse to path data, rectangle fallback, render in SVG front view and pass to export pipeline
+- [ ] 01.1-01-PLAN.md — Build outline generation CLI toolchain (generate-outline.ts + validate-outlines.ts) using Claude Vision API
+- [ ] 01.1-02-PLAN.md — Generate and validate SVG outlines for 5-10 priority devices, create index.json manifest
+- [ ] 01.1-03-PLAN.md — Wire outline loading into the app with on-demand fetch, memory cache, rectangle fallback, and export config integration
 
 ### Phase 2: Catalog Browser + Routing
 **Goal**: Users can navigate to a dedicated catalog view, search and filter it, add items to their panel with one click, share a design via URL, and save progress across sessions
