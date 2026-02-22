@@ -5,33 +5,33 @@
 See: .planning/PROJECT.md (updated 2026-02-21)
 
 **Core value:** Anyone can design a custom rack mount panel with real equipment dimensions and export a fabrication-ready file — without CAD expertise.
-**Current focus:** Phase 1.1 — Device Outline MVP
+**Current focus:** Phase 2 — Catalog Browser + Routing
 
 ## Current Position
 
-Phase: 1.1 of 6 (Device Outline MVP)
-Plan: 2 of 3 in current phase
-Status: In Progress
-Last activity: 2026-02-22 — Completed 01.1-02-PLAN.md (Device Outline Assets)
+Phase: 2 of 6 (Catalog Browser + Routing)
+Plan: 0 of 3 in current phase
+Status: Ready for Planning
+Last activity: 2026-02-22 — Completed 01.1-03-PLAN.md (Outline Loading + Rendering Integration)
 
-Progress: [███░░░░░░░] 33%
+Progress: [████░░░░░░] 38%
 
 ## Performance Metrics
 
 **Velocity:**
-- Total plans completed: 6
+- Total plans completed: 7
 - Average duration: 3min
-- Total execution time: 0.31 hours
+- Total execution time: 0.36 hours
 
 **By Phase:**
 
 | Phase | Plans | Total | Avg/Plan |
 |-------|-------|-------|----------|
 | 01-catalog-schema | 4 | 13min | 3min |
-| 01.1-device-outline-mvp | 2 | 6min | 3min |
+| 01.1-device-outline-mvp | 3 | 9min | 3min |
 
 **Recent Trend:**
-- Last 5 plans: 01-02 (7min), 01-04 (2min), 01.1-01 (4min), 01.1-02 (2min)
+- Last 5 plans: 01-04 (2min), 01.1-01 (4min), 01.1-02 (2min), 01.1-03 (3min)
 - Trend: Stable
 
 *Updated after each plan completion*
@@ -65,6 +65,10 @@ Recent decisions affecting current work:
 - [Phase 01.1]: [01.1-02]: Generated outlines for all 10 priority devices (stretch goal) rather than minimum 5
 - [Phase 01.1]: [01.1-02]: Separate generate-outline-index.ts script for manifest generation from filesystem scan
 - [Phase 01.1]: [01.1-02]: public/catalog/outlines/{slug}-{face}.svg naming convention for outline assets
+- [Phase 01.1]: [01.1-03]: Module-level cache for outline data (not Zustand) per MEMORY.md convention for static assets
+- [Phase 01.1]: [01.1-03]: Async fetch with sync read-back pattern for outline loading: loadOutlinePath triggers fetch, getCachedOutlinePath reads cache synchronously for render
+- [Phase 01.1]: [01.1-03]: null cached intentionally for missing outlines to prevent re-fetch attempts
+- [Phase 01.1]: [01.1-03]: Top face for export outlinePath (tray generation), front face for FrontView rendering
 
 ### Pending Todos
 
@@ -79,5 +83,5 @@ None yet.
 ## Session Continuity
 
 Last session: 2026-02-22
-Stopped at: Completed 01.1-02-PLAN.md (Device Outline Assets)
+Stopped at: Completed 01.1-03-PLAN.md (Outline Loading + Rendering Integration) -- Phase 1.1 complete
 Resume file: None
