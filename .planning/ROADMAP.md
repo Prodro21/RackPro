@@ -13,6 +13,7 @@ RackPro ships a polished, publicly hosted parametric rack mount configurator bui
 Decimal phases appear between their surrounding integers in numeric order.
 
 - [ ] **Phase 1: Catalog Schema + Data Infrastructure** - Zod-validated equipment JSON catalog with 50+ seed entries and a versioned schema that everything else builds on
+- [ ] **Phase 1.1: Device Outline MVP** - INSERTED — AI-assisted SVG outlines for 5-10 priority devices (top, front, side faces) for fabrication-accurate tray/bracket generation and visual rendering
 - [ ] **Phase 2: Catalog Browser + Routing** - Multi-view navigation with a searchable equipment browser and URL-shareable design state
 - [ ] **Phase 3: Export Hardening + Web Deployment** - Validated DXF export, Safari WebGL fix, and publicly hosted static site on Cloudflare Pages
 - [ ] **Phase 4: Guided Wizard + Smart Auto-Layout** - Multi-step onboarding wizard and connector-grouping auto-layout replacing the greedy left-to-right algorithm
@@ -36,6 +37,23 @@ Plans:
 - [ ] 01-01-PLAN.md — Define Zod v4 schemas for CatalogDevice and CatalogConnector with derived types and backward-compat converters
 - [ ] 01-02-PLAN.md — Author devices.json (50+ entries) and connectors.json (30+ entries) with manufacturer-verified dimensions
 - [ ] 01-03-PLAN.md — Build useCatalogStore with fetch-on-load, Zod validation, localStorage cache, and backward-compatible lookup wiring
+
+### Phase 1.1: Device Outline MVP
+**INSERTED** — Added to enable fabrication-accurate device profiles before public launch
+**Goal**: 5-10 priority devices have dimensioned SVG outlines (top, front, side faces) that the configurator can use for snug-fit tray generation and realistic visual rendering, with rectangle fallback for all other devices
+**Depends on**: Phase 1 (needs catalog schema with optional outlines field)
+**Requirements**: None (new capability, not in original requirements)
+**Success Criteria** (what must be TRUE):
+  1. A script/tool exists that takes a product photo + bounding box dimensions and outputs a dimensioned SVG outline for a specified face (top, front, or side)
+  2. 5-10 user-selected priority devices have SVG outlines in `public/catalog/outlines/{slug}-{face}.svg` for all three faces
+  3. The SVG outlines are fabrication-accurate — scaled to match the manufacturer bounding box dimensions within 0.5mm tolerance
+  4. The app loads outline data on-demand and falls back to rectangular bounding box when outlines are absent
+**Plans**: TBD
+
+Plans:
+- [ ] 01.1-01: Build outline generation script using AI vision (Claude Vision API) to extract device silhouettes from product photos, scale to known dimensions, output dimensioned SVGs
+- [ ] 01.1-02: Generate outlines for 5-10 priority devices, validate dimensional accuracy, store in `public/catalog/outlines/`
+- [ ] 01.1-03: Wire outline loading into the app — on-demand fetch of SVGs, parse to path data, rectangle fallback, render in SVG front view and pass to export pipeline
 
 ### Phase 2: Catalog Browser + Routing
 **Goal**: Users can navigate to a dedicated catalog view, search and filter it, add items to their panel with one click, share a design via URL, and save progress across sessions
@@ -122,13 +140,14 @@ Plans:
 ## Progress
 
 **Execution Order:**
-Phases execute in numeric order: 1 → 2 → 3 → 4 → 5 → 6
+Phases execute in numeric order: 1 → 1.1 → 2 → 3 → 4 → 5 → 6
 
 Note: Phases 4 and 5/6 can proceed in parallel after Phase 3 completes (Phase 4 depends on Phase 2; Phases 5 and 6 depend on Phase 3). Default sequential execution unless explicitly parallelized.
 
 | Phase | Plans Complete | Status | Completed |
 |-------|----------------|--------|-----------|
 | 1. Catalog Schema + Data Infrastructure | 0/3 | Planned | - |
+| 1.1. Device Outline MVP | 0/3 | Not started | - |
 | 2. Catalog Browser + Routing | 0/3 | Not started | - |
 | 3. Export Hardening + Web Deployment | 0/3 | Not started | - |
 | 4. Guided Wizard + Smart Auto-Layout | 0/3 | Not started | - |

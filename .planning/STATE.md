@@ -10,28 +10,28 @@ See: .planning/PROJECT.md (updated 2026-02-21)
 ## Current Position
 
 Phase: 1 of 6 (Catalog Schema + Data Infrastructure)
-Plan: 0 of 4 in current phase
-Status: Ready to plan
-Last activity: 2026-02-21 — Roadmap created (6 phases, 34 requirements mapped)
+Plan: 1 of 3 in current phase
+Status: Executing
+Last activity: 2026-02-22 — Completed 01-01-PLAN.md (Catalog Schemas)
 
-Progress: [░░░░░░░░░░] 0%
+Progress: [███░░░░░░░] 5%
 
 ## Performance Metrics
 
 **Velocity:**
-- Total plans completed: 0
-- Average duration: —
-- Total execution time: 0 hours
+- Total plans completed: 1
+- Average duration: 2min
+- Total execution time: 0.04 hours
 
 **By Phase:**
 
 | Phase | Plans | Total | Avg/Plan |
 |-------|-------|-------|----------|
-| - | - | - | - |
+| 01-catalog-schema | 1 | 2min | 2min |
 
 **Recent Trend:**
-- Last 5 plans: —
-- Trend: —
+- Last 5 plans: 01-01 (2min)
+- Trend: Starting
 
 *Updated after each plan completion*
 
@@ -46,6 +46,10 @@ Recent decisions affecting current work:
 - [Roadmap]: Phases 4 and 5/6 can execute in parallel after Phase 3 (Phase 4 from Phase 2, Phases 5+6 from Phase 3)
 - [Stack]: TanStack Router (hash-based), Fuse.js, shadcn/ui (copy-to-source) — confirmed additions for this milestone
 - [Data]: Equipment catalog lives in `public/catalog/` (not `src/constants/`) to decouple versioning from code releases
+- [01-01]: z.literal(1) for schemaVersion enforcing exact match, enabling future schema migration via z.union
+- [01-01]: PortGroup uses array-of-objects pattern for ergonomic JSON authoring
+- [01-01]: Converter functions (toDeviceDef/toConnectorDef) create new objects for React safety
+- [01-01]: All schemas re-exported from types.ts for single-module convenience
 
 ### Pending Todos
 
@@ -59,6 +63,6 @@ None yet.
 
 ## Session Continuity
 
-Last session: 2026-02-21
-Stopped at: Roadmap created, STATE.md initialized — ready to begin Phase 1 planning
+Last session: 2026-02-22
+Stopped at: Completed 01-01-PLAN.md (Catalog Schemas)
 Resume file: None
