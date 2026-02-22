@@ -6,6 +6,7 @@ import { DEVICES } from '../constants/devices';
 import { FANS } from '../constants/fans';
 import { useReinforcement } from '../hooks/useReinforcement';
 import { loadOutlineIndex, loadOutlinePath, getCachedOutlinePath, hasOutline } from '../catalog/outlines';
+import { parseCatalogDragData } from '../hooks/useCatalogDrag';
 import { useCatalogStore, selectDeviceMap, selectConnectorMap } from '../catalog/useCatalogStore';
 
 const SC = 1.15;
@@ -225,8 +226,73 @@ export function FrontView() {
     return dots;
   }, [gridEnabled, gridSize, panW, panH]);
 
+  // ─── Catalog drag-to-canvas drop handling ─────────────────
+  const [isDragOver, setIsDragOver] = useState(false);
+
+  const handleDragOver = useCallback((e: React.DragEvent) => {
+    e.preventDefault();
+    e.dataTransfer.dropEffect = 'copy';
+  }, []);
+
+  const handleDragEnter = useCallback((e: React.DragEvent) => {
+    e.preventDefault();
+    setIsDragOver(true);
+  }, []);
+
+  const handleDragLeave = useCallback((e: React.DragEvent) => {
+    // Only set false if leaving the container (not entering a child)
+    if (!e.currentTarget.contains(e.relatedTarget as Node)) {
+      setIsDragOver(false);
+    }
+  }, []);
+
+  const handleDrop = useCallback((e: React.DragEvent) => {
+    e.preventDefault();
+    setIsDragOver(false);
+
+    const data = parseCatalogDragData(e);
+    if (!data) return;
+
+    const svg = svgRef.current;
+    if (!svg) return;
+
+    // Convert drop pixel coordinates to panel mm coordinates
+    const rect = svg.getBoundingClientRect();
+    const scaleX = (vW) / rect.width;
+    const scaleY = (vH) / rect.height;
+    const svgX = (e.clientX - rect.left) * scaleX;
+    const svgY = (e.clientY - rect.top) * scaleY;
+
+    // Convert from SVG viewBox coords to panel mm (accounting for ear offset)
+    const panelX = (svgX - OX - EIA.EAR_WIDTH * SC) / SC;
+    const panelY = (svgY - OY) / SC;
+
+    // Add element then move to drop position
+    const store = useConfigStore.getState();
+    const type = data.itemType === 'device' ? 'device' : 'connector';
+    store.addElement(type as 'device' | 'connector', data.slug);
+
+    // Get the newly added element (last in array)
+    const updatedElements = useConfigStore.getState().elements;
+    const newEl = updatedElements[updatedElements.length - 1];
+    if (newEl) {
+      // Clamp to panel bounds
+      const clampedX = Math.max(newEl.w / 2, Math.min(panW - newEl.w / 2, panelX));
+      const clampedY = Math.max(newEl.h / 2, Math.min(panH - newEl.h / 2, panelY));
+      useConfigStore.getState().moveElement(newEl.id, clampedX, clampedY);
+    }
+  }, [vW, vH, panW, panH]);
+
   return (
-    <div className="flex-1 flex items-center justify-center overflow-auto p-4">
+    <div
+      className={`flex-1 flex items-center justify-center overflow-auto p-4 transition-all ${
+        isDragOver ? 'ring-2 ring-accent-gold/30 ring-inset' : ''
+      }`}
+      onDragOver={handleDragOver}
+      onDragEnter={handleDragEnter}
+      onDragLeave={handleDragLeave}
+      onDrop={handleDrop}
+    >
       <svg
         ref={svgRef}
         viewBox={`0 0 ${vW} ${vH}`}
