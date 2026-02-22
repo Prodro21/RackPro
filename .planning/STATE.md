@@ -14,14 +14,14 @@ Plan: 3 of 3 in current phase
 Status: Executing
 Last activity: 2026-02-22 — Completed 02-03-PLAN.md (URL Sharing + Persistence)
 
-Progress: [████▒░░░░░] 43%
+Progress: [█████░░░░░] 48%
 
 ## Performance Metrics
 
 **Velocity:**
-- Total plans completed: 10
+- Total plans completed: 11
 - Average duration: 3min
-- Total execution time: 0.51 hours
+- Total execution time: 0.60 hours
 
 **By Phase:**
 
@@ -29,10 +29,10 @@ Progress: [████▒░░░░░] 43%
 |-------|-------|-------|----------|
 | 01-catalog-schema | 4 | 13min | 3min |
 | 01.1-device-outline-mvp | 4 | 11min | 3min |
-| 02-catalog-browser-routing | 2 | 7min | 4min |
+| 02-catalog-browser-routing | 3 | 12min | 4min |
 
 **Recent Trend:**
-- Last 5 plans: 01.1-03 (3min), 01.1-04 (2min), 02-01 (3min), 02-03 (4min)
+- Last 5 plans: 01.1-04 (2min), 02-01 (3min), 02-02 (5min), 02-03 (4min)
 - Trend: Stable
 
 *Updated after each plan completion*
@@ -77,6 +77,10 @@ Recent decisions affecting current work:
 - [Phase 02]: [02-01]: Named exports for route components with lazyRouteComponent second argument for explicit resolution
 - [Phase 02]: [02-01]: Root layout (__root.tsx) owns catalog bootstrap and keyboard hooks — runs regardless of active route
 - [Phase 02]: [02-01]: AppErrorBoundary standalone export in App.tsx wraps RouterProvider in main.tsx
+- [Phase 02]: [02-02]: IFuseOptions imported as named type from fuse.js (not Fuse.IFuseOptions namespace) for correct TS resolution
+- [Phase 02]: [02-02]: lookupConnector() replaces direct CONNECTORS[key] in addElement for catalog-loaded connector support
+- [Phase 02]: [02-02]: application/rackpro-item MIME type for HTML5 drag data from catalog cards to FrontView canvas
+- [Phase 02]: [02-02]: Connectors excluded when brand filter active (AND logic: connectors have no brand field)
 - [Phase 02]: [02-03]: SerializedDesign v1 schema version tag for forward-compatible URL decoding
 - [Phase 02]: [02-03]: Unknown device slugs preserved with saved dimensions on URL load — not filtered out
 - [Phase 02]: [02-03]: URL design param stripped via replaceState after load — no bidirectional sync with TanStack Router
@@ -95,5 +99,5 @@ None yet.
 ## Session Continuity
 
 Last session: 2026-02-22
-Stopped at: Completed 02-03-PLAN.md (URL Sharing + Persistence)
+Stopped at: Completed 02-02-PLAN.md (Catalog Browser UI) — all Phase 02 plans complete
 Resume file: None

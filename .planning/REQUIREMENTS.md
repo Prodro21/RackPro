@@ -11,11 +11,11 @@ Requirements for this milestone. Each maps to roadmap phases.
 
 - [x] **CAT-01**: User can browse a catalog of 50+ real network devices with accurate dimensions from manufacturer datasheets
 - [x] **CAT-02**: User can browse a catalog of 30+ real connectors (Neutrik D, BNC, keystone, SMA, fiber, D-sub, USB, HDMI, IEC) with precise cutout specs
-- [ ] **CAT-03**: User can search the catalog by name, brand, or type with fuzzy typeahead matching
-- [ ] **CAT-04**: User can filter the catalog by category (switch, router, patch-panel, connector, fan) and brand
+- [x] **CAT-03**: User can search the catalog by name, brand, or type with fuzzy typeahead matching
+- [x] **CAT-04**: User can filter the catalog by category (switch, router, patch-panel, connector, fan) and brand
 - [x] **CAT-05**: User can see a data confidence badge on each catalog entry (manufacturer-datasheet, community-measured, estimated)
 - [x] **CAT-06**: Catalog uses a versioned JSON schema validated by Zod on every load, rejecting malformed entries with visible warnings
-- [ ] **CAT-07**: User can add any catalog device or connector to their panel design with one click from the catalog browser
+- [x] **CAT-07**: User can add any catalog device or connector to their panel design with one click from the catalog browser
 
 ### Community
 
@@ -108,11 +108,11 @@ Which phases cover which requirements. Updated during roadmap creation.
 |-------------|-------|--------|
 | CAT-01 | Phase 1 | Complete |
 | CAT-02 | Phase 1 | Complete |
-| CAT-03 | Phase 2 | Pending |
-| CAT-04 | Phase 2 | Pending |
+| CAT-03 | Phase 2 | Complete |
+| CAT-04 | Phase 2 | Complete |
 | CAT-05 | Phase 1 | Complete |
 | CAT-06 | Phase 1 | Complete |
-| CAT-07 | Phase 2 | Pending |
+| CAT-07 | Phase 2 | Complete |
 | COMM-01 | Phase 6 | Pending |
 | COMM-02 | Phase 6 | Pending |
 | COMM-03 | Phase 1 | Complete |
