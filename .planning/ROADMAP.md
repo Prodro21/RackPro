@@ -100,12 +100,12 @@ Plans:
   3. Auto-layout groups same-type connectors together (all RJ45 adjacent, all BNC adjacent) rather than placing them in arbitrary order
   4. Auto-layout places heavier devices toward rack ears or center according to a visible weight distribution preference
   5. An auto-layout result passes the same validation checks as manual placement — no overlaps, all elements within bounds, all margins compliant
-**Plans**: TBD
+**Plans:** 3 plans
 
 Plans:
-- [ ] 04-01: Build `src/lib/autoLayoutV2.ts` with strip-packing heuristic, connector-type grouping, weight distribution preference, and validation pass on output; wire `suggestLayoutV2()` action into `useConfigStore`
-- [ ] 04-02: Build `WizardShell.tsx` at `/wizard/*` with steps: rack standard → U-height → device selection (catalog) → connector placement → auto-layout suggestion → review → export; lazy-loaded via `React.lazy`; writes exclusively to existing `useConfigStore` actions
-- [ ] 04-03: Add custom text label field to placed element editor; render labels in SVG front view and pass through to DXF export
+- [ ] 04-01-PLAN.md — Build autoLayoutV2 pure function with connector-type grouping, weight-aware ear placement, connector zone modes, overflow suggestions, and validation; wire suggestLayoutV2 store action and update MCP tool
+- [ ] 04-02-PLAN.md — Build guided wizard at /wizard with 6 steps (standard, U-height, devices, connectors, review, export), live FrontView preview, auto-layout on element changes, undo checkpoint, and sessionStorage persistence
+- [ ] 04-03-PLAN.md — Add ElementLabel type with position/autoNumber/icon, render labels in FrontView SVG with stagger collision handling, label editor in Sidebar, export to DXF (LABELS layer) and OpenSCAD (debossed text), persist via design serializer
 
 ### Phase 5: Cost Estimation + UI Polish
 **Goal**: Users can see estimated fabrication cost ranges with explicit assumptions, and all form controls use accessible shadcn/ui components with stable, tested Zustand selectors
