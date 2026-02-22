@@ -1,0 +1,96 @@
+{
+  "schemaVersion": 1,
+  "generated": "2026-02-22T05:07:51.203Z",
+  "outlines": {
+    "bmd-atem-mini-pro": {
+      "faces": [
+        "front",
+        "top"
+      ],
+      "bboxW": 235,
+      "bboxD": 104,
+      "bboxH": 40
+    },
+    "rpi5": {
+      "faces": [
+        "front",
+        "top"
+      ],
+      "bboxW": 86,
+      "bboxD": 56,
+      "bboxH": 16
+    },
+    "ucg-ultra": {
+      "faces": [
+        "front",
+        "top"
+      ],
+      "bboxW": 117,
+      "bboxD": 117,
+      "bboxH": 33
+    },
+    "udm": {
+      "faces": [
+        "front",
+        "top"
+      ],
+      "bboxW": 110,
+      "bboxD": 110,
+      "bboxH": 184.2
+    },
+    "unvr": {
+      "faces": [
+        "front",
+        "top"
+      ],
+      "bboxW": 202,
+      "bboxD": 202,
+      "bboxH": 36.6
+    },
+    "usw-flex": {
+      "faces": [
+        "front",
+        "top"
+      ],
+      "bboxW": 122.5,
+      "bboxD": 107.1,
+      "bboxH": 28
+    },
+    "usw-flex-mini": {
+      "faces": [
+        "front",
+        "top"
+      ],
+      "bboxW": 80,
+      "bboxD": 70,
+      "bboxH": 21.5
+    },
+    "usw-lite-16-poe": {
+      "faces": [
+        "front",
+        "top"
+      ],
+      "bboxW": 191.7,
+      "bboxD": 185,
+      "bboxH": 43.7
+    },
+    "usw-lite-8-poe": {
+      "faces": [
+        "front",
+        "top"
+      ],
+      "bboxW": 99.6,
+      "bboxD": 163.7,
+      "bboxH": 31.7
+    },
+    "ux7": {
+      "faces": [
+        "front",
+        "top"
+      ],
+      "bboxW": 117,
+      "bboxD": 117,
+      "bboxH": 42.5
+    }
+  }
+}
