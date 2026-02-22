@@ -5,23 +5,23 @@
 See: .planning/PROJECT.md (updated 2026-02-21)
 
 **Core value:** Anyone can design a custom rack mount panel with real equipment dimensions and export a fabrication-ready file — without CAD expertise.
-**Current focus:** Phase 2 — Catalog Browser + Routing
+**Current focus:** Phase 3 — Export Hardening + Web Deployment
 
 ## Current Position
 
-Phase: 2 of 6 (Catalog Browser + Routing)
-Plan: 3 of 3 in current phase
+Phase: 3 of 6 (Export Hardening + Web Deployment)
+Plan: 2 of 2 in current phase
 Status: Executing
-Last activity: 2026-02-22 — Completed 02-03-PLAN.md (URL Sharing + Persistence)
+Last activity: 2026-02-22 — Completed 03-01-PLAN.md (Export Preflight Validation)
 
-Progress: [█████░░░░░] 48%
+Progress: [██████░░░░] 57%
 
 ## Performance Metrics
 
 **Velocity:**
-- Total plans completed: 11
+- Total plans completed: 12
 - Average duration: 3min
-- Total execution time: 0.60 hours
+- Total execution time: 0.68 hours
 
 **By Phase:**
 
@@ -30,9 +30,10 @@ Progress: [█████░░░░░] 48%
 | 01-catalog-schema | 4 | 13min | 3min |
 | 01.1-device-outline-mvp | 4 | 11min | 3min |
 | 02-catalog-browser-routing | 3 | 12min | 4min |
+| 03-export-hardening-web-deployment | 1 | 5min | 5min |
 
 **Recent Trend:**
-- Last 5 plans: 01.1-04 (2min), 02-01 (3min), 02-02 (5min), 02-03 (4min)
+- Last 5 plans: 02-01 (3min), 02-02 (5min), 02-03 (4min), 03-01 (5min)
 - Trend: Stable
 
 *Updated after each plan completion*
@@ -85,6 +86,10 @@ Recent decisions affecting current work:
 - [Phase 02]: [02-03]: Unknown device slugs preserved with saved dimensions on URL load — not filtered out
 - [Phase 02]: [02-03]: URL design param stripped via replaceState after load — no bidirectional sync with TanStack Router
 - [Phase 02]: [02-03]: Toast uses dedicated Zustand mini-store for imperative showToast() API without React context
+- [Phase 03]: [03-01]: Validation elementId uses key-index format mapped to PanelElement.id for FrontView cross-component highlighting
+- [Phase 03]: [03-01]: HOLE_TO_EDGE is warning severity (SM only); 3D print hole-to-edge is structurally less critical
+- [Phase 03]: [03-01]: validationIssueIds is UI-only Zustand state (not undoable) for cross-component issue communication
+- [Phase 03]: [03-01]: DXF dxfRect/dxfTrapezoid upgraded to LWPOLYLINE for guaranteed closed contours
 
 ### Pending Todos
 
@@ -99,5 +104,5 @@ None yet.
 ## Session Continuity
 
 Last session: 2026-02-22
-Stopped at: Completed 02-02-PLAN.md (Catalog Browser UI) — all Phase 02 plans complete
+Stopped at: Completed 03-01-PLAN.md (Export Preflight Validation)
 Resume file: None

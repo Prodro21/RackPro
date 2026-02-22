@@ -87,7 +87,7 @@ Plans:
 **Plans:** 2 plans
 
 Plans:
-- [ ] 03-01-PLAN.md — Build export preflight validation engine (closed contour, hole-to-edge, missing def, overlap, OOB checks) with PreflightReport UI inline in ExportTab and red highlighting on FrontView
+- [x] 03-01-PLAN.md — Build export preflight validation engine (closed contour, hole-to-edge, missing def, overlap, OOB checks) with PreflightReport UI inline in ExportTab and red highlighting on FrontView
 - [ ] 03-02-PLAN.md — Fix Safari 3D preview (persistent Canvas mount with CSS visibility toggle), deploy to Cloudflare Workers with GitHub Actions CI/CD, PWA offline support, update prompting, and analytics
 
 ### Phase 4: Guided Wizard + Smart Auto-Layout
@@ -150,7 +150,7 @@ Note: Phases 4 and 5/6 can proceed in parallel after Phase 3 completes (Phase 4 
 | 1. Catalog Schema + Data Infrastructure | 4/4 | Complete | 2026-02-22 |
 | 1.1. Device Outline MVP | 3/4 | Gap closure | - |
 | 2. Catalog Browser + Routing | 0/3 | Complete    | 2026-02-22 |
-| 3. Export Hardening + Web Deployment | 0/3 | Not started | - |
+| 3. Export Hardening + Web Deployment | 1/2 | In Progress | - |
 | 4. Guided Wizard + Smart Auto-Layout | 0/3 | Not started | - |
 | 5. Cost Estimation + UI Polish | 0/3 | Not started | - |
 | 6. 3D Preview Polish + Community Contributions | 0/2 | Not started | - |

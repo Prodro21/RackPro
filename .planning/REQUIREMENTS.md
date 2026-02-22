@@ -47,10 +47,10 @@ Requirements for this milestone. Each maps to roadmap phases.
 
 ### Export Quality
 
-- [ ] **EXP-01**: DXF export validates that all cutout outlines are closed contours before download
-- [ ] **EXP-02**: DXF export validates hole-to-edge distances meet the 2T minimum rule
-- [ ] **EXP-03**: DXF export includes a preflight validation report visible to the user before download
-- [ ] **EXP-04**: Export blocks with a visible error if any placed element references a missing device/connector definition
+- [x] **EXP-01**: DXF export validates that all cutout outlines are closed contours before download
+- [x] **EXP-02**: DXF export validates hole-to-edge distances meet the 2T minimum rule
+- [x] **EXP-03**: DXF export includes a preflight validation report visible to the user before download
+- [x] **EXP-04**: Export blocks with a visible error if any placed element references a missing device/connector definition
 
 ### 3D Preview
 
@@ -129,10 +129,10 @@ Which phases cover which requirements. Updated during roadmap creation.
 | COST-02 | Phase 5 | Pending |
 | COST-03 | Phase 5 | Pending |
 | COST-04 | Phase 5 | Pending |
-| EXP-01 | Phase 3 | Pending |
-| EXP-02 | Phase 3 | Pending |
-| EXP-03 | Phase 3 | Pending |
-| EXP-04 | Phase 3 | Pending |
+| EXP-01 | Phase 3 | Complete |
+| EXP-02 | Phase 3 | Complete |
+| EXP-03 | Phase 3 | Complete |
+| EXP-04 | Phase 3 | Complete |
 | 3D-01 | Phase 3 | Pending |
 | 3D-02 | Phase 6 | Pending |
 | 3D-03 | Phase 6 | Pending |
