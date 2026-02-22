@@ -30,13 +30,12 @@ Decimal phases appear between their surrounding integers in numeric order.
   2. User can see a data confidence badge on each catalog entry indicating whether dimensions came from a manufacturer datasheet, community measurement, or estimation
   3. Any malformed or schema-invalid catalog entry is rejected at load time with a visible warning rather than silently corrupting the panel dimensions
   4. A new catalog JSON file (updated independently from app code) can be dropped into `public/catalog/` and the app picks it up on next load without a code release
-**Plans**: TBD
+**Plans:** 3 plans
 
 Plans:
-- [ ] 01-01: Define Zod schemas for `CatalogDevice` and `CatalogConnector` with `schemaVersion`, `dataSource`, all dimension fields, and extend `src/types.ts`
-- [ ] 01-02: Author `public/catalog/devices.json` (50+ network devices with verified dimensions from manufacturer datasheets)
-- [ ] 01-03: Author `public/catalog/connectors.json` (30+ connectors with precise cutout specs from CLAUDE.md reference specs)
-- [ ] 01-04: Build `src/store/useCatalogStore.ts` with fetch-on-load, Zod validation, localStorage version cache, and memoized selectors per MEMORY.md pattern
+- [ ] 01-01-PLAN.md — Define Zod v4 schemas for CatalogDevice and CatalogConnector with derived types and backward-compat converters
+- [ ] 01-02-PLAN.md — Author devices.json (50+ entries) and connectors.json (30+ entries) with manufacturer-verified dimensions
+- [ ] 01-03-PLAN.md — Build useCatalogStore with fetch-on-load, Zod validation, localStorage cache, and backward-compatible lookup wiring
 
 ### Phase 2: Catalog Browser + Routing
 **Goal**: Users can navigate to a dedicated catalog view, search and filter it, add items to their panel with one click, share a design via URL, and save progress across sessions
@@ -129,7 +128,7 @@ Note: Phases 4 and 5/6 can proceed in parallel after Phase 3 completes (Phase 4 
 
 | Phase | Plans Complete | Status | Completed |
 |-------|----------------|--------|-----------|
-| 1. Catalog Schema + Data Infrastructure | 0/4 | Not started | - |
+| 1. Catalog Schema + Data Infrastructure | 0/3 | Planned | - |
 | 2. Catalog Browser + Routing | 0/3 | Not started | - |
 | 3. Export Hardening + Web Deployment | 0/3 | Not started | - |
 | 4. Guided Wizard + Smart Auto-Layout | 0/3 | Not started | - |
