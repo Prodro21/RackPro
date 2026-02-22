@@ -83,6 +83,7 @@ export function generateConfig(): ExportConfig {
         depthBehind: con?.depthBehind ?? dev?.d ?? fan?.depthBehind ?? 0,
         surface: e.surface,
         ...(outlinePath ? { outlinePath } : {}),
+        ...(e.labelConfig ? { labelConfig: e.labelConfig } : {}),
       };
     }),
     reinforcement: ribs.length > 0 ? ribs : undefined,

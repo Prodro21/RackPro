@@ -5,6 +5,16 @@ import { MOUNTING } from '../constants/mounting';
 import { holeToEdge } from '../constants/materials';
 import { computeTrayDimensions, computeMountPositions, computeAlignPositions } from '../lib/trayGeometry';
 
+/** Compute auto-number index for an export element in its label group */
+function computeExportAutoNumber(el: ExportElement, allElements: ExportElement[]): number {
+  const sameGroup = allElements
+    .filter(e => e.type === el.type &&
+                 e.labelConfig?.text === el.labelConfig?.text &&
+                 e.labelConfig?.autoNumber)
+    .sort((a, b) => a.x - b.x);
+  return sameGroup.findIndex(e => e === el) + 1;
+}
+
 /**
  * Generates an ASCII DXF R12 flat pattern for sheet metal fabrication.
  * Layers:
@@ -162,6 +172,27 @@ export function generateDXF(config: ExportConfig): string {
           '2-CUTOUTS'
         ));
       }
+    }
+  }
+
+  // ── Element labels on 5-LABELS layer ──
+  const labeledElements = config.elements.filter(e => e.labelConfig?.text);
+  if (labeledElements.length > 0) {
+    entities.push(dxfComment('Element labels'));
+    for (const el of labeledElements) {
+      const lc = el.labelConfig!;
+      const labelText = lc.autoNumber
+        ? `${lc.text} ${computeExportAutoNumber(el, config.elements)}`
+        : lc.text;
+      const elCenterX = offX + el.x;
+      const elCenterY = offY + (panH - el.y); // flip Y for DXF (Y-up)
+      let labelY: number;
+      switch (lc.position) {
+        case 'above': labelY = elCenterY + el.h / 2 + 2; break;
+        case 'inside': labelY = elCenterY; break;
+        case 'below': default: labelY = elCenterY - el.h / 2 - 3; break;
+      }
+      entities.push(dxfText(elCenterX, labelY, labelText, '5-LABELS', 2, 0));
     }
   }
 
@@ -414,7 +445,7 @@ function dxfTables(): string {
     // Layer table
     '  0', 'TABLE',
     '  2', 'LAYER',
-    ' 70', '5',
+    ' 70', '6',
     // 0-OUTLINE
     '  0', 'LAYER',
     '  2', '0-OUTLINE',
@@ -444,6 +475,12 @@ function dxfTables(): string {
     '  2', '4-MOUNT',
     ' 70', '0',
     ' 62', '4',    // cyan
+    '  6', 'CONTINUOUS',
+    // 5-LABELS
+    '  0', 'LAYER',
+    '  2', '5-LABELS',
+    ' 70', '0',
+    ' 62', '7',    // white
     '  6', 'CONTINUOUS',
     '  0', 'ENDTAB',
     '  0', 'ENDSEC',

@@ -16,6 +16,44 @@ function sxN(elX: number, panW: number): number { return elX - panW / 2; }
 function syN(elY: number, panH: number): number { return panH / 2 - elY; }
 function fmt(n: number, d = 2): string { return n.toFixed(d); }
 
+/** Compute auto-number index for an export element in its label group */
+function computeScadAutoNumber(el: ExportElement, allElements: ExportElement[]): number {
+  const sameGroup = allElements
+    .filter(e => e.type === el.type &&
+                 e.labelConfig?.text === el.labelConfig?.text &&
+                 e.labelConfig?.autoNumber)
+    .sort((a, b) => a.x - b.x);
+  return sameGroup.findIndex(e => e === el) + 1;
+}
+
+/** Generate a debossed label module for OpenSCAD */
+function labelModule(el: ExportElement, idx: number, panW: number, panH: number, wallT: number, allElements: ExportElement[]): string {
+  const lc = el.labelConfig!;
+  const displayText = lc.autoNumber
+    ? `${lc.text} ${computeScadAutoNumber(el, allElements)}`
+    : lc.text;
+
+  const cx = fmt(sxN(el.x, panW));
+  // Compute Y offset based on position
+  let yOffset: number;
+  switch (lc.position) {
+    case 'above': yOffset = el.h / 2 + 4; break;  // above cutout (OpenSCAD Y-up)
+    case 'inside': yOffset = 0; break;
+    case 'below': default: yOffset = -(el.h / 2 + 5); break;  // below cutout
+  }
+  const cy = fmt(syN(el.y, panH) + yOffset);
+
+  return [
+    `module label_${idx}() {`,
+    `  // Label: "${displayText}"`,
+    `  translate([${cx}, ${cy}, ${fmt(wallT - 0.3)}])`,
+    `    linear_extrude(height = 0.4)`,
+    `      text("${displayText}", size = 3, halign = "center", valign = "center",`,
+    `           font = "Liberation Sans");`,
+    `}`,
+  ].join('\n');
+}
+
 function cutoutModule(el: ExportElement, idx: number, panW: number, panH: number): string {
   const tol = 0.2;
   const id = `cutout_${idx}`;
@@ -211,6 +249,20 @@ function emitMonolithicSCAD(config: ExportConfig): string {
     ...connectors.map((_, i) => L(`  cutout_${i}();`)),
     L('}'), L(''),
   );
+
+  // ─── Label modules (debossed text) ───
+  const labeledElements = config.elements.filter(e => e.labelConfig?.text);
+  if (labeledElements.length > 0) {
+    out.push(section('Label Modules'));
+    labeledElements.forEach((el, i) => {
+      out.push(L(labelModule(el, i, panW, panH, wallT, config.elements)), L(''));
+    });
+    out.push(
+      L('module all_labels() {'),
+      ...labeledElements.map((_, i) => L(`  label_${i}();`)),
+      L('}'), L(''),
+    );
+  }
 
   // ─── Device bay openings ───
   out.push(section('Device Bay Openings'), L('module device_bays() {'));
@@ -414,7 +466,9 @@ function emitMonolithicSCAD(config: ExportConfig): string {
     if (connectors.length > 0) out.push(L('    all_cutouts();'));
     if (devices.length > 0) out.push(L('    device_bays();'));
     if (fans.length > 0) out.push(L('    all_fan_cutouts();'));
-    out.push(L('    all_bores();'), L('  }'), L('}'), L(''));
+    out.push(L('    all_bores();'));
+    if (labeledElements.length > 0) out.push(L('    all_labels();'));
+    out.push(L('  }'), L('}'), L(''));
 
     if (split.type === '2-piece') {
       out.push(
@@ -475,6 +529,7 @@ function emitMonolithicSCAD(config: ExportConfig): string {
     if (connectors.length > 0) out.push(L('    all_cutouts();'));
     if (devices.length > 0) out.push(L('    device_bays();'));
     if (fans.length > 0) out.push(L('    all_fan_cutouts();'));
+    if (labeledElements.length > 0) out.push(L('    all_labels();'));
     out.push(
       L('  }'),
       L('}'),
@@ -607,6 +662,20 @@ function emitModularSCAD(config: ExportConfig): string {
     L('}'), L(''),
   );
 
+  // Label modules (debossed text)
+  const labeledElements = config.elements.filter(e => e.labelConfig?.text);
+  if (labeledElements.length > 0) {
+    out.push(section('Label Modules'));
+    labeledElements.forEach((el, i) => {
+      out.push(L(labelModule(el, i, panW, panH, wallT, config.elements)), L(''));
+    });
+    out.push(
+      L('module all_labels() {'),
+      ...labeledElements.map((_, i) => L(`  label_${i}();`)),
+      L('}'), L(''),
+    );
+  }
+
   // Device bay openings
   out.push(section('Device Bay Openings'), L('module device_bays() {'));
   devices.forEach((el) => {
@@ -662,6 +731,7 @@ function emitModularSCAD(config: ExportConfig): string {
   if (connectors.length > 0) out.push(L('    all_cutouts();'));
   if (devices.length > 0) out.push(L('    device_bays();'));
   out.push(L('    all_bores();'));
+  if (labeledElements.length > 0) out.push(L('    all_labels();'));
 
   // Boss pilot holes
   for (const el of devices) {

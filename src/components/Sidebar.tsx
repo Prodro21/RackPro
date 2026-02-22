@@ -8,7 +8,7 @@ import { FANS } from '../constants/fans';
 import { METALS, FILAMENTS } from '../constants/materials';
 import { PRINTERS } from '../constants/printers';
 import { BORE_HOLES } from '../constants/eia310';
-import type { FabMethod, RackStandard, PlacementSurface, AssemblyMode, EnclosureStyle, MountHoleType } from '../types';
+import type { FabMethod, RackStandard, PlacementSurface, AssemblyMode, EnclosureStyle, MountHoleType, ElementLabel } from '../types';
 import { SectionLabel } from './ui/SectionLabel';
 import { SelectField } from './ui/SelectField';
 import { SliderField } from './ui/SliderField';
@@ -80,6 +80,7 @@ export function Sidebar() {
   const flanges = useConfigStore(s => s.flanges);
   const setFlanges = useConfigStore(s => s.setFlanges);
   const setElementSurface = useConfigStore(s => s.setElementSurface);
+  const setElementLabel = useConfigStore(s => s.setElementLabel);
   const setAddMode = useConfigStore(s => s.setAddMode);
   const addElement = useConfigStore(s => s.addElement);
   const removeElement = useConfigStore(s => s.removeElement);
@@ -423,6 +424,90 @@ export function Sidebar() {
                 <span className="px-[4px] py-[1px] rounded text-[8px] font-semibold" style={{ background: badge.color + '20', color: badge.color }}>
                   {badge.label}
                 </span>
+              </div>
+            );
+          })()}
+
+          {/* Label Editor */}
+          <div className="h-px bg-border my-2" />
+          <SectionLabel>LABEL</SectionLabel>
+          {(() => {
+            const lc = selEl.labelConfig;
+            const labelText = lc?.text ?? '';
+            const labelPos = lc?.position ?? 'below';
+            const autoNum = lc?.autoNumber ?? false;
+            const labelIcon = lc?.icon;
+
+            const updateLabel = (patch: Partial<ElementLabel>) => {
+              const current: ElementLabel = {
+                text: labelText,
+                position: labelPos,
+                autoNumber: autoNum,
+                icon: labelIcon,
+                ...patch,
+              };
+              // Clear labelConfig if text is empty and no icon
+              if (!current.text && !current.icon) {
+                setElementLabel(selEl.id, undefined);
+              } else {
+                setElementLabel(selEl.id, current);
+              }
+            };
+
+            return (
+              <div className="px-[6px] space-y-[4px]">
+                <input
+                  type="text"
+                  value={labelText}
+                  onChange={e => updateLabel({ text: e.target.value })}
+                  placeholder="Label text..."
+                  className="w-full bg-bg-input border border-border rounded px-[6px] py-[3px] text-[10px] text-text-primary outline-none focus:border-accent-gold"
+                />
+                <div className="flex gap-1 items-center text-[8px] text-text-label">
+                  <span className="w-[28px]">Pos</span>
+                  {(['above', 'below', 'inside'] as const).map(pos => (
+                    <button
+                      key={pos}
+                      onClick={() => updateLabel({ position: pos })}
+                      className="px-[5px] py-[2px] rounded text-[8px] font-mono cursor-pointer border"
+                      style={{
+                        background: labelPos === pos ? '#1a1a28' : 'transparent',
+                        borderColor: labelPos === pos ? '#f7b600' : '#333',
+                        color: labelPos === pos ? '#f7b600' : '#888',
+                      }}
+                    >
+                      {pos}
+                    </button>
+                  ))}
+                </div>
+                {selEl.type === 'connector' && (
+                  <label className="flex items-center gap-[4px] text-[9px] text-text-label cursor-pointer">
+                    <input
+                      type="checkbox"
+                      checked={autoNum}
+                      onChange={e => updateLabel({ autoNumber: e.target.checked })}
+                      className="accent-accent-gold"
+                    />
+                    Auto-number
+                  </label>
+                )}
+                <div className="flex gap-1 items-center text-[8px] text-text-label">
+                  <span className="w-[28px]">Icon</span>
+                  {([undefined, 'network', 'video', 'audio', 'power'] as const).map(ic => (
+                    <button
+                      key={ic ?? 'none'}
+                      onClick={() => updateLabel({ icon: ic })}
+                      className="px-[4px] py-[2px] rounded text-[8px] cursor-pointer border"
+                      style={{
+                        background: labelIcon === ic ? '#1a1a28' : 'transparent',
+                        borderColor: labelIcon === ic ? '#f7b600' : '#333',
+                        color: labelIcon === ic ? '#f7b600' : '#888',
+                      }}
+                    >
+                      {ic ?? '--'}
+                    </button>
+                  ))}
+                </div>
               </div>
             );
           })()}

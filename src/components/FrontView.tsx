@@ -8,11 +8,100 @@ import { useReinforcement } from '../hooks/useReinforcement';
 import { loadOutlineIndex, loadOutlinePath, getCachedOutlinePath, hasOutline } from '../catalog/outlines';
 import { parseCatalogDragData } from '../hooks/useCatalogDrag';
 import { useCatalogStore, selectDeviceMap, selectConnectorMap } from '../catalog/useCatalogStore';
+import type { PanelElement } from '../types';
 
 const SC = 1.15;
 const OX = 30;
 const OY = 40;
 const SNAP_THRESHOLD = 2; // mm
+
+// ─── Label helpers ───────────────────────────────────────────
+
+/** Category icon SVG paths (8x8 viewBox, simple outlines) */
+const LABEL_ICONS: Record<string, string> = {
+  network: 'M1,6 L3,6 L3,3 L5,3 L5,6 L7,6 L7,2 L1,2 Z',       // ethernet jack
+  video:   'M1,2 L6,2 L6,6 L1,6 Z M6,3 L7.5,2 L7.5,6 L6,5 Z', // camera
+  audio:   'M2,3 L2,5 L3.5,5 L5.5,7 L5.5,1 L3.5,3 Z',          // speaker
+  power:   'M4.5,0.5 L2.5,4 L4,4 L3.5,7.5 L5.5,4 L4,4 L4.5,0.5 Z', // lightning bolt
+};
+
+/** Compute auto-number index for an element in its group */
+function computeAutoNumber(el: PanelElement, allElements: PanelElement[]): number {
+  const sameGroup = allElements
+    .filter(e => e.type === el.type &&
+                 e.labelConfig?.text === el.labelConfig?.text &&
+                 e.labelConfig?.autoNumber)
+    .sort((a, b) => a.x - b.x);
+  return sameGroup.findIndex(e => e.id === el.id) + 1;
+}
+
+/** Compute staggered label positions to avoid horizontal overlap */
+interface LabelPosition {
+  id: string;
+  cx: number;       // center X in SVG coords
+  y: number;        // Y in SVG coords
+  position: 'above' | 'below' | 'inside';
+  displayText: string;
+  icon?: string;
+}
+
+function computeLabelPositions(
+  elements: PanelElement[],
+  panH: number,
+): LabelPosition[] {
+  const labeled = elements.filter(e => e.labelConfig?.text);
+  if (labeled.length === 0) return [];
+
+  const positions: LabelPosition[] = labeled.map(el => {
+    const lc = el.labelConfig!;
+    const displayText = lc.autoNumber
+      ? `${lc.text} ${computeAutoNumber(el, elements)}`
+      : lc.text;
+
+    // Compute Y in panel-relative mm
+    const topY = el.y - el.h / 2;
+    const botY = el.y + el.h / 2;
+    let labelY: number;
+    switch (lc.position) {
+      case 'above': labelY = topY - 4; break;
+      case 'inside': labelY = el.y; break;
+      case 'below': default: labelY = botY + 5; break;
+    }
+
+    // Convert to SVG coords
+    const svgCx = OX + EIA.EAR_WIDTH * SC + el.x * SC;
+    const svgY = OY + labelY * SC;
+
+    return {
+      id: el.id,
+      cx: svgCx,
+      y: svgY,
+      position: lc.position,
+      displayText,
+      icon: lc.icon,
+    };
+  });
+
+  // Stagger collision handling: for adjacent labels within 20px X proximity
+  // that are at the same position (both above or both below), alternate
+  const sorted = [...positions].sort((a, b) => a.cx - b.cx);
+  for (let i = 1; i < sorted.length; i++) {
+    const prev = sorted[i - 1];
+    const curr = sorted[i];
+    if (Math.abs(curr.cx - prev.cx) < 20 && curr.position === prev.position && curr.position !== 'inside') {
+      // Flip current to opposite position
+      const el = elements.find(e => e.id === curr.id)!;
+      const topY = el.y - el.h / 2;
+      const botY = el.y + el.h / 2;
+      const newPos = curr.position === 'below' ? 'above' : 'below';
+      const newLabelY = newPos === 'above' ? topY - 4 : botY + 5;
+      curr.y = OY + newLabelY * SC;
+      curr.position = newPos;
+    }
+  }
+
+  return positions;
+}
 
 function computeSnapGuides(
   el: { x: number; y: number; w: number; h: number },
@@ -137,6 +226,17 @@ export function FrontView() {
   const oobIds = useMemo(() => new Set(outOfBounds), [outOfBounds]);
   const marginIds = useMemo(() => new Set(marginWarnings.map(w => w.elementId)), [marginWarnings]);
   const validationIds = useMemo(() => new Set(validationIssueIds), [validationIssueIds]);
+
+  // Compute label positions (memoized on elements reference; recalculates on drag end)
+  const labelPositions = useMemo(
+    () => computeLabelPositions(elements, panH),
+    [elements, panH],
+  );
+  const labelMap = useMemo(() => {
+    const map = new Map<string, LabelPosition>();
+    for (const lp of labelPositions) map.set(lp.id, lp);
+    return map;
+  }, [labelPositions]);
 
   const onDown = (ev: React.MouseEvent, id: string) => {
     ev.stopPropagation();
@@ -590,6 +690,37 @@ export function FrontView() {
                   </text>
                 </g>
               )}
+
+              {/* Custom text label */}
+              {(() => {
+                const lp = labelMap.get(el.id);
+                if (!lp) return null;
+                const iconPath = lp.icon ? LABEL_ICONS[lp.icon] : undefined;
+                const iconOffset = iconPath ? 5 : 0; // shift text right if icon present
+                return (
+                  <g className="pointer-events-none select-none">
+                    {iconPath && (
+                      <path
+                        d={iconPath}
+                        transform={`translate(${lp.cx - iconOffset - 4}, ${lp.y - 4}) scale(1)`}
+                        fill="#999"
+                        stroke="none"
+                      />
+                    )}
+                    <text
+                      x={lp.cx + (iconPath ? iconOffset / 2 : 0)}
+                      y={lp.y}
+                      textAnchor="middle"
+                      dominantBaseline={lp.position === 'inside' ? 'central' : 'auto'}
+                      fill="#ccc"
+                      fontSize={5}
+                      fontFamily="inherit"
+                    >
+                      {lp.displayText}
+                    </text>
+                  </g>
+                );
+              })()}
             </g>
           );
         })}

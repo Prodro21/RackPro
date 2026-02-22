@@ -221,6 +221,7 @@ export interface ExportElement {
   surface?: PlacementSurface;
   floorStyle?: 'solid' | 'hex' | 'slatted';
   outlinePath?: string;  // SVG path d="" for top-view device silhouette (mm coordinates)
+  labelConfig?: ElementLabel;  // custom text label for fabrication output
 }
 
 // ─── Fan Definition ──────────────────────────────────────────
