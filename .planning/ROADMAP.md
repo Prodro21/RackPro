@@ -68,12 +68,12 @@ Plans:
   4. User can switch between Catalog, Configurator, and Wizard views via navigation without losing their current design state
   5. User can copy a URL that, when opened in a new tab, recreates the exact same panel design
   6. User can close and reopen the browser tab and find their design still present (localStorage persistence)
-**Plans**: TBD
+**Plans:** 3 plans
 
 Plans:
-- [ ] 02-01: Install and configure `@tanstack/react-router` with hash-based routing; define `/`, `/catalog`, and `/wizard` routes in `main.tsx`/`App.tsx`; add navigation component
-- [ ] 02-02: Build `src/components/CatalogBrowser.tsx` + `DeviceCard.tsx` with Fuse.js typeahead search, category/brand filters, confidence badge display, and "Add to Panel" dispatch to `useConfigStore`
-- [ ] 02-03: Implement URL-shareable design state (base64 JSON hash in URL fragment) and localStorage auto-save/restore
+- [ ] 02-01-PLAN.md — Install TanStack Router + Fuse.js, create hash-based routing with three lazy-loaded routes, add NavSidebar, restructure App.tsx
+- [ ] 02-02-PLAN.md — Build catalog browser with Fuse.js search, category/brand filters, adaptive accordion cards, grouped sections, and 60/40 split with live FrontView
+- [ ] 02-03-PLAN.md — Implement URL-shareable design state (base64 in hash fragment) and debounced localStorage auto-save/restore with conflict toast
 
 ### Phase 3: Export Hardening + Web Deployment
 **Goal**: DXF exports pass fabricator preflight, the 3D tab survives tab-switching on Safari, and the app is live at a public URL on Cloudflare Pages
