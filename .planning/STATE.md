@@ -5,23 +5,23 @@
 See: .planning/PROJECT.md (updated 2026-02-21)
 
 **Core value:** Anyone can design a custom rack mount panel with real equipment dimensions and export a fabrication-ready file — without CAD expertise.
-**Current focus:** Phase 4 Gap Closure — Guided Wizard + Smart Auto-Layout
+**Current focus:** Phase 4 COMPLETE — Guided Wizard + Smart Auto-Layout (all gap closure plans done)
 
 ## Current Position
 
-Phase: 4 of 6 (Guided Wizard + Smart Auto-Layout) -- Gap Closure
-Plan: 5 of 5 in current phase (gap closure plans 04-04, 04-05 added post-UAT)
-Status: Executing gap closure plans
-Last activity: 2026-02-23 — Completed 04-05-PLAN.md (3D Preview Catalog-Aware Lookups)
+Phase: 4 of 6 (Guided Wizard + Smart Auto-Layout) -- COMPLETE
+Plan: 5 of 5 in current phase -- COMPLETE
+Status: Phase 4 Complete (including gap closure plans 04-04, 04-05)
+Last activity: 2026-02-23 — Completed 04-04-PLAN.md (Auto-Layout Gap Closure)
 
 Progress: [████████░░] 80%
 
 ## Performance Metrics
 
 **Velocity:**
-- Total plans completed: 17
+- Total plans completed: 18
 - Average duration: 6min
-- Total execution time: 1.67 hours
+- Total execution time: 1.72 hours
 
 **By Phase:**
 
@@ -31,10 +31,10 @@ Progress: [████████░░] 80%
 | 01.1-device-outline-mvp | 4 | 11min | 3min |
 | 02-catalog-browser-routing | 3 | 12min | 4min |
 | 03-export-hardening-web-deployment | 2 | 37min | 19min |
-| 04-guided-wizard-smart-auto-layout | 4 | 28min | 7min |
+| 04-guided-wizard-smart-auto-layout | 5 | 31min | 6min |
 
 **Recent Trend:**
-- Last 5 plans: 03-02 (32min), 04-01 (9min), 04-02 (9min), 04-03 (8min), 04-05 (2min)
+- Last 5 plans: 04-01 (9min), 04-02 (9min), 04-03 (8min), 04-05 (2min), 04-04 (3min)
 - Trend: Gap closure plans execute fastest (targeted fixes)
 
 *Updated after each plan completion*
@@ -112,6 +112,10 @@ Recent decisions affecting current work:
 - [Phase 04]: [04-03]: DXF 5-LABELS layer (color 7/white) with TEXT entities for laser engraving
 - [Phase 04]: [04-03]: OpenSCAD deboss 0.3mm into faceplate with 0.4mm extrude, Liberation Sans font
 - [Phase 04]: [04-05]: 3-branch lookup in Preview3D cutout mesh: connector via lookupConnector, fan via FANS[], device via lookupDevice
+- [Phase 04]: [04-04]: Between-zone overflow connectors spill rightward past devRightEdge rather than wrapping
+- [Phase 04]: [04-04]: clampDeviceBounds called at end of every zone shift case for uniform safety
+- [Phase 04]: [04-04]: revalidatePositions is a thin export alias so validateLayout stays internal
+- [Phase 04]: [04-04]: positionKey joins id:x:y for all elements as stable change-detection key
 
 ### Pending Todos
 
@@ -126,5 +130,5 @@ None yet.
 ## Session Continuity
 
 Last session: 2026-02-23
-Stopped at: Completed 04-05-PLAN.md (3D Preview Catalog-Aware Lookups)
+Stopped at: Completed 04-04-PLAN.md (Auto-Layout Gap Closure) — Phase 4 fully complete with all gap closure plans
 Resume file: None
