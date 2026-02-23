@@ -32,11 +32,11 @@ Progress: [████████░░] 84%
 | 02-catalog-browser-routing | 3 | 12min | 4min |
 | 03-export-hardening-web-deployment | 2 | 37min | 19min |
 | 04-guided-wizard-smart-auto-layout | 5 | 31min | 6min |
-| 05-ui-3d-polish | 1 | 3min | 3min |
+| 05-ui-3d-polish | 2 | 6min | 3min |
 
 **Recent Trend:**
-- Last 5 plans: 04-03 (8min), 04-05 (2min), 04-04 (3min), 05-05 (3min)
-- Trend: Targeted plans execute fastest
+- Last 5 plans: 04-05 (2min), 04-04 (3min), 05-05 (3min), 05-03 (3min)
+- Trend: Phase 5 plans averaging 3min (well-scoped, targeted)
 
 *Updated after each plan completion*
 
@@ -119,6 +119,9 @@ Recent decisions affecting current work:
 - [Phase 04]: [04-04]: positionKey joins id:x:y for all elements as stable change-detection key
 - [Phase 05]: [05-05]: selectMaxDeviceDepth memoized for performance even though it returns a primitive (avoids redundant iteration)
 - [Phase 05]: [05-05]: as unknown as ConfigState double cast for partial mock objects in tests (tsc strict mode)
+- [Phase 05]: [05-03]: Direct three-bvh-csg Brush/Evaluator API (not @react-three/csg wrapper) for batching control
+- [Phase 05]: [05-03]: Fan cutouts use circular CSG (cutoutDiameter) not square, for realistic rendering
+- [Phase 05]: [05-03]: Device elements excluded from ConnectorBodies (trays already provide spatial footprint)
 
 ### Pending Todos
 
@@ -133,5 +136,5 @@ None yet.
 ## Session Continuity
 
 Last session: 2026-02-23
-Stopped at: Completed 05-05-PLAN.md (Selector Stability Memoization + Tests)
+Stopped at: Completed 05-03-PLAN.md (CSG Boolean Subtraction)
 Resume file: None
