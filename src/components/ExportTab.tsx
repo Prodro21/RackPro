@@ -8,11 +8,55 @@ import { generateProductionDocs } from '../export/productionDocs';
 import { fusionPing, fusionBuild, fusionExport, fusionScreenshot, fusionQueryProperties, type FusionBuildResponse, type FusionExportResponse, type FusionQueryResponse } from '../mcp/fusion-client';
 import { generateShareUrl } from '../hooks/useDesignPersistence';
 import { showToast } from './Toast';
-import { SectionLabel } from './ui-legacy/SectionLabel';
-import { ExportCard } from './ui-legacy/ExportCard';
+import { Button } from './ui/button';
+import { Input } from './ui/input';
 import { PreflightReport } from './PreflightReport';
 import { validateExportConfig } from '../lib/validation';
 import type { ValidationResult } from '../lib/validation';
+
+function SectionLabel({ children }: { children: React.ReactNode }) {
+  return (
+    <div className="text-[8px] font-bold text-muted-foreground tracking-[.12em] uppercase mb-[5px] mt-2">
+      {children}
+    </div>
+  );
+}
+
+function ExportCard({ title, desc, action, onClick, action2, onClick2, note }: {
+  title: string; desc: string; action?: string; onClick?: () => void; action2?: string; onClick2?: () => void; note?: string;
+}) {
+  return (
+    <div className="bg-card border border-border rounded-[5px] p-3 mb-2">
+      <div className="font-bold text-[11px] text-foreground">{title}</div>
+      <div className="text-[9px] text-muted-foreground my-1">{desc}</div>
+      <div className="flex gap-[6px] items-center">
+        {action && (
+          <Button
+            onClick={onClick}
+            disabled={!onClick}
+            size="xs"
+            variant="default"
+            className="text-[9px] font-semibold font-mono"
+          >
+            {action}
+          </Button>
+        )}
+        {action2 && (
+          <Button
+            onClick={onClick2}
+            disabled={!onClick2}
+            size="xs"
+            variant="outline"
+            className="text-[9px] font-semibold font-mono"
+          >
+            {action2}
+          </Button>
+        )}
+      </div>
+      {note && <div className="text-[8px] text-muted-foreground mt-1 italic">{note}</div>}
+    </div>
+  );
+}
 
 export function ExportTab() {
   const [copied, setCopied] = useState<string | null>(null);
@@ -326,82 +370,90 @@ export function ExportTab() {
       )}
 
       {/* Fusion 360 Bridge — live build */}
-      <div className="bg-bg-card border border-border rounded-[5px] p-[14px] mb-[10px]">
+      <div className="bg-card border border-border rounded-[5px] p-[14px] mb-[10px]">
         <div className="flex items-center justify-between mb-1">
-          <div className="text-[11px] font-bold text-text-primary">Fusion 360 Bridge</div>
+          <div className="text-[11px] font-bold text-foreground">Fusion 360 Bridge</div>
           <div className="flex items-center gap-2">
-            <span className={`inline-block w-[6px] h-[6px] rounded-full ${bridgeStatus === 'connected' ? 'bg-accent-green' : bridgeStatus === 'disconnected' ? 'bg-danger' : 'bg-text-muted'}`} />
-            <span className="text-[8px] text-text-dim">
+            <span className={`inline-block w-[6px] h-[6px] rounded-full ${bridgeStatus === 'connected' ? 'bg-green-500' : bridgeStatus === 'disconnected' ? 'bg-destructive' : 'bg-muted-foreground'}`} />
+            <span className="text-[8px] text-muted-foreground">
               {bridgeStatus === 'connected' ? `Connected${bridgeDoc ? ` \u2014 ${bridgeDoc}` : ''}` : bridgeStatus === 'disconnected' ? 'Not connected' : 'Checking...'}
             </span>
           </div>
         </div>
-        <div className="text-[9px] text-text-secondary mb-2">
+        <div className="text-[9px] text-muted-foreground mb-2">
           Build directly in Fusion 360 via the RackProBridge add-in (localhost:9100).
           {bridgeStatus === 'disconnected' && (
-            <span className="text-text-dim"> Start it in Fusion: Utilities → Add-Ins → RackProBridge → Run</span>
+            <span className="text-muted-foreground/60"> Start it in Fusion: Utilities → Add-Ins → RackProBridge → Run</span>
           )}
         </div>
         <div className="flex gap-2 flex-wrap">
-          <button
+          <Button
             onClick={handleBuildInFusion}
             disabled={bridgeStatus !== 'connected' || building}
-            className="px-3 py-[5px] rounded-[3px] text-[9px] font-bold font-mono border-none cursor-pointer disabled:opacity-40 disabled:cursor-not-allowed"
-            style={{ background: '#f7b600', color: '#111' }}
+            size="xs"
+            className="text-[9px] font-bold font-mono bg-primary text-primary-foreground hover:bg-primary/90"
           >
             {building ? 'Building...' : 'Build in Fusion'}
-          </button>
-          <button
+          </Button>
+          <Button
             onClick={() => handleFusionExport('stl')}
             disabled={bridgeStatus !== 'connected' || !buildResult?.success || !!exporting}
-            className="px-2 py-[5px] rounded-[3px] text-[9px] font-bold font-mono border border-border bg-transparent cursor-pointer disabled:opacity-40 disabled:cursor-not-allowed text-accent-green"
+            size="xs"
+            variant="outline"
+            className="text-[9px] font-bold font-mono text-green-500"
           >
             {exporting === 'stl' ? 'Exporting...' : 'Export STL'}
-          </button>
-          <button
+          </Button>
+          <Button
             onClick={() => handleFusionExport('step')}
             disabled={bridgeStatus !== 'connected' || !buildResult?.success || !!exporting}
-            className="px-2 py-[5px] rounded-[3px] text-[9px] font-bold font-mono border border-border bg-transparent cursor-pointer disabled:opacity-40 disabled:cursor-not-allowed text-[#4a90d9]"
+            size="xs"
+            variant="outline"
+            className="text-[9px] font-bold font-mono text-[#4a90d9]"
           >
             {exporting === 'step' ? 'Exporting...' : 'Export STEP'}
-          </button>
-          <button
+          </Button>
+          <Button
             onClick={handleFusionScreenshot}
             disabled={bridgeStatus !== 'connected' || !!exporting}
-            className="px-2 py-[5px] rounded-[3px] text-[9px] font-mono border border-border bg-transparent cursor-pointer disabled:opacity-40 disabled:cursor-not-allowed text-text-muted"
+            size="xs"
+            variant="outline"
+            className="text-[9px] font-mono text-muted-foreground"
           >
             {exporting === 'screenshot' ? 'Capturing...' : 'Screenshot'}
-          </button>
-          <button
+          </Button>
+          <Button
             onClick={checkBridge}
-            className="px-2 py-[5px] rounded-[3px] text-[9px] font-mono border border-border bg-transparent text-text-muted cursor-pointer"
+            size="xs"
+            variant="outline"
+            className="text-[9px] font-mono text-muted-foreground"
           >
             Refresh
-          </button>
+          </Button>
         </div>
 
         {/* Export path input */}
         <div className="flex items-center gap-2 mt-2">
-          <span className="text-[8px] text-text-dim shrink-0">Path:</span>
-          <input
+          <span className="text-[8px] text-muted-foreground shrink-0">Path:</span>
+          <Input
             type="text"
             value={exportPath}
             onChange={e => setExportPath(e.target.value)}
-            className="flex-1 px-2 py-[3px] text-[9px] rounded-[3px] border border-border bg-bg-input text-text-primary font-mono"
+            className="flex-1 h-6 px-2 py-[3px] text-[9px] font-mono"
             placeholder="~/Desktop/rackpro-panel"
           />
         </div>
 
         {buildResult && buildResult.success && (
-          <div className="mt-2 text-[9px] text-accent-green">
+          <div className="mt-2 text-[9px] text-green-500">
             Build complete — {buildResult.bodies?.length ?? 0} bodies, {buildResult.features?.length ?? 0} features
             {buildResult.warnings && buildResult.warnings.length > 0 && (
-              <div className="text-accent-gold mt-1">{buildResult.warnings.join('; ')}</div>
+              <div className="text-primary mt-1">{buildResult.warnings.join('; ')}</div>
             )}
           </div>
         )}
         {buildError && (
-          <div className="mt-2 text-[9px] text-danger">{buildError}</div>
+          <div className="mt-2 text-[9px] text-destructive">{buildError}</div>
         )}
         {exportResult && (
           <div className="mt-1 text-[9px] text-[#4a90d9]">{exportResult}</div>
@@ -410,19 +462,19 @@ export function ExportTab() {
         {/* Physical properties after build */}
         {physProps?.success && physProps.bodies && physProps.bodies.length > 0 && (
           <div className="mt-2 border-t border-border pt-2">
-            <div className="text-[8px] text-text-label tracking-[.08em] mb-1">PHYSICAL PROPERTIES</div>
+            <div className="text-[8px] text-muted-foreground tracking-[.08em] mb-1">PHYSICAL PROPERTIES</div>
             {physProps.bodies.map((body, i) => (
               <div key={i} className="flex justify-between text-[9px] py-[1px]">
-                <span className="text-[#bbb]">{body.name}</span>
-                <span className="text-[#888]">
+                <span className="text-foreground/80">{body.name}</span>
+                <span className="text-muted-foreground">
                   {body.mass_g != null ? `${body.mass_g.toFixed(1)}g` : ''}
                   {body.volume_cm3 != null ? ` / ${body.volume_cm3.toFixed(2)}cm\u00b3` : ''}
                 </span>
               </div>
             ))}
-            <div className="flex justify-between text-[9px] pt-1 border-t border-border-dim mt-1">
-              <span className="text-[#f7b600] font-bold">Total</span>
-              <span className="text-[#f7b600] font-bold">
+            <div className="flex justify-between text-[9px] pt-1 border-t border-border mt-1">
+              <span className="text-primary font-bold">Total</span>
+              <span className="text-primary font-bold">
                 {physProps.bodies.reduce((s, b) => s + (b.mass_g ?? 0), 0).toFixed(1)}g
               </span>
             </div>
@@ -454,21 +506,23 @@ export function ExportTab() {
 
       {/* Device Tray DXF Flat Patterns */}
       {fabMethod === 'sm' && elements.filter(e => e.type === 'device').length > 0 && (
-        <div className="bg-bg-card border border-border rounded-[5px] p-[14px] mb-[10px]">
-          <div className="text-[11px] font-bold text-text-primary mb-1">Device Tray DXFs</div>
-          <div className="text-[9px] text-text-secondary mb-2">
+        <div className="bg-card border border-border rounded-[5px] p-[14px] mb-[10px]">
+          <div className="text-[11px] font-bold text-foreground mb-1">Device Tray DXFs</div>
+          <div className="text-[9px] text-muted-foreground mb-2">
             Cruciform flat patterns for laser-cut sheet metal trays. Each tray has a floor, side walls, rear wall, and front mounting tab with M3 holes.
           </div>
           <div className="flex gap-2 flex-wrap">
             {elements.map((el, i) =>
               el.type === 'device' ? (
-                <button
+                <Button
                   key={el.id}
                   onClick={() => downloadTrayDXF(i)}
-                  className="px-3 py-[5px] rounded-[3px] text-[9px] font-bold font-mono border border-border bg-transparent cursor-pointer text-accent-green hover:bg-bg-hover"
+                  size="xs"
+                  variant="outline"
+                  className="text-[9px] font-bold font-mono text-green-500"
                 >
                   {el.label} Tray .dxf
-                </button>
+                </Button>
               ) : null
             )}
           </div>
@@ -502,9 +556,9 @@ export function ExportTab() {
 
       {/* Config Preview */}
       {elements.length > 0 && (
-        <div className="mt-[14px] bg-bg-card border border-border rounded-[5px] p-[14px]">
+        <div className="mt-[14px] bg-card border border-border rounded-[5px] p-[14px]">
           <SectionLabel>CONFIG PREVIEW</SectionLabel>
-          <pre className="text-[8px] text-[#666] whitespace-pre-wrap break-all max-h-[260px] overflow-auto m-0">{getJSON()}</pre>
+          <pre className="text-[8px] text-muted-foreground whitespace-pre-wrap break-all max-h-[260px] overflow-auto m-0">{getJSON()}</pre>
         </div>
       )}
     </div>
