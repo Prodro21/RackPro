@@ -72,6 +72,7 @@ const MATERIAL_WALL = new THREE.MeshStandardMaterial({ color: '#1e1e26', metalne
 const MATERIAL_EAR = new THREE.MeshStandardMaterial({ color: '#1a1a22', metalness: 0.4, roughness: 0.6 });
 const MATERIAL_TRAY = new THREE.MeshStandardMaterial({ color: '#1a1a22', metalness: 0.2, roughness: 0.8, transparent: true, opacity: 0.5 });
 const MATERIAL_HEX_TRAY = new THREE.MeshStandardMaterial({ color: '#2a2a35', metalness: 0.3, roughness: 0.6, side: THREE.DoubleSide });
+const MATERIAL_CONNECTOR_BODY = new THREE.MeshStandardMaterial({ color: '#444444', metalness: 0.1, roughness: 0.7, transparent: true, opacity: 0.6 });
 
 /** Renders a single device tray — hex-lightweighted floor + U-channel side walls. */
 function TrayMesh({ tray, panW, panH, wallT, scale }: {
@@ -162,6 +163,84 @@ function TrayMesh({ tray, panW, panH, wallT, scale }: {
           </mesh>
         </>
       )}
+    </group>
+  );
+}
+
+/** Simplified 3D connector/fan body meshes behind the faceplate for spatial awareness. */
+function ConnectorBodies({ panW, panH, wallT, scale }: {
+  panW: number; panH: number; wallT: number; scale: number;
+}) {
+  const elements = useConfigStore(s => s.elements);
+
+  const bodies = useMemo(() => {
+    const result: Array<{
+      id: string;
+      x: number; y: number;
+      bodyW: number; bodyH: number; depthBehind: number;
+      isRound: boolean; radius?: number;
+    }> = [];
+
+    for (const el of elements) {
+      if (el.type === 'connector') {
+        const con = lookupConnector(el.key);
+        if (!con) continue;
+        const isRound = con.cut === 'round' || con.cut === 'd-shape';
+        result.push({
+          id: el.id,
+          x: el.x, y: el.y,
+          bodyW: con.w, bodyH: con.h,
+          depthBehind: con.depthBehind,
+          isRound,
+          radius: con.r,
+        });
+      } else if (el.type === 'fan') {
+        const fan = FANS[el.key];
+        if (!fan) continue;
+        // Fan body is a box at the fan dimensions
+        result.push({
+          id: el.id,
+          x: el.x, y: el.y,
+          bodyW: fan.size, bodyH: fan.size,
+          depthBehind: fan.depthBehind,
+          isRound: false,
+        });
+      }
+      // Device elements: skip (trays provide spatial footprint)
+    }
+    return result;
+  }, [elements]);
+
+  return (
+    <group>
+      {bodies.map(b => {
+        // Position: same X/Y as the cutout, Z behind the faceplate
+        const threeX = (b.x - panW / 2) * scale;
+        const threeY = (panH / 2 - b.y) * scale;
+        const threeZ = -(wallT / 2 + b.depthBehind / 2) * scale;
+
+        if (b.isRound && b.radius) {
+          return (
+            <mesh
+              key={`body-${b.id}`}
+              position={[threeX, threeY, threeZ]}
+              rotation={[Math.PI / 2, 0, 0]}
+              material={MATERIAL_CONNECTOR_BODY}
+            >
+              <cylinderGeometry args={[b.radius * scale, b.radius * scale, b.depthBehind * scale, 24]} />
+            </mesh>
+          );
+        }
+        return (
+          <mesh
+            key={`body-${b.id}`}
+            position={[threeX, threeY, threeZ]}
+            material={MATERIAL_CONNECTOR_BODY}
+          >
+            <boxGeometry args={[b.bodyW * scale, b.bodyH * scale, b.depthBehind * scale]} />
+          </mesh>
+        );
+      })}
     </group>
   );
 }
@@ -323,6 +402,9 @@ function EnclosureMesh() {
       {enclosure.trays.map(tray => (
         <TrayMesh key={tray.elementId} tray={tray} panW={panW} panH={panH} wallT={wallT} scale={scale} />
       ))}
+
+      {/* Simplified connector/fan body meshes behind faceplate */}
+      <ConnectorBodies panW={panW} panH={panH} wallT={wallT} scale={scale} />
     </group>
   );
 }
