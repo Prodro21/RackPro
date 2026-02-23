@@ -35,29 +35,29 @@ export function SideView() {
   const wt = faceW;
 
   return (
-    <div className="flex-1 flex items-center justify-center overflow-auto p-4">
-      <svg viewBox={`0 0 ${sideVW} ${sideVH}`} className="max-w-full max-h-full" style={{ filter: 'drop-shadow(0 2px 12px rgba(0,0,0,.08))' }}>
+    <div className="flex-1 flex items-center justify-center overflow-auto p-4 bg-[#1a1a22]">
+      <svg viewBox={`0 0 ${sideVW} ${sideVH}`} className="max-w-full max-h-full" style={{ filter: 'drop-shadow(0 2px 16px rgba(0,0,0,.35))' }}>
         <defs>
           <pattern id="gs" width={5 * SC} height={5 * SC} patternUnits="userSpaceOnUse">
-            <circle cx={5 * SC} cy={5 * SC} r={0.3} fill="#ccc" />
+            <circle cx={5 * SC} cy={5 * SC} r={0.3} fill="#333" />
           </pattern>
           {/* Hex lightweighting pattern for tray floors */}
           <pattern id="hex-pat" width={6} height={5.2} patternUnits="userSpaceOnUse" patternTransform="scale(0.8)">
             <polygon points="3,0.6 5.6,1.9 5.6,4.5 3,5.8 0.4,4.5 0.4,1.9" fill="none" stroke="#22c55e" strokeWidth={0.4} opacity={0.5} />
           </pattern>
         </defs>
-        <rect width={sideVW} height={sideVH} fill="#f8f8fa" />
+        <rect width={sideVW} height={sideVH} fill="#1e1e24" />
         <rect width={sideVW} height={sideVH} fill="url(#gs)" />
 
         {/* Front face */}
-        <rect x={sx} y={sy} width={faceW} height={hPx} fill="#ddd" stroke={fabMethod === '3dp' ? '#22c55e' : '#f7b600'} strokeWidth={0.8} />
+        <rect x={sx} y={sy} width={faceW} height={hPx} fill="#3a3a44" stroke={fabMethod === '3dp' ? '#22c55e' : '#f7b600'} strokeWidth={0.8} />
         <text x={sx + faceW / 2} y={sy - 8} textAnchor="middle" fill="#888" fontSize={6} fontFamily="inherit">FRONT</text>
 
         {/* Top/Bottom walls (box style only) */}
         {!isTrayStyle && (
           <>
-            <rect x={sx} y={sy} width={depthPx} height={wt} fill="#e4e4e8" stroke="#999" strokeWidth={0.4} />
-            <rect x={sx} y={sy + hPx - wt} width={depthPx} height={wt} fill="#e4e4e8" stroke="#999" strokeWidth={0.4} />
+            <rect x={sx} y={sy} width={depthPx} height={wt} fill="#2e2e38" stroke="#555" strokeWidth={0.4} />
+            <rect x={sx} y={sy + hPx - wt} width={depthPx} height={wt} fill="#2e2e38" stroke="#555" strokeWidth={0.4} />
           </>
         )}
 
@@ -68,14 +68,14 @@ export function SideView() {
         </text>
 
         {/* Rear panel */}
-        {rearPanel && <rect x={sx + depthPx - wt} y={sy} width={wt} height={hPx} fill="#ddd" stroke="#888" strokeWidth={0.5} />}
+        {rearPanel && <rect x={sx + depthPx - wt} y={sy} width={wt} height={hPx} fill="#3a3a44" stroke="#555" strokeWidth={0.5} />}
         <text x={sx + depthPx + 6} y={sy + hPx / 2} textAnchor="start" dominantBaseline="central" fill="#888" fontSize={6} fontFamily="inherit">
           {rearPanel ? 'REAR' : '(open)'}
         </text>
 
         {/* Vent slots */}
         {ventSlots && Array.from({ length: 3 }).map((_, i) => (
-          <rect key={`vs${i}`} x={sx + depthPx * 0.4 + i * 12 * SC} y={sy + hPx - wt} width={8 * SC} height={wt} fill="#f8f8fa" stroke="#999" strokeWidth={0.3} />
+          <rect key={`vs${i}`} x={sx + depthPx * 0.4 + i * 12 * SC} y={sy + hPx - wt} width={8 * SC} height={wt} fill="#1e1e24" stroke="#555" strokeWidth={0.3} />
         ))}
 
         {/* Device outlines with tray cross-sections */}
@@ -96,14 +96,14 @@ export function SideView() {
               {isTrayStyle && (
                 <>
                   {/* Floor */}
-                  <rect x={sx + faceW} y={dY + dH} width={dD} height={floorT} fill={isHex ? '#d4e8d4' : '#ddd'} stroke={isHex ? '#22c55e' : '#999'} strokeWidth={0.4} />
+                  <rect x={sx + faceW} y={dY + dH} width={dD} height={floorT} fill={isHex ? '#1a3a1a' : '#3a3a44'} stroke={isHex ? '#22c55e' : '#555'} strokeWidth={0.4} />
                   {isHex && <rect x={sx + faceW} y={dY + dH} width={dD} height={floorT} fill="url(#hex-pat)" />}
                   {/* Left side wall */}
-                  <rect x={sx + faceW} y={dY + dH - sideWallH} width={wt} height={sideWallH} fill="#e4e4e8" stroke="#999" strokeWidth={0.4} />
+                  <rect x={sx + faceW} y={dY + dH - sideWallH} width={wt} height={sideWallH} fill="#2e2e38" stroke="#555" strokeWidth={0.4} />
                   {/* Right side wall (at rear) */}
-                  <rect x={sx + faceW + dD - wt} y={dY + dH - sideWallH} width={wt} height={sideWallH} fill="#e4e4e8" stroke="#999" strokeWidth={0.4} />
+                  <rect x={sx + faceW + dD - wt} y={dY + dH - sideWallH} width={wt} height={sideWallH} fill="#2e2e38" stroke="#555" strokeWidth={0.4} />
                   {/* Wedge stopper (small block at rear) */}
-                  <rect x={sx + faceW + dD - wt - 8 * SC} y={dY + dH - sideWallH} width={8 * SC} height={sideWallH * 0.6} fill="#ddd8" stroke="#999" strokeWidth={0.3} />
+                  <rect x={sx + faceW + dD - wt - 8 * SC} y={dY + dH - sideWallH} width={8 * SC} height={sideWallH * 0.6} fill="#3a3a4488" stroke="#555" strokeWidth={0.3} />
                   {/* Stabilizer triangles (when device height > 30mm) */}
                   {dev.h > 30 && (
                     <polygon
@@ -163,7 +163,7 @@ export function SideView() {
           const fanX = sx + depthPx - wt - fanD;
           return (
             <g key={`rfan-${el.id}`}>
-              <rect x={fanX} y={fanY} width={fanD} height={fanH} fill="#99999911" stroke="#888" strokeWidth={0.5} strokeDasharray="3,2" />
+              <rect x={fanX} y={fanY} width={fanD} height={fanH} fill="#44444422" stroke="#888" strokeWidth={0.5} strokeDasharray="3,2" />
               <text x={fanX + fanD / 2} y={fanY + fanH / 2} textAnchor="middle" dominantBaseline="central" fill="#888" fontSize={4} fontFamily="inherit">{fan.name}</text>
             </g>
           );

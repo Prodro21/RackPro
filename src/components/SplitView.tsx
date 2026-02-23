@@ -74,10 +74,10 @@ export function SplitView() {
               ]} />
 
               {/* Exploded joint SVG */}
-              <svg viewBox="0 0 300 120" className="w-full mt-3 bg-muted rounded-lg border border-border">
+              <svg viewBox="0 0 300 120" className="w-full mt-3 bg-[#1e1e24] rounded-lg border border-border">
                 <text x={150} y={12} textAnchor="middle" fill="#999" fontSize={7} fontFamily="inherit">EXPLODED JOINT &mdash; TOP VIEW</text>
                 {/* Center */}
-                <rect x={100} y={25} width={100} height={70} fill="#eeeef2" stroke="#ff5500" strokeWidth={0.8} rx={1} />
+                <rect x={100} y={25} width={100} height={70} fill="#2e2e38" stroke="#ff5500" strokeWidth={0.8} rx={1} />
                 <text x={150} y={55} textAnchor="middle" fill="#ff5500" fontSize={7} fontFamily="inherit">CENTER</text>
                 {/* Mountbar left */}
                 <rect x={88} y={40} width={12} height={40} fill="#22c55e22" stroke="#22c55e" strokeWidth={0.8} rx={1} />
