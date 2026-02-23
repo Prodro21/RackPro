@@ -4,8 +4,9 @@ import { OrbitControls, Grid, Environment } from '@react-three/drei';
 import * as THREE from 'three';
 import { useConfigStore, selectPanelDims, selectPanelHeight, selectBores, selectEnclosureStyle, selectMountHoleDiameter } from '../store';
 import { EIA, BASE, HEX } from '../constants/eia310';
-import { CONNECTORS } from '../constants/connectors';
-import { DEVICES } from '../constants/devices';
+import { lookupDevice } from '../constants/deviceLookup';
+import { lookupConnector } from '../constants/connectorLookup';
+import { FANS } from '../constants/fans';
 import { useEnclosure, type TrayGeometry } from '../hooks/useEnclosure';
 
 /** Build an ExtrudeGeometry for a hex-lightweighted tray floor.
@@ -188,14 +189,24 @@ function EnclosureMesh() {
   // Cutout geometries
   const cutoutMeshes = useMemo(() => {
     return elements.map(el => {
-      const lib = el.type === 'connector' ? CONNECTORS[el.key] : DEVICES[el.key];
+      let lib: { w: number; h: number; color?: string; cut?: string; r?: number } | undefined;
+      if (el.type === 'connector') {
+        const con = lookupConnector(el.key);
+        if (con) lib = con;
+      } else if (el.type === 'fan') {
+        const fan = FANS[el.key];
+        if (fan) lib = { w: fan.size, h: fan.size, color: fan.color };
+      } else {
+        const dev = lookupDevice(el.key);
+        if (dev) lib = dev;
+      }
       if (!lib) return null;
 
       const x = (el.x - panW / 2) * scale;
       const y = (panH / 2 - el.y) * scale;
-      const isRound = el.type === 'connector' && 'cut' in lib && (lib.cut === 'round' || lib.cut === 'd-shape');
+      const isRound = el.type === 'connector' && lib.cut && (lib.cut === 'round' || lib.cut === 'd-shape');
 
-      if (isRound && 'r' in lib && lib.r) {
+      if (isRound && lib.r) {
         return {
           id: el.id,
           type: 'circle' as const,
@@ -281,7 +292,7 @@ function EnclosureMesh() {
 
       {/* Per-device retention lips — 4 bars framing each device cutout on faceplate interior */}
       {elements.filter(e => e.type === 'device').map(el => {
-        if (!DEVICES[el.key]) return null;
+        if (!lookupDevice(el.key)) return null;
         const lipW = (el.w + BASE.TOLERANCE) * scale;
         const lipH = (el.h + BASE.TOLERANCE) * scale;
         const lipD = flangeDepth * scale;

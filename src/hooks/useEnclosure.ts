@@ -1,7 +1,7 @@
 import { useMemo } from 'react';
 import { useConfigStore, selectPanelDims, selectPanelHeight, selectEnclosureDepth, selectMetal } from '../store';
 import { BASE } from '../constants/eia310';
-import { DEVICES } from '../constants/devices';
+import { lookupDevice } from '../constants/deviceLookup';
 
 export interface TrayGeometry {
   elementId: string;
@@ -43,7 +43,7 @@ export function useEnclosure(): EnclosureGeometry {
     const trays: TrayGeometry[] = elements
       .filter(e => e.type === 'device')
       .map(e => {
-        const dev = DEVICES[e.key];
+        const dev = lookupDevice(e.key);
         if (!dev) return null;
         // Tray wall strength auto-scales with depth (from OpenSCAD)
         const trayWallT = BASE.STRENGTH + Math.max(0, (dev.d - 100) * 0.02);
