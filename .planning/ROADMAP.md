@@ -138,11 +138,13 @@ Plans:
   2. User can see a sheet metal cost estimate as a range with material selection context and a direct link to SendCutSend or Protocase for exact quoting, accompanied by a clear "estimate only" disclaimer
   3. A community contributor can find a contribution guide explaining how to submit a new device or connector as a GitHub PR, with a template that includes all required fields
   4. A submitted PR triggers CI validation that checks the Zod schema, detects slug collisions, and flags dimension values outside plausible ranges — rejecting obviously malformed entries automatically
-**Plans**: TBD
+**Gap Closure:** Closes 6 orphaned requirements from v1.0 audit + 1 integration fix
+**Plans**: 3 plans
 
 Plans:
-- [ ] 06-01: Build `src/lib/costEstimation.ts` with `estimatePrintCost()` (volume x density x $/kg x support factor) and `estimateSheetMetalCost()` (flat pattern area x material cost); build `CostPanel.tsx` with range display, visible assumptions, disclaimer, and fabricator links
-- [ ] 06-02: Write `CONTRIBUTING.md` in the repo root with PR submission guide and device/connector JSON template; set up GitHub Actions CI job that runs Zod schema validation, slug collision detection, and dimension plausibility range checks on every PR touching `public/catalog/`
+- [ ] 06-01-PLAN.md — Build `src/lib/costEstimation.ts` with `estimatePrintCost()` (volume x density x $/kg x support factor) and `estimateSheetMetalCost()` (flat pattern area x material cost); build `CostPanel.tsx` with range display, visible assumptions, disclaimer, and fabricator links
+- [ ] 06-02-PLAN.md — Write `CONTRIBUTING.md` in the repo root with PR submission guide and device/connector JSON template; set up GitHub Actions CI job that runs Zod schema validation, slug collision detection, and dimension plausibility range checks on every PR touching `public/catalog/`
+- [ ] 06-03-PLAN.md — Fix ExportTab preflight effect to key on element positions (not just elements.length) matching StepReview.tsx pattern
 
 ## Progress
 
@@ -159,4 +161,4 @@ Note: Phases 4 and 5/6 can proceed in parallel after Phase 3 completes (Phase 4 
 | 3. Export Hardening + Web Deployment | 2/2 | Complete | 2026-02-22 |
 | 4. Guided Wizard + Smart Auto-Layout | 3/5 | Gap closure | - |
 | 5. UI + 3D Polish | 4/5 | In Progress|  |
-| 6. Cost Estimation + Community Contributions | 0/2 | Not started | - |
+| 6. Cost Estimation + Community Contributions | 0/3 | Not started | - |
