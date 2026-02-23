@@ -19,8 +19,8 @@ Requirements for this milestone. Each maps to roadmap phases.
 
 ### Community
 
-- [ ] **COMM-01**: Community can submit new device/connector specs via GitHub PR with a contribution guide and template
-- [ ] **COMM-02**: Submissions are validated by CI (Zod schema check, slug collision check, dimension reasonableness)
+- [x] **COMM-01**: Community can submit new device/connector specs via GitHub PR with a contribution guide and template
+- [x] **COMM-02**: Submissions are validated by CI (Zod schema check, slug collision check, dimension reasonableness)
 - [x] **COMM-03**: Catalog updates ship independently from app code releases (versioned JSON in public/ directory)
 
 ### User Experience
@@ -113,8 +113,8 @@ Which phases cover which requirements. Updated during roadmap creation.
 | CAT-05 | Phase 1 | Complete |
 | CAT-06 | Phase 1 | Complete |
 | CAT-07 | Phase 2 | Complete |
-| COMM-01 | Phase 6 | Pending |
-| COMM-02 | Phase 6 | Pending |
+| COMM-01 | Phase 6 | Complete |
+| COMM-02 | Phase 6 | Complete |
 | COMM-03 | Phase 1 | Complete |
 | UX-01 | Phase 4 | Complete |
 | UX-02 | Phase 2 | Complete |
