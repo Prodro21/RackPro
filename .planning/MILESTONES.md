@@ -18,3 +18,21 @@
 
 ---
 
+
+## v1.1 Frontend Redesign (Shipped: 2026-02-23)
+
+**Phases completed:** 3 phases, 12 plans
+**Stats:** 44 commits, 165 files changed (+7,044 / -1,397), ~18,500 LOC TypeScript, ~14 hours (Feb 22-23, 2026)
+
+**Key accomplishments:**
+1. Dual dark/light theme system with CSS variables, DM Sans + JetBrains Mono typography, and instant theme switching via useTheme hook
+2. Restructured layout with branded header (logo + segmented tab navigation), compact sidebar controls, and custom SegmentControl pill components
+3. SVG views (FrontView, SideView, SplitView) fully theme-aware via centralized CSS variable palette with semantic color names
+4. Catalog and Wizard converted from page routes to modal overlays with Radix Dialog, simplifying router to a single base view
+5. Grid background with SVG-internal pattern definitions for cross-theme visibility, calibrated dot contrast values
+6. UX polish: orange #FF5500 accent used sparingly (active tab + toolbar icons), widened sidebar with proper padding, wizard modal without preview pane
+
+**Archive:** `.planning/milestones/v1.1-ROADMAP.md`
+
+---
+

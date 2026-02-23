@@ -3,6 +3,7 @@
 ## Milestones
 
 - ✅ **v1.0 MVP** — Phases 1-7 (shipped 2026-02-23)
+- ✅ **v1.1 Frontend Redesign** — Phase 8, Phases 1-2 (shipped 2026-02-23)
 
 ## Phases
 
@@ -22,32 +23,17 @@ Full details: `.planning/milestones/v1.0-ROADMAP.md`
 
 </details>
 
+<details>
+<summary>✅ v1.1 Frontend Redesign (Phase 8, Phases 1-2) — SHIPPED 2026-02-23</summary>
+
+- [x] Phase 8: Visual Theme Rework (4/4 plans) — completed 2026-02-23
+- [x] Phase 1: Frontend Design Rework (5/5 plans) — completed 2026-02-23
+- [x] Phase 2: UX Consolidation (3/3 plans) — completed 2026-02-23
+
+Full details: `.planning/milestones/v1.1-ROADMAP.md`
+
+</details>
+
 ## Active
 
-- [x] **Phase 8: Visual Theme Rework** — Light Professional with #FF5500 Orange (4/4 plans) — completed 2026-02-23
-
-### Phase 1: Frontend Design Rework (5/5 plans) -- completed 2026-02-23
-
-**Goal:** Rework the app's visual design to match HTML mockups — dual dark/light theme system, new layout structure (icon-nav + sidebar + main), DM Sans + JetBrains Mono typography, component restyling, and branding update. Visual/styling overhaul only — no functional changes.
-**Depends on:** Phase 8
-**Plans:** 5 plans
-**Status:** COMPLETE
-
-Plans:
-- [x] 01-01-PLAN.md — Theme foundation (CSS variables, fonts, useTheme hook, backward-compat bridge)
-- [x] 01-02-PLAN.md — Layout + navigation (root layout, NavSidebar, Header with segmented tabs, StatusBar)
-- [x] 01-03-PLAN.md — Sidebar + UI components (compact controls, segment toggles, shadcn/ui restyling)
-- [x] 01-04-PLAN.md — SVG theme-awareness (FrontView, SideView, SplitView, grid background)
-- [x] 01-05-PLAN.md — Page restyling (Catalog, Wizard, ExportTab, SpecsTab, modals, 3D preview)
-
-### Phase 2: UX Consolidation (3/3 plans) -- completed 2026-02-23
-
-**Goal:** Remove icon-nav and page routing. Configurator is the only base view. Convert Catalog to a modal overlay (triggered from "Browse Catalog..." in sidebar). Convert Wizard to a modal overlay (triggered from "Quick Setup" button). Fix grid background visibility, snap grid dot contrast, and header mockup fidelity.
-**Depends on:** Phase 1
-**Plans:** 3 plans
-**Status:** COMPLETE
-
-Plans:
-- [x] 02-01-PLAN.md — Routing teardown + useUIStore + header subtitle + sidebar trigger buttons
-- [x] 02-02-PLAN.md — Modal conversion (CatalogModal + WizardModal + CommandPalette update + orphan cleanup)
-- [x] 02-03-PLAN.md — CSS/visual fixes (grid dot contrast, grid background visibility, human verification)
+(No active phases — define next milestone via `/gsd:new-milestone`)

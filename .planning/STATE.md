@@ -5,15 +5,15 @@
 See: .planning/PROJECT.md (updated 2026-02-23)
 
 **Core value:** Anyone can design a custom rack mount panel with real equipment dimensions and export a fabrication-ready file — without CAD expertise.
-**Current focus:** Phase 2 UX Consolidation — flatten to single-view, modal overlays, grid/header fixes
+**Current focus:** Planning next milestone
 
 ## Current Position
 
-Milestone: UX Consolidation
-Phase: 02-ux-consolidation
-Current Plan: 3 of 3 (PHASE COMPLETE)
-Status: Phase 02 complete — all 3 plans executed, UX consolidation fully verified
-Last activity: 2026-02-23 — Plan 03 executed (2 tasks, 8min)
+Milestone: (none — v1.1 shipped, next milestone not started)
+Phase: —
+Current Plan: —
+Status: Between milestones. v1.1 Frontend Redesign shipped. Run `/gsd:new-milestone` to start next.
+Last activity: 2026-02-23 — v1.1 milestone archived
 
 ## Performance Metrics
 
@@ -23,65 +23,26 @@ Last activity: 2026-02-23 — Plan 03 executed (2 tasks, 8min)
 - Total execution time: 2.68 hours
 - Timeline: 2 days (Feb 21-22, 2026)
 
-**By Phase:**
+**v1.1 Frontend Redesign:**
+- Total plans completed: 12
+- Commits: 44
+- Files changed: 165 (+7,044 / -1,397)
+- Timeline: ~14 hours (Feb 22-23, 2026)
 
-| Phase | Plans | Total | Avg/Plan |
-|-------|-------|-------|----------|
-| 01-catalog-schema | 4 | 13min | 3min |
-| 01.1-device-outline-mvp | 4 | 11min | 3min |
-| 02-catalog-browser-routing | 3 | 12min | 4min |
-| 03-export-hardening-web-deployment | 2 | 37min | 19min |
-| 04-guided-wizard-smart-auto-layout | 5 | 31min | 6min |
-| 05-ui-3d-polish | 5 | 48min | 10min |
-| 06-cost-estimation-community-contributions | 2 | 8min | 4min |
-| 07-tech-debt-cleanup | 1 | 2min | 2min |
+**By Phase (v1.1):**
 
-**Phase 02-ux-consolidation:**
-
-| Plan | Tasks | Duration |
-|------|-------|----------|
-| 02-01 Remove NavSidebar + Routes | 2 | 3min |
-| 02-02 Catalog/Wizard Modal Overlays | 2 | 3min |
-| 02-03 CSS/Visual Fixes + Verification | 2 | 8min |
+| Phase | Plans | Notes |
+|-------|-------|-------|
+| 08-visual-theme-rework | 4 | Light professional theme + #FF5500 orange |
+| 01-frontend-design-rework | 5 | Dual dark/light CSS variables, typography, layout |
+| 02-ux-consolidation | 3 | Modal overlays, routing cleanup, grid fixes |
 
 ## Accumulated Context
 
 ### Decisions
 
-All v1.0 decisions archived in `.planning/milestones/v1.0-ROADMAP.md` and `.planning/PROJECT.md` Key Decisions table.
-
-**Phase 01-frontend-design-rework:**
-- Dark theme as default (:root), light via .light class
-- Google Fonts CDN for DM Sans + JetBrains Mono (replaces self-hosted @fontsource Inter)
-- Backward-compat bridge duplicated in :root and .light for seamless migration
-- StatusBar moved from MainContent to configurator route layout for structural consistency
-- NavSidebar uses useMatches for active detection instead of activeProps
-- Header uses native button elements instead of shadcn Button for segmented tabs
-- Replaced Toggle-based fab toggles with custom SegmentControl pill component
-- Removed all dark: prefix classes from UI primitives (dark is :root default)
-- Tooltips use bg-elevated with border instead of bg-primary solid fill
-- SVG colors reference CSS variables directly via var() for instant theme switching
-- Grid background uses CSS ::before pseudo-element with pointer-events: none
-- Semantic SVG color names (panelFace, earFill, splitLine) in centralized palette
-- 3D canvas background uses var(--bg-root) CSS variable for theme adaptation
-- PWA theme_color updated to #0c0d11 matching --bg-root
-- Data visualization colors (confidence badges, budget bars) kept as inline hex (not theme-dependent)
-
-**Phase 02-ux-consolidation:**
-- Mutually exclusive modals: opening catalog closes wizard and vice versa in useUIStore
-- CommandPalette navigation updated to open modals instead of route navigation
-- NavSidebar.tsx kept on disk but removed from render tree
-- useUIStore pattern: ephemeral UI state (modals, drawers) lives in separate store from config undo/redo stack
-- CatalogModal uses 90vw x 85vh sizing for large overlay with full-bleed catalog layout
-- WizardModal uses key-based remount to reset wizard step on each open
-- WizardShell removed useBlocker/useNavigate router deps entirely in favor of onClose callback
-- CatalogBrowser closes modal and shows toast after adding item in modal mode
-- CommandPalette group renamed from Navigation to Tools
-- SVG-internal grid lines (pattern defs) chosen over transparent SVG background for reliable cross-theme grid visibility
-- Grid dot contrast values: #2a2d3a dark / #c0bdb5 light (based on luminance analysis from research)
-- Wizard preview pane removed in modal context for cleaner horizontal layout
-- Sidebar widened with proper left padding for readability
-- Orange accent (#FF5500) applied to active view tab and toolbar icons for brand consistency
+All v1.0 decisions archived in `.planning/milestones/v1.0-ROADMAP.md`.
+All v1.1 decisions captured in `.planning/PROJECT.md` Key Decisions table.
 
 ### Pending Todos
 
@@ -89,8 +50,8 @@ None.
 
 ### Roadmap Evolution
 
-- Phase 1 added: Frontend Design Rework
-- Phase 2 added: UX Consolidation — remove icon-nav, catalog/wizard modals, grid/header fixes
+- v1.0 MVP: Phases 1-7 (shipped 2026-02-23)
+- v1.1 Frontend Redesign: Phase 8, Phases 1-2 (shipped 2026-02-23)
 
 ### Blockers/Concerns
 
@@ -99,5 +60,5 @@ None — clean slate for next milestone.
 ## Session Continuity
 
 Last session: 2026-02-23
-Stopped at: Completed 02-03-PLAN.md (CSS/Visual Fixes + Phase 2 Verification) -- Phase 02 COMPLETE
-Resume file: .planning/phases/02-ux-consolidation/02-03-SUMMARY.md
+Stopped at: v1.1 milestone archived
+Resume file: —

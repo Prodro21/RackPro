@@ -43,13 +43,21 @@ Anyone can design a custom rack mount panel with real equipment dimensions and e
 - ✓ 6-step guided wizard — v1.0
 - ✓ Smart auto-layout V2 (weight-aware, connector families, 4 zone modes) — v1.0
 - ✓ Custom element labels (SVG + DXF) — v1.0
-- ✓ shadcn/ui component system with Slate/Teal dark theme — v1.0
+- ✓ shadcn/ui component system — v1.0 (Slate/Teal), v1.1 (dual dark/light with #FF5500 orange)
 - ✓ CSG boolean cutouts in 3D preview — v1.0
 - ✓ PBR materials (brushed metal, matte plastic, carbon fiber) — v1.0
 - ✓ Cmd+K command palette — v1.0
 - ✓ Zustand selector stability tests — v1.0
 - ✓ Filament + sheet metal cost estimation with assumptions — v1.0
 - ✓ Community contribution pipeline (CONTRIBUTING.md, Issue Forms, CI validation) — v1.0
+
+**v1.1 Frontend Redesign (6 requirements):**
+- ✓ Dual dark/light theme with CSS variable system and instant switching — v1.1
+- ✓ DM Sans + JetBrains Mono typography via Google Fonts CDN — v1.1
+- ✓ Catalog browser as modal overlay (replaces page route) — v1.1
+- ✓ Wizard as modal overlay (replaces page route) — v1.1
+- ✓ SVG views fully theme-aware with semantic CSS variable palette — v1.1
+- ✓ Single-view configurator (removed icon-nav + page routing) — v1.1
 
 ### Active
 
@@ -70,15 +78,18 @@ Anyone can design a custom rack mount panel with real equipment dimensions and e
 
 ## Context
 
-Shipped v1.0 with ~20,200 LOC TypeScript across 262 files. 97 equipment entries (60 devices + 37 connectors) in the catalog. 10 priority devices have dimensioned SVG outlines. Deployed at rackpro.prodro.pro on Cloudflare Workers.
+Shipped v1.1 with ~18,500 LOC TypeScript. 97 equipment entries (60 devices + 37 connectors) in the catalog. 10 priority devices have dimensioned SVG outlines. Deployed at rackpro.prodro.pro on Cloudflare Workers.
 
-Tech stack: React 19, TypeScript, Vite, Tailwind CSS v4, Zustand 5, TanStack Router, three.js + @react-three/fiber + three-bvh-csg, shadcn/ui (new-york style), Fuse.js, Sonner.
+Tech stack: React 19, TypeScript, Vite, Tailwind CSS v4, Zustand 5, TanStack Router, three.js + @react-three/fiber + three-bvh-csg, shadcn/ui (new-york style), Fuse.js, Sonner, Radix Dialog, Google Fonts (DM Sans + JetBrains Mono).
 
 Known patterns:
 - React 19 + Zustand 5 requires module-level selector caching for stable references
 - zundo temporal middleware incompatible — manual undo/redo stacks
 - Fusion 360 API quirks: use `healthState` not `isComputed`, cut direction +Z, XZ plane sketch_Y = -world_Z
 - All catalog lookups must use `lookupDevice()`/`lookupConnector()` (3-tier: catalog store → inline constants → custom devices)
+- Dark theme is :root default, light via `.light` class — no dark: prefix classes
+- Tailwind v4 utility classes may not render for padding in some build scenarios — use inline styles as fallback
+- Modal state (catalog/wizard open) in useUIStore, separate from config undo/redo stack in useConfigStore
 
 Target audience: homelab hobbyists, AV installers, IT pros, makers.
 
@@ -107,6 +118,12 @@ Target audience: homelab hobbyists, AV installers, IT pros, makers.
 | CSG boolean subtraction (three-bvh-csg) | Real mesh holes vs. visual overlays | ✓ Good — cutouts visible from all angles |
 | Auto-layout V2 (alternating ear + family grouping) | Better packing than V1 greedy left-to-right | ✓ Good — accepted over literal backtracking per CONTEXT.md |
 | Cost estimation as ranges (±25%) | Exact pricing impossible without fabricator quotes | ✓ Good — explicit assumptions shown |
+| Dark-first theme (:root default) | Majority of target audience prefers dark; simpler CSS without dark: prefixes | ✓ Good — clean CSS, instant switching |
+| Google Fonts CDN over self-hosted @fontsource | Simpler build, cache-friendly, no bundle size impact | ✓ Good — DM Sans + JetBrains Mono load fast |
+| Catalog/Wizard as modal overlays vs routes | Single-view configurator is simpler; modals keep context visible | ✓ Good — removed routing complexity |
+| useUIStore for ephemeral modal state | Keep undo/redo stack clean; modal open/close shouldn't be undoable | ✓ Good — clean separation |
+| SVG CSS variables for theme colors | Instant theme switching without SVG re-render; semantic naming | ✓ Good — all views theme-aware |
+| Inline styles for sidebar padding | Tailwind v4 utility classes inconsistently applied in some scenarios | ⚠️ Revisit — investigate root cause |
 
 ---
-*Last updated: 2026-02-23 after v1.0 milestone*
+*Last updated: 2026-02-23 after v1.1 milestone*
