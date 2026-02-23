@@ -158,7 +158,7 @@ Plans:
 **Plans**: 1 plan
 
 Plans:
-- [ ] 07-01-PLAN.md — Fix CAT-05-SIDEBAR reactive selector in Sidebar.tsx, delete dead Toast.tsx (Cloudflare token pre-completed)
+- [x] 07-01-PLAN.md — Fix CAT-05-SIDEBAR reactive selector in Sidebar.tsx, delete dead Toast.tsx (Cloudflare token pre-completed)
 
 ## Progress
 
@@ -176,4 +176,4 @@ Note: Phases 4 and 5/6 can proceed in parallel after Phase 3 completes (Phase 4 
 | 4. Guided Wizard + Smart Auto-Layout | 3/5 | Gap closure | - |
 | 5. UI + 3D Polish | 4/5 | In Progress|  |
 | 6. Cost Estimation + Community Contributions | 0/2 | Not started | - |
-| 7. Tech Debt Cleanup | 0/1 | Not started | - |
+| 7. Tech Debt Cleanup | 1/1 | Complete | 2026-02-23 |
