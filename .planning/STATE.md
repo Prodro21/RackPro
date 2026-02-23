@@ -143,6 +143,11 @@ Recent decisions affecting current work:
 - [Phase 06]: [06-02]: Plausibility warnings exit 0 (soft flag); schema errors and slug collisions exit 1 (hard fail)
 - [Phase 06]: [06-02]: Issue Form uses onmax/issue-form-parser for structured field extraction, peter-evans/create-pull-request for draft PR creation
 - [Phase 06]: [06-02]: Connector Issue Form uses mountHoles dropdown (0/2/4) instead of text input to constrain valid values
+- [Phase 06]: [06-01]: Fixed +/-25% band for cost estimate ranges per CONTEXT.md
+- [Phase 06]: [06-01]: Fill factor 0.12 calibrated for typical rack panel geometry (hollow interior, wall loops, infill, cutouts)
+- [Phase 06]: [06-01]: $/kg input in Sidebar fab config section (not inside cost card) per CONTEXT.md locked decision
+- [Phase 06]: [06-01]: ExportTab computes both fab method costs directly for comparison toggle (not via selector)
+- [Phase 06]: [06-01]: positionKey pattern from StepReview.tsx applied to ExportTab preflight effect for position-sensitive re-runs
 
 ### Pending Todos
 
@@ -157,5 +162,5 @@ None yet.
 ## Session Continuity
 
 Last session: 2026-02-23
-Stopped at: Completed 06-02-PLAN.md (Community Contribution Infrastructure)
+Stopped at: Completed 06-01-PLAN.md (Cost Estimation Pure Functions + UI) — Phase 6 fully complete
 Resume file: None

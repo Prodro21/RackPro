@@ -40,10 +40,10 @@ Requirements for this milestone. Each maps to roadmap phases.
 
 ### Cost Estimation
 
-- [ ] **COST-01**: User can see an estimated filament cost range for 3D printing based on panel volume, material density, and configurable $/kg
-- [ ] **COST-02**: User can see an estimated sheet metal cost range based on flat pattern area and material selection
-- [ ] **COST-03**: Cost estimates display as ranges (not precise figures) with explicit assumptions shown
-- [ ] **COST-04**: Sheet metal estimates include a link to SendCutSend/Protocase for exact quoting with a clear "estimate only" disclaimer
+- [x] **COST-01**: User can see an estimated filament cost range for 3D printing based on panel volume, material density, and configurable $/kg
+- [x] **COST-02**: User can see an estimated sheet metal cost range based on flat pattern area and material selection
+- [x] **COST-03**: Cost estimates display as ranges (not precise figures) with explicit assumptions shown
+- [x] **COST-04**: Sheet metal estimates include a link to SendCutSend/Protocase for exact quoting with a clear "estimate only" disclaimer
 
 ### Export Quality
 
@@ -125,10 +125,10 @@ Which phases cover which requirements. Updated during roadmap creation.
 | LAYOUT-02 | Phase 4 | Complete |
 | LAYOUT-03 | Phase 4 | Complete |
 | LAYOUT-04 | Phase 4 | Complete |
-| COST-01 | Phase 6 | Pending |
-| COST-02 | Phase 6 | Pending |
-| COST-03 | Phase 6 | Pending |
-| COST-04 | Phase 6 | Pending |
+| COST-01 | Phase 6 | Complete |
+| COST-02 | Phase 6 | Complete |
+| COST-03 | Phase 6 | Complete |
+| COST-04 | Phase 6 | Complete |
 | EXP-01 | Phase 3 | Complete |
 | EXP-02 | Phase 3 | Complete |
 | EXP-03 | Phase 3 | Complete |
