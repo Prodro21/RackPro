@@ -9,13 +9,13 @@ import { METALS, FILAMENTS } from '../constants/materials';
 import { PRINTERS } from '../constants/printers';
 import { BORE_HOLES } from '../constants/eia310';
 import type { FabMethod, RackStandard, PlacementSurface, AssemblyMode, EnclosureStyle, MountHoleType, ElementLabel } from '../types';
-import { SectionLabel } from './ui/SectionLabel';
-import { SelectField } from './ui/SelectField';
-import { SliderField } from './ui/SliderField';
-import { Checkbox } from './ui/Checkbox';
-import { ToggleButton } from './ui/ToggleButton';
-import { PaletteItem } from './ui/PaletteItem';
-import { PropertyRow } from './ui/PropertyRow';
+import { SectionLabel } from './ui-legacy/SectionLabel';
+import { SelectField } from './ui-legacy/SelectField';
+import { SliderField } from './ui-legacy/SliderField';
+import { Checkbox } from './ui-legacy/Checkbox';
+import { ToggleButton } from './ui-legacy/ToggleButton';
+import { PaletteItem } from './ui-legacy/PaletteItem';
+import { PropertyRow } from './ui-legacy/PropertyRow';
 import { CustomDeviceModal } from './CustomDeviceModal';
 
 function confidenceBadge(level: string): { label: string; color: string } {

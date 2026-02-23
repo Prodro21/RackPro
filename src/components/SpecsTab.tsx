@@ -8,8 +8,8 @@ import { BORE_HOLES } from '../constants/eia310';
 import { useReinforcement } from '../hooks/useReinforcement';
 import { generateConfig } from '../export/configJson';
 import { computeBom } from '../lib/bom';
-import { SectionLabel } from './ui/SectionLabel';
-import { SpecTable } from './ui/SpecTable';
+import { SectionLabel } from './ui-legacy/SectionLabel';
+import { SpecTable } from './ui-legacy/SpecTable';
 
 function confidenceBadge(level: string): { label: string; color: string } {
   switch (level) {

@@ -1,7 +1,7 @@
 import { useConfigStore, selectPanelDims, selectNeedsSplit, selectSplitInfo, selectPrinter } from '../store';
 import { BASE, LOCKPIN } from '../constants/eia310';
-import { SectionLabel } from './ui/SectionLabel';
-import { SpecTable } from './ui/SpecTable';
+import { SectionLabel } from './ui-legacy/SectionLabel';
+import { SpecTable } from './ui-legacy/SpecTable';
 
 export function SplitView() {
   const fabMethod = useConfigStore(s => s.fabMethod);

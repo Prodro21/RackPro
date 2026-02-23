@@ -1,24 +1,98 @@
 @import "tailwindcss";
+@import "tw-animate-css";
 
-@theme {
-  --color-bg-primary: #0b0b0e;
-  --color-bg-secondary: #111116;
-  --color-bg-panel: #1e1e26;
-  --color-bg-input: #1a1a22;
-  --color-bg-card: #161620;
-  --color-bg-hover: #1e1e2a;
-  --color-border: #252530;
-  --color-border-dim: #1e1e28;
-  --color-accent-gold: #f7b600;
-  --color-accent-green: #22c55e;
-  --color-accent-blue: #4a90d9;
-  --color-danger: #ef4444;
-  --color-text-primary: #e2e2e2;
-  --color-text-secondary: #999;
-  --color-text-dim: #555;
-  --color-text-muted: #444;
-  --color-text-label: #4a4a55;
+@custom-variant dark (&:is(.dark *));
+
+/* ─── shadcn/ui OKLCH Theme Variables ─── */
+/* Dark mode by default (always-dark app, no light mode toggle) */
+
+:root {
+  /* shadcn semantic colors: Slate/Neutral base + Teal/Cyan accent */
+  --background: oklch(0.145 0 0);
+  --foreground: oklch(0.9 0.01 250);
+  --card: oklch(0.17 0.005 270);
+  --card-foreground: oklch(0.9 0.01 250);
+  --popover: oklch(0.17 0.005 270);
+  --popover-foreground: oklch(0.9 0.01 250);
+  --primary: oklch(0.72 0.15 185);
+  --primary-foreground: oklch(0.15 0.02 185);
+  --secondary: oklch(0.22 0.005 270);
+  --secondary-foreground: oklch(0.9 0.01 250);
+  --muted: oklch(0.22 0.005 270);
+  --muted-foreground: oklch(0.55 0.01 250);
+  --accent: oklch(0.22 0.01 185);
+  --accent-foreground: oklch(0.72 0.15 185);
+  --destructive: oklch(0.55 0.2 27);
+  --border: oklch(0.25 0.005 270);
+  --input: oklch(0.22 0.005 270);
+  --ring: oklch(0.72 0.15 185);
+  --radius: 0.375rem;
+
+  /* Legacy color variables (kept during transition) */
+  --color-bg-primary: oklch(0.145 0 0);
+  --color-bg-secondary: oklch(0.16 0.005 270);
+  --color-bg-panel: oklch(0.22 0.005 270);
+  --color-bg-input: oklch(0.18 0.005 270);
+  --color-bg-card: oklch(0.17 0.005 270);
+  --color-bg-hover: oklch(0.22 0.01 270);
+  --color-border: oklch(0.25 0.005 270);
+  --color-border-dim: oklch(0.22 0.005 270);
+  --color-accent-gold: oklch(0.72 0.15 185);
+  --color-accent-green: oklch(0.7 0.18 155);
+  --color-accent-blue: oklch(0.62 0.12 250);
+  --color-danger: oklch(0.55 0.2 27);
+  --color-text-primary: oklch(0.9 0.01 250);
+  --color-text-secondary: oklch(0.65 0.01 250);
+  --color-text-dim: oklch(0.45 0.01 250);
+  --color-text-muted: oklch(0.4 0.01 250);
+  --color-text-label: oklch(0.42 0.01 270);
   --font-family-mono: 'JetBrains Mono', 'SF Mono', 'Fira Code', monospace;
+}
+
+/* ─── Bridge shadcn CSS vars to Tailwind utility classes ─── */
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-destructive: var(--destructive);
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+
+  /* Legacy theme colors (kept during transition for existing class names) */
+  --color-bg-primary: var(--color-bg-primary);
+  --color-bg-secondary: var(--color-bg-secondary);
+  --color-bg-panel: var(--color-bg-panel);
+  --color-bg-input: var(--color-bg-input);
+  --color-bg-card: var(--color-bg-card);
+  --color-bg-hover: var(--color-bg-hover);
+  --color-border-dim: var(--color-border-dim);
+  --color-accent-gold: var(--color-accent-gold);
+  --color-accent-green: var(--color-accent-green);
+  --color-accent-blue: var(--color-accent-blue);
+  --color-danger: var(--color-danger);
+  --color-text-primary: var(--color-text-primary);
+  --color-text-secondary: var(--color-text-secondary);
+  --color-text-dim: var(--color-text-dim);
+  --color-text-muted: var(--color-text-muted);
+  --color-text-label: var(--color-text-label);
+  --font-family-mono: var(--font-family-mono);
+
+  --radius-sm: calc(var(--radius) - 2px);
+  --radius-md: var(--radius);
+  --radius-lg: calc(var(--radius) + 2px);
+  --radius-xl: calc(var(--radius) + 4px);
 }
 
 * {
@@ -34,9 +108,9 @@ html, body, #root {
 }
 
 body {
-  background: var(--color-bg-primary);
+  background: var(--background);
   font-family: var(--font-family-mono);
-  color: var(--color-text-primary);
+  color: var(--foreground);
 }
 
 /* Scrollbar styling */
@@ -47,19 +121,9 @@ body {
   background: transparent;
 }
 ::-webkit-scrollbar-thumb {
-  background: var(--color-border);
+  background: var(--border);
   border-radius: 2px;
 }
 ::-webkit-scrollbar-thumb:hover {
-  background: #333;
-}
-
-/* Range input styling */
-input[type="range"] {
-  accent-color: var(--color-accent-gold);
-}
-
-/* Checkbox styling */
-input[type="checkbox"] {
-  accent-color: var(--color-accent-gold);
+  background: oklch(0.35 0.005 270);
 }
