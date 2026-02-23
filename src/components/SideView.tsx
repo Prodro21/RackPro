@@ -4,6 +4,7 @@ import { DEVICES } from '../constants/devices';
 import { FANS } from '../constants/fans';
 import { useReinforcement } from '../hooks/useReinforcement';
 import { useEnclosure } from '../hooks/useEnclosure';
+import { SVG_COLORS } from '../lib/svgTheme';
 
 const SC = 1.15;
 const OY = 40;
@@ -35,47 +36,47 @@ export function SideView() {
   const wt = faceW;
 
   return (
-    <div className="flex-1 flex items-center justify-center overflow-auto p-4 bg-[#1a1a22]">
+    <div className="flex-1 flex items-center justify-center overflow-auto p-4 bg-bg-main">
       <svg viewBox={`0 0 ${sideVW} ${sideVH}`} className="max-w-full max-h-full" style={{ filter: 'drop-shadow(0 2px 16px rgba(0,0,0,.35))' }}>
         <defs>
           <pattern id="gs" width={5 * SC} height={5 * SC} patternUnits="userSpaceOnUse">
-            <circle cx={5 * SC} cy={5 * SC} r={0.3} fill="#333" />
+            <circle cx={5 * SC} cy={5 * SC} r={0.3} fill={SVG_COLORS.gridDot} />
           </pattern>
           {/* Hex lightweighting pattern for tray floors */}
           <pattern id="hex-pat" width={6} height={5.2} patternUnits="userSpaceOnUse" patternTransform="scale(0.8)">
-            <polygon points="3,0.6 5.6,1.9 5.6,4.5 3,5.8 0.4,4.5 0.4,1.9" fill="none" stroke="#22c55e" strokeWidth={0.4} opacity={0.5} />
+            <polygon points="3,0.6 5.6,1.9 5.6,4.5 3,5.8 0.4,4.5 0.4,1.9" fill="none" stroke={SVG_COLORS.splitLine} strokeWidth={0.4} opacity={0.5} />
           </pattern>
         </defs>
-        <rect width={sideVW} height={sideVH} fill="#1e1e24" />
+        <rect width={sideVW} height={sideVH} fill={SVG_COLORS.canvasBg} />
         <rect width={sideVW} height={sideVH} fill="url(#gs)" />
 
         {/* Front face */}
-        <rect x={sx} y={sy} width={faceW} height={hPx} fill="#3a3a44" stroke={fabMethod === '3dp' ? '#22c55e' : '#f7b600'} strokeWidth={0.8} />
-        <text x={sx + faceW / 2} y={sy - 8} textAnchor="middle" fill="#888" fontSize={6} fontFamily="inherit">FRONT</text>
+        <rect x={sx} y={sy} width={faceW} height={hPx} fill={SVG_COLORS.crossSection} stroke={fabMethod === '3dp' ? SVG_COLORS.splitLine : SVG_COLORS.warning} strokeWidth={0.8} />
+        <text x={sx + faceW / 2} y={sy - 8} textAnchor="middle" fill={SVG_COLORS.elementText} fontSize={6} fontFamily="inherit">FRONT</text>
 
         {/* Top/Bottom walls (box style only) */}
         {!isTrayStyle && (
           <>
-            <rect x={sx} y={sy} width={depthPx} height={wt} fill="#2e2e38" stroke="#555" strokeWidth={0.4} />
-            <rect x={sx} y={sy + hPx - wt} width={depthPx} height={wt} fill="#2e2e38" stroke="#555" strokeWidth={0.4} />
+            <rect x={sx} y={sy} width={depthPx} height={wt} fill={SVG_COLORS.wallFill} stroke={SVG_COLORS.elementStroke} strokeWidth={0.4} />
+            <rect x={sx} y={sy + hPx - wt} width={depthPx} height={wt} fill={SVG_COLORS.wallFill} stroke={SVG_COLORS.elementStroke} strokeWidth={0.4} />
           </>
         )}
 
         {/* Flange */}
-        <rect x={sx + faceW} y={sy + wt} width={flangeDepth * SC} height={hPx - wt * 2} fill="none" stroke="#ff550066" strokeWidth={0.6} strokeDasharray="3,2" />
-        <text x={sx + faceW + (flangeDepth * SC) / 2} y={sy + hPx / 2} textAnchor="middle" dominantBaseline="central" fill="#ff550066" fontSize={5} fontFamily="inherit">
+        <rect x={sx + faceW} y={sy + wt} width={flangeDepth * SC} height={hPx - wt * 2} fill="none" stroke={SVG_COLORS.accent} strokeWidth={0.6} strokeDasharray="3,2" opacity={0.4} />
+        <text x={sx + faceW + (flangeDepth * SC) / 2} y={sy + hPx / 2} textAnchor="middle" dominantBaseline="central" fill={SVG_COLORS.accent} fontSize={5} fontFamily="inherit" opacity={0.4}>
           FLANGE {flangeDepth}mm
         </text>
 
         {/* Rear panel */}
-        {rearPanel && <rect x={sx + depthPx - wt} y={sy} width={wt} height={hPx} fill="#3a3a44" stroke="#555" strokeWidth={0.5} />}
-        <text x={sx + depthPx + 6} y={sy + hPx / 2} textAnchor="start" dominantBaseline="central" fill="#888" fontSize={6} fontFamily="inherit">
+        {rearPanel && <rect x={sx + depthPx - wt} y={sy} width={wt} height={hPx} fill={SVG_COLORS.crossSection} stroke={SVG_COLORS.elementStroke} strokeWidth={0.5} />}
+        <text x={sx + depthPx + 6} y={sy + hPx / 2} textAnchor="start" dominantBaseline="central" fill={SVG_COLORS.elementText} fontSize={6} fontFamily="inherit">
           {rearPanel ? 'REAR' : '(open)'}
         </text>
 
         {/* Vent slots */}
         {ventSlots && Array.from({ length: 3 }).map((_, i) => (
-          <rect key={`vs${i}`} x={sx + depthPx * 0.4 + i * 12 * SC} y={sy + hPx - wt} width={8 * SC} height={wt} fill="#1e1e24" stroke="#555" strokeWidth={0.3} />
+          <rect key={`vs${i}`} x={sx + depthPx * 0.4 + i * 12 * SC} y={sy + hPx - wt} width={8 * SC} height={wt} fill={SVG_COLORS.canvasBg} stroke={SVG_COLORS.elementStroke} strokeWidth={0.3} />
         ))}
 
         {/* Device outlines with tray cross-sections */}
@@ -96,32 +97,32 @@ export function SideView() {
               {isTrayStyle && (
                 <>
                   {/* Floor */}
-                  <rect x={sx + faceW} y={dY + dH} width={dD} height={floorT} fill={isHex ? '#1a3a1a' : '#3a3a44'} stroke={isHex ? '#22c55e' : '#555'} strokeWidth={0.4} />
+                  <rect x={sx + faceW} y={dY + dH} width={dD} height={floorT} fill={isHex ? SVG_COLORS.splitFill : SVG_COLORS.crossSection} stroke={isHex ? SVG_COLORS.splitLine : SVG_COLORS.elementStroke} strokeWidth={0.4} />
                   {isHex && <rect x={sx + faceW} y={dY + dH} width={dD} height={floorT} fill="url(#hex-pat)" />}
                   {/* Left side wall */}
-                  <rect x={sx + faceW} y={dY + dH - sideWallH} width={wt} height={sideWallH} fill="#2e2e38" stroke="#555" strokeWidth={0.4} />
+                  <rect x={sx + faceW} y={dY + dH - sideWallH} width={wt} height={sideWallH} fill={SVG_COLORS.wallFill} stroke={SVG_COLORS.elementStroke} strokeWidth={0.4} />
                   {/* Right side wall (at rear) */}
-                  <rect x={sx + faceW + dD - wt} y={dY + dH - sideWallH} width={wt} height={sideWallH} fill="#2e2e38" stroke="#555" strokeWidth={0.4} />
+                  <rect x={sx + faceW + dD - wt} y={dY + dH - sideWallH} width={wt} height={sideWallH} fill={SVG_COLORS.wallFill} stroke={SVG_COLORS.elementStroke} strokeWidth={0.4} />
                   {/* Wedge stopper (small block at rear) */}
-                  <rect x={sx + faceW + dD - wt - 8 * SC} y={dY + dH - sideWallH} width={8 * SC} height={sideWallH * 0.6} fill="#3a3a4488" stroke="#555" strokeWidth={0.3} />
+                  <rect x={sx + faceW + dD - wt - 8 * SC} y={dY + dH - sideWallH} width={8 * SC} height={sideWallH * 0.6} fill={SVG_COLORS.crossSection} stroke={SVG_COLORS.elementStroke} strokeWidth={0.3} opacity={0.5} />
                   {/* Stabilizer triangles (when device height > 30mm) */}
                   {dev.h > 30 && (
                     <polygon
                       points={`${sx + faceW},${dY + dH - sideWallH} ${sx + faceW},${dY} ${sx + faceW + Math.min(dH - sideWallH, dD) * 0.4},${dY + dH - sideWallH}`}
-                      fill="#4a90d910" stroke="#4a90d9" strokeWidth={0.4}
+                      fill={SVG_COLORS.modularFill} stroke={SVG_COLORS.modularStroke} strokeWidth={0.4}
                     />
                   )}
                 </>
               )}
               {isModular && !isTrayStyle && (
                 <>
-                  <rect x={sx + faceW + trayGap} y={dY - 2} width={dD} height={dH + 4} fill="#4a90d910" stroke="#4a90d9" strokeWidth={0.5} strokeDasharray="3,2" />
-                  <text x={sx + faceW + trayGap + dD + 3} y={dY - 1} fill="#4a90d9" fontSize={4} fontFamily="inherit">TRAY</text>
+                  <rect x={sx + faceW + trayGap} y={dY - 2} width={dD} height={dH + 4} fill={SVG_COLORS.modularFill} stroke={SVG_COLORS.modularStroke} strokeWidth={0.5} strokeDasharray="3,2" />
+                  <text x={sx + faceW + trayGap + dD + 3} y={dY - 1} fill={SVG_COLORS.modularStroke} fontSize={4} fontFamily="inherit">TRAY</text>
                 </>
               )}
-              <rect x={sx + faceW + trayGap + 2} y={dY} width={dD - 4} height={dH} fill="#ffffff08" stroke={dev.color} strokeWidth={0.6} strokeDasharray="4,2" />
-              <text x={sx + faceW + trayGap + dD / 2} y={dY + dH / 2} textAnchor="middle" dominantBaseline="central" fill="#888" fontSize={5} fontFamily="inherit">{dev.name}</text>
-              <text x={sx + faceW + trayGap + dD / 2} y={dY + dH / 2 + 8} textAnchor="middle" fill="#aaa" fontSize={4} fontFamily="inherit">{dev.d}mm deep</text>
+              <rect x={sx + faceW + trayGap + 2} y={dY} width={dD - 4} height={dH} fill={SVG_COLORS.splitFill} stroke={dev.color} strokeWidth={0.6} strokeDasharray="4,2" />
+              <text x={sx + faceW + trayGap + dD / 2} y={dY + dH / 2} textAnchor="middle" dominantBaseline="central" fill={SVG_COLORS.elementText} fontSize={5} fontFamily="inherit">{dev.name}</text>
+              <text x={sx + faceW + trayGap + dD / 2} y={dY + dH / 2 + 8} textAnchor="middle" fill={SVG_COLORS.textSecondary} fontSize={4} fontFamily="inherit">{dev.d}mm deep</text>
             </g>
           );
         })}
@@ -148,7 +149,7 @@ export function SideView() {
               y={sy + wt + (hPx - wt * 2 - ribHPx) / 2}
               width={ribDepthPx}
               height={Math.min(ribHPx, 4)}
-              fill="#4338ca22" stroke="#6366f1" strokeWidth={0.4}
+              fill={SVG_COLORS.ribFill} stroke={SVG_COLORS.ribStroke} strokeWidth={0.4}
             />
           );
         })}
@@ -163,8 +164,8 @@ export function SideView() {
           const fanX = sx + depthPx - wt - fanD;
           return (
             <g key={`rfan-${el.id}`}>
-              <rect x={fanX} y={fanY} width={fanD} height={fanH} fill="#44444422" stroke="#888" strokeWidth={0.5} strokeDasharray="3,2" />
-              <text x={fanX + fanD / 2} y={fanY + fanH / 2} textAnchor="middle" dominantBaseline="central" fill="#888" fontSize={4} fontFamily="inherit">{fan.name}</text>
+              <rect x={fanX} y={fanY} width={fanD} height={fanH} fill={SVG_COLORS.elementFill} stroke={SVG_COLORS.elementText} strokeWidth={0.5} strokeDasharray="3,2" opacity={0.5} />
+              <text x={fanX + fanD / 2} y={fanY + fanH / 2} textAnchor="middle" dominantBaseline="central" fill={SVG_COLORS.elementText} fontSize={4} fontFamily="inherit">{fan.name}</text>
             </g>
           );
         })}
@@ -179,17 +180,17 @@ export function SideView() {
             <polygon
               key={`wedge${i}`}
               points={`${sx + faceW},${baseY} ${sx + faceW + wedgeSize},${baseY} ${sx + faceW},${tipY}`}
-              fill="#4338ca22" stroke="#6366f1" strokeWidth={0.4}
+              fill={SVG_COLORS.ribFill} stroke={SVG_COLORS.ribStroke} strokeWidth={0.4}
             />
           );
         })}
 
         {/* Dimension lines */}
-        <line x1={sx} y1={sy + hPx + 16} x2={sx + depthPx} y2={sy + hPx + 16} stroke="#ff550088" strokeWidth={0.4} />
-        <text x={sx + depthPx / 2} y={sy + hPx + 26} textAnchor="middle" fill="#ff5500" fontSize={7} fontFamily="inherit">{enclosureDepth.toFixed(0)}mm depth</text>
+        <line x1={sx} y1={sy + hPx + 16} x2={sx + depthPx} y2={sy + hPx + 16} stroke={SVG_COLORS.accent} strokeWidth={0.4} opacity={0.5} />
+        <text x={sx + depthPx / 2} y={sy + hPx + 26} textAnchor="middle" fill={SVG_COLORS.accent} fontSize={7} fontFamily="inherit">{enclosureDepth.toFixed(0)}mm depth</text>
 
-        <line x1={sx - 12} y1={sy} x2={sx - 12} y2={sy + hPx} stroke="#ff550088" strokeWidth={0.4} />
-        <text x={sx - 18} y={sy + hPx / 2} textAnchor="middle" dominantBaseline="central" fill="#ff5500" fontSize={7} fontFamily="inherit" transform={`rotate(-90 ${sx - 18} ${sy + hPx / 2})`}>
+        <line x1={sx - 12} y1={sy} x2={sx - 12} y2={sy + hPx} stroke={SVG_COLORS.accent} strokeWidth={0.4} opacity={0.5} />
+        <text x={sx - 18} y={sy + hPx / 2} textAnchor="middle" dominantBaseline="central" fill={SVG_COLORS.accent} fontSize={7} fontFamily="inherit" transform={`rotate(-90 ${sx - 18} ${sy + hPx / 2})`}>
           {panH.toFixed(1)}mm
         </text>
       </svg>

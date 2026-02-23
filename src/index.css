@@ -63,12 +63,33 @@
 
   /* SVG panel theme tokens (dark) */
   --svg-panel-face: #1a1c24;
+  --svg-panel-face-light: #22242e;
   --svg-panel-stroke: #2d2f3a;
   --svg-ear-fill: #1e2029;
   --svg-ear-stroke: #3a3c48;
   --svg-bore-stroke: #5f606b;
+  --svg-bore-fill: #12131a;
   --svg-canvas-bg: var(--bg-main);
-  --svg-grid-dot: var(--border-subtle);
+  --svg-grid-dot: #1e2029;
+  --svg-element-fill: #252730;
+  --svg-element-stroke: #3a3c48;
+  --svg-element-text: #9d9da6;
+  --svg-dim-line: #5f606b;
+  --svg-dim-text: #9d9da6;
+  --svg-split-line: #22c55e;
+  --svg-split-fill: rgba(34,197,94,0.08);
+  --svg-cross-section: #2d2f3a;
+  --svg-flanges-fill: #252730;
+  --svg-tray-fill: #1e2029;
+  --svg-wall-fill: #22242e;
+  --svg-device-fill: #282830;
+  --svg-connector-fill: #1e1e24;
+  --svg-label-text: #555;
+  --svg-label-icon: #777;
+  --svg-rib-fill: rgba(67,56,202,0.13);
+  --svg-rib-stroke: #6366f1;
+  --svg-modular-stroke: #4a90d9;
+  --svg-modular-fill: rgba(74,144,217,0.06);
 
   /* ─── Backward-compat bridge: shadcn token names → new mockup tokens ─── */
   --background: var(--bg-root);
@@ -144,12 +165,33 @@
 
   /* SVG panel theme tokens (light) */
   --svg-panel-face: #d1cfc9;
+  --svg-panel-face-light: #dbd9d3;
   --svg-panel-stroke: #a8a29e;
-  --svg-ear-fill: #d6d3d1;
+  --svg-ear-fill: #c8c5be;
   --svg-ear-stroke: #a8a29e;
   --svg-bore-stroke: #78716c;
+  --svg-bore-fill: #e8e6e0;
   --svg-canvas-bg: var(--bg-main);
-  --svg-grid-dot: var(--border-subtle);
+  --svg-grid-dot: #d1cfc9;
+  --svg-element-fill: #e2e0da;
+  --svg-element-stroke: #a8a29e;
+  --svg-element-text: #57534e;
+  --svg-dim-line: #a8a29e;
+  --svg-dim-text: #57534e;
+  --svg-split-line: #16a34a;
+  --svg-split-fill: rgba(22,163,74,0.08);
+  --svg-cross-section: #c8c5be;
+  --svg-flanges-fill: #d6d3cd;
+  --svg-tray-fill: #dbd9d3;
+  --svg-wall-fill: #d1cfc9;
+  --svg-device-fill: #dbd9d3;
+  --svg-connector-fill: #e8e6e0;
+  --svg-label-text: #a8a29e;
+  --svg-label-icon: #a8a29e;
+  --svg-rib-fill: rgba(99,102,241,0.1);
+  --svg-rib-stroke: #818cf8;
+  --svg-modular-stroke: #3b82f6;
+  --svg-modular-fill: rgba(59,130,246,0.06);
 
   /* ─── Backward-compat bridge (light overrides) ─── */
   --background: var(--bg-root);
@@ -211,12 +253,33 @@
   --color-seg-border: var(--seg-border);
 
   --color-svg-panel-face: var(--svg-panel-face);
+  --color-svg-panel-face-light: var(--svg-panel-face-light);
   --color-svg-panel-stroke: var(--svg-panel-stroke);
   --color-svg-ear-fill: var(--svg-ear-fill);
   --color-svg-ear-stroke: var(--svg-ear-stroke);
   --color-svg-bore-stroke: var(--svg-bore-stroke);
+  --color-svg-bore-fill: var(--svg-bore-fill);
   --color-svg-canvas-bg: var(--svg-canvas-bg);
   --color-svg-grid-dot: var(--svg-grid-dot);
+  --color-svg-element-fill: var(--svg-element-fill);
+  --color-svg-element-stroke: var(--svg-element-stroke);
+  --color-svg-element-text: var(--svg-element-text);
+  --color-svg-dim-line: var(--svg-dim-line);
+  --color-svg-dim-text: var(--svg-dim-text);
+  --color-svg-split-line: var(--svg-split-line);
+  --color-svg-split-fill: var(--svg-split-fill);
+  --color-svg-cross-section: var(--svg-cross-section);
+  --color-svg-flanges-fill: var(--svg-flanges-fill);
+  --color-svg-tray-fill: var(--svg-tray-fill);
+  --color-svg-wall-fill: var(--svg-wall-fill);
+  --color-svg-device-fill: var(--svg-device-fill);
+  --color-svg-connector-fill: var(--svg-connector-fill);
+  --color-svg-label-text: var(--svg-label-text);
+  --color-svg-label-icon: var(--svg-label-icon);
+  --color-svg-rib-fill: var(--svg-rib-fill);
+  --color-svg-rib-stroke: var(--svg-rib-stroke);
+  --color-svg-modular-stroke: var(--svg-modular-stroke);
+  --color-svg-modular-fill: var(--svg-modular-fill);
 
   /* Backward-compat shadcn token mappings */
   --color-background: var(--background);

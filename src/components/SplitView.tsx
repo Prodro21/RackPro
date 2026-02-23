@@ -1,5 +1,6 @@
 import { useConfigStore, selectPanelDims, selectNeedsSplit, selectSplitInfo, selectPrinter } from '../store';
 import { BASE, LOCKPIN } from '../constants/eia310';
+import { SVG_COLORS } from '../lib/svgTheme';
 
 function SectionLabel({ children }: { children: React.ReactNode }) {
   return (
@@ -44,7 +45,7 @@ export function SplitView() {
       ) : (
         <>
           <div className="bg-card border border-border rounded-lg p-4 mb-3">
-            <div className="font-bold text-sm mb-1.5" style={{ color: needsSplit ? '#f59e0b' : '#22c55e' }}>
+            <div className="font-bold text-sm mb-1.5" style={{ color: needsSplit ? SVG_COLORS.warning : SVG_COLORS.success }}>
               {needsSplit
                 ? `\u26a0 Panel exceeds ${bedW}mm bed \u2192 ${splitInfo.type}`
                 : `\u2713 Panel fits on ${printer.name} bed (${panDims.totalWidth.toFixed(0)}mm \u2264 ${bedW}mm)`
@@ -74,32 +75,32 @@ export function SplitView() {
               ]} />
 
               {/* Exploded joint SVG */}
-              <svg viewBox="0 0 300 120" className="w-full mt-3 bg-[#1e1e24] rounded-lg border border-border">
-                <text x={150} y={12} textAnchor="middle" fill="#999" fontSize={7} fontFamily="inherit">EXPLODED JOINT &mdash; TOP VIEW</text>
+              <svg viewBox="0 0 300 120" className="w-full mt-3 rounded-lg border border-border" style={{ backgroundColor: SVG_COLORS.canvasBg }}>
+                <text x={150} y={12} textAnchor="middle" fill={SVG_COLORS.elementText} fontSize={7} fontFamily="inherit">EXPLODED JOINT &mdash; TOP VIEW</text>
                 {/* Center */}
-                <rect x={100} y={25} width={100} height={70} fill="#2e2e38" stroke="#ff5500" strokeWidth={0.8} rx={1} />
-                <text x={150} y={55} textAnchor="middle" fill="#ff5500" fontSize={7} fontFamily="inherit">CENTER</text>
+                <rect x={100} y={25} width={100} height={70} fill={SVG_COLORS.panelFace} stroke={SVG_COLORS.accent} strokeWidth={0.8} rx={1} />
+                <text x={150} y={55} textAnchor="middle" fill={SVG_COLORS.accent} fontSize={7} fontFamily="inherit">CENTER</text>
                 {/* Mountbar left */}
-                <rect x={88} y={40} width={12} height={40} fill="#22c55e22" stroke="#22c55e" strokeWidth={0.8} rx={1} />
-                <circle cx={94} cy={52} r={2} fill="none" stroke="#22c55e" strokeWidth={0.8} />
-                <circle cx={94} cy={68} r={2} fill="none" stroke="#22c55e" strokeWidth={0.8} />
-                <text x={94} y={86} textAnchor="middle" fill="#22c55e" fontSize={5}>MOUNTBAR</text>
+                <rect x={88} y={40} width={12} height={40} fill={SVG_COLORS.splitFill} stroke={SVG_COLORS.splitLine} strokeWidth={0.8} rx={1} />
+                <circle cx={94} cy={52} r={2} fill="none" stroke={SVG_COLORS.splitLine} strokeWidth={0.8} />
+                <circle cx={94} cy={68} r={2} fill="none" stroke={SVG_COLORS.splitLine} strokeWidth={0.8} />
+                <text x={94} y={86} textAnchor="middle" fill={SVG_COLORS.splitLine} fontSize={5}>MOUNTBAR</text>
                 {/* Mountbar right */}
-                <rect x={200} y={40} width={12} height={40} fill="#22c55e22" stroke="#22c55e" strokeWidth={0.8} rx={1} />
-                <circle cx={206} cy={52} r={2} fill="none" stroke="#22c55e" strokeWidth={0.8} />
-                <circle cx={206} cy={68} r={2} fill="none" stroke="#22c55e" strokeWidth={0.8} />
+                <rect x={200} y={40} width={12} height={40} fill={SVG_COLORS.splitFill} stroke={SVG_COLORS.splitLine} strokeWidth={0.8} rx={1} />
+                <circle cx={206} cy={52} r={2} fill="none" stroke={SVG_COLORS.splitLine} strokeWidth={0.8} />
+                <circle cx={206} cy={68} r={2} fill="none" stroke={SVG_COLORS.splitLine} strokeWidth={0.8} />
                 {/* Left ear */}
-                <rect x={30} y={25} width={50} height={70} fill="#22c55e08" stroke="#22c55e" strokeWidth={0.8} rx={1} strokeDasharray="4,2" />
-                <text x={55} y={55} textAnchor="middle" fill="#22c55e" fontSize={7}>LEFT EAR</text>
-                <path d="M 80 38 L 80 30 L 90 30 L 90 38" fill="none" stroke="#22c55e" strokeWidth={0.8} />
-                <path d="M 80 82 L 80 90 L 90 90 L 90 82" fill="none" stroke="#22c55e" strokeWidth={0.8} />
+                <rect x={30} y={25} width={50} height={70} fill={SVG_COLORS.splitFill} stroke={SVG_COLORS.splitLine} strokeWidth={0.8} rx={1} strokeDasharray="4,2" />
+                <text x={55} y={55} textAnchor="middle" fill={SVG_COLORS.splitLine} fontSize={7}>LEFT EAR</text>
+                <path d="M 80 38 L 80 30 L 90 30 L 90 38" fill="none" stroke={SVG_COLORS.splitLine} strokeWidth={0.8} />
+                <path d="M 80 82 L 80 90 L 90 90 L 90 82" fill="none" stroke={SVG_COLORS.splitLine} strokeWidth={0.8} />
                 {/* Right ear */}
-                <rect x={220} y={25} width={50} height={70} fill="#4a90d908" stroke="#4a90d9" strokeWidth={0.8} rx={1} strokeDasharray="4,2" />
-                <text x={245} y={55} textAnchor="middle" fill="#4a90d9" fontSize={7}>RIGHT EAR</text>
+                <rect x={220} y={25} width={50} height={70} fill={SVG_COLORS.modularFill} stroke={SVG_COLORS.modularStroke} strokeWidth={0.8} rx={1} strokeDasharray="4,2" />
+                <text x={245} y={55} textAnchor="middle" fill={SVG_COLORS.modularStroke} fontSize={7}>RIGHT EAR</text>
                 {/* Arrows */}
-                <text x={78} y={62} textAnchor="middle" fill="#22c55e" fontSize={10}>&rarr;</text>
-                <text x={222} y={62} textAnchor="middle" fill="#4a90d9" fontSize={10}>&larr;</text>
-                <text x={150} y={110} textAnchor="middle" fill="#999" fontSize={6} fontFamily="inherit">Ears slide onto mountbar pins &bull; Friction-fit or M3 bolt</text>
+                <text x={78} y={62} textAnchor="middle" fill={SVG_COLORS.splitLine} fontSize={10}>&rarr;</text>
+                <text x={222} y={62} textAnchor="middle" fill={SVG_COLORS.modularStroke} fontSize={10}>&larr;</text>
+                <text x={150} y={110} textAnchor="middle" fill={SVG_COLORS.elementText} fontSize={6} fontFamily="inherit">Ears slide onto mountbar pins &bull; Friction-fit or M3 bolt</text>
               </svg>
             </div>
           )}

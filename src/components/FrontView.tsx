@@ -8,6 +8,7 @@ import { useReinforcement } from '../hooks/useReinforcement';
 import { loadOutlineIndex, loadOutlinePath, getCachedOutlinePath, hasOutline } from '../catalog/outlines';
 import { parseCatalogDragData } from '../hooks/useCatalogDrag';
 import { useCatalogStore, selectDeviceMap, selectConnectorMap } from '../catalog/useCatalogStore';
+import { SVG_COLORS } from '../lib/svgTheme';
 import type { PanelElement } from '../types';
 
 const SC = 1.15;
@@ -320,7 +321,7 @@ export function FrontView() {
             cx={OX + EIA.EAR_WIDTH * SC + gx * SC}
             cy={OY + gy * SC}
             r={0.4}
-            fill="#555"
+            fill={SVG_COLORS.gridDot}
           />
         );
       }
@@ -387,7 +388,7 @@ export function FrontView() {
 
   return (
     <div
-      className={`flex-1 flex items-center justify-center overflow-auto p-4 bg-[#1a1a22] transition-all ${
+      className={`flex-1 flex items-center justify-center overflow-auto p-4 bg-bg-main transition-all ${
         isDragOver ? 'ring-2 ring-primary/30 ring-inset' : ''
       }`}
       onDragOver={handleDragOver}
@@ -405,24 +406,24 @@ export function FrontView() {
         {/* Background + grid dots */}
         <defs>
           <pattern id="g" width={5 * SC} height={5 * SC} patternUnits="userSpaceOnUse" patternTransform={`translate(${OX},${OY})`}>
-            <circle cx={5 * SC} cy={5 * SC} r={0.3} fill="#333" />
+            <circle cx={5 * SC} cy={5 * SC} r={0.3} fill={SVG_COLORS.gridDot} />
           </pattern>
         </defs>
-        <rect width={vW} height={vH} fill="#1e1e24" />
+        <rect width={vW} height={vH} fill={SVG_COLORS.canvasBg} />
         <rect width={vW} height={vH} fill="url(#g)" />
 
         {/* Total panel outline (dashed) */}
-        <rect x={OX} y={OY} width={totW * SC} height={panH * SC} fill="none" stroke="#444" strokeWidth={0.4} strokeDasharray="4,4" />
+        <rect x={OX} y={OY} width={totW * SC} height={panH * SC} fill="none" stroke={SVG_COLORS.panelStroke} strokeWidth={0.4} strokeDasharray="4,4" />
 
         {/* Split lines */}
         {needsSplit && splitInfo.type === '3-piece' && (() => {
           const earW = splitInfo.parts[1].w;
           return [earW, totW - earW].map((sx, i) => (
-            <line key={`sl${i}`} x1={OX + sx * SC} y1={OY - 8} x2={OX + sx * SC} y2={OY + panH * SC + 8} stroke="#22c55e" strokeWidth={1} strokeDasharray="6,3" />
+            <line key={`sl${i}`} x1={OX + sx * SC} y1={OY - 8} x2={OX + sx * SC} y2={OY + panH * SC + 8} stroke={SVG_COLORS.splitLine} strokeWidth={1} strokeDasharray="6,3" />
           ));
         })()}
         {needsSplit && splitInfo.type === '2-piece' && (
-          <line x1={OX + (totW / 2) * SC} y1={OY - 8} x2={OX + (totW / 2) * SC} y2={OY + panH * SC + 8} stroke="#22c55e" strokeWidth={1} strokeDasharray="6,3" />
+          <line x1={OX + (totW / 2) * SC} y1={OY - 8} x2={OX + (totW / 2) * SC} y2={OY + panH * SC + 8} stroke={SVG_COLORS.splitLine} strokeWidth={1} strokeDasharray="6,3" />
         )}
 
         {/* Ears */}
@@ -433,7 +434,7 @@ export function FrontView() {
             y={OY}
             width={EIA.EAR_WIDTH * SC}
             height={panH * SC}
-            fill="#2a2a32" stroke="#555" strokeWidth={0.4}
+            fill={SVG_COLORS.earFill} stroke={SVG_COLORS.earStroke} strokeWidth={0.4}
           />
         ))}
 
@@ -448,7 +449,7 @@ export function FrontView() {
               x={OX + (s === 0 ? (EIA.EAR_WIDTH / 2 - boreW / 2) * SC : (totW - EIA.EAR_WIDTH / 2 - boreW / 2) * SC)}
               y={OY + by * SC - boreH / 2 * SC}
               width={boreW * SC} height={boreH * SC} rx={boreR * SC}
-              fill="#1e1e24" stroke="#555" strokeWidth={0.35}
+              fill={SVG_COLORS.boreFill} stroke={SVG_COLORS.boreStroke} strokeWidth={0.35}
             />
           ));
         })}
@@ -457,8 +458,8 @@ export function FrontView() {
         <rect
           x={OX + EIA.EAR_WIDTH * SC} y={OY}
           width={panW * SC} height={panH * SC}
-          fill="#2e2e38"
-          stroke={fabMethod === '3dp' ? '#22c55e' : '#f7b600'}
+          fill={SVG_COLORS.panelFace}
+          stroke={fabMethod === '3dp' ? SVG_COLORS.splitLine : SVG_COLORS.warning}
           strokeWidth={0.8}
         />
 
@@ -466,7 +467,7 @@ export function FrontView() {
         <line
           x1={OX + (totW / 2) * SC} y1={OY}
           x2={OX + (totW / 2) * SC} y2={OY + panH * SC}
-          stroke="#333" strokeWidth={0.3} strokeDasharray="2,4"
+          stroke={SVG_COLORS.gridDot} strokeWidth={0.3} strokeDasharray="2,4"
         />
 
         {/* Lockpin indicators for 3-piece split */}
@@ -480,11 +481,11 @@ export function FrontView() {
               <rect
                 x={OX + (sx - BASE.UNIT / 2) * SC} y={OY}
                 width={mbW} height={panH * SC}
-                fill="#22c55e11" stroke="#22c55e" strokeWidth={0.5} strokeDasharray="3,2"
+                fill={SVG_COLORS.splitFill} stroke={SVG_COLORS.splitLine} strokeWidth={0.5} strokeDasharray="3,2"
               />
-              <circle cx={OX + sx * SC} cy={pinY1} r={2.5} fill="none" stroke="#22c55e" strokeWidth={0.8} />
-              <circle cx={OX + sx * SC} cy={pinY2} r={2.5} fill="none" stroke="#22c55e" strokeWidth={0.8} />
-              <text x={OX + sx * SC} y={OY - 12} textAnchor="middle" fill="#22c55e" fontSize={6} fontFamily="inherit">LOCKPIN</text>
+              <circle cx={OX + sx * SC} cy={pinY1} r={2.5} fill="none" stroke={SVG_COLORS.splitLine} strokeWidth={0.8} />
+              <circle cx={OX + sx * SC} cy={pinY2} r={2.5} fill="none" stroke={SVG_COLORS.splitLine} strokeWidth={0.8} />
+              <text x={OX + sx * SC} y={OY - 12} textAnchor="middle" fill={SVG_COLORS.splitLine} fontSize={6} fontFamily="inherit">LOCKPIN</text>
             </g>
           ));
         })()}
@@ -500,7 +501,7 @@ export function FrontView() {
             y1={OY - 4}
             x2={OX + EIA.EAR_WIDTH * SC + gx * SC}
             y2={OY + panH * SC + 4}
-            stroke="#ff5500" strokeWidth={0.5} strokeDasharray="2,2" opacity={0.7}
+            stroke={SVG_COLORS.accent} strokeWidth={0.5} strokeDasharray="2,2" opacity={0.7}
           />
         ))}
         {drag && snapGuides.guidesH.map((gy, i) => (
@@ -510,7 +511,7 @@ export function FrontView() {
             y1={OY + gy * SC}
             x2={OX + EIA.EAR_WIDTH * SC + panW * SC + 4}
             y2={OY + gy * SC}
-            stroke="#ff5500" strokeWidth={0.5} strokeDasharray="2,2" opacity={0.7}
+            stroke={SVG_COLORS.accent} strokeWidth={0.5} strokeDasharray="2,2" opacity={0.7}
           />
         ))}
 
@@ -522,7 +523,7 @@ export function FrontView() {
             y={OY + (rib.y - rib.h / 2) * SC}
             width={rib.w * SC}
             height={rib.h * SC}
-            fill="#4338ca22" stroke="#6366f1" strokeWidth={0.5} strokeDasharray="2,2"
+            fill={SVG_COLORS.ribFill} stroke={SVG_COLORS.ribStroke} strokeWidth={0.5} strokeDasharray="2,2"
             rx={1}
           />
         ))}
@@ -553,7 +554,7 @@ export function FrontView() {
                 <rect
                   x={ex - 3} y={ey - 3}
                   width={ew + 6} height={eh + 6}
-                  fill="none" stroke="#ff5500" strokeWidth={1} strokeDasharray="3,2"
+                  fill="none" stroke={SVG_COLORS.accent} strokeWidth={1} strokeDasharray="3,2"
                   rx={isR || isFan ? (ew + 6) / 2 : 2}
                 />
               )}
@@ -563,7 +564,7 @@ export function FrontView() {
                 <rect
                   x={ex - 2} y={ey - 2}
                   width={ew + 4} height={eh + 4}
-                  fill="none" stroke="#ef4444" strokeWidth={0.8} strokeDasharray="2,2" rx={2}
+                  fill="none" stroke={SVG_COLORS.danger} strokeWidth={0.8} strokeDasharray="2,2" rx={2}
                 />
               )}
 
@@ -572,7 +573,7 @@ export function FrontView() {
                 <rect
                   x={ex - 2} y={ey - 2}
                   width={ew + 4} height={eh + 4}
-                  fill="none" stroke="#f97316" strokeWidth={0.8} strokeDasharray="2,2" rx={2}
+                  fill="none" stroke={SVG_COLORS.warning} strokeWidth={0.8} strokeDasharray="2,2" rx={2}
                 />
               )}
 
@@ -581,7 +582,7 @@ export function FrontView() {
                 <rect
                   x={ex - 1.5} y={ey - 1.5}
                   width={ew + 3} height={eh + 3}
-                  fill="none" stroke="#fb923c" strokeWidth={0.6} strokeDasharray="3,1" rx={2}
+                  fill="none" stroke={SVG_COLORS.warning} strokeWidth={0.6} strokeDasharray="3,1" rx={2}
                 />
               )}
 
@@ -590,39 +591,39 @@ export function FrontView() {
                 <rect
                   x={ex - 2.5} y={ey - 2.5}
                   width={ew + 5} height={eh + 5}
-                  fill="#ff444410" stroke="#ff4444" strokeWidth={1} strokeDasharray="4,2" rx={2}
+                  fill={SVG_COLORS.accentSubtle} stroke={SVG_COLORS.danger} strokeWidth={1} strokeDasharray="4,2" rx={2}
                 />
               )}
 
               {/* Fan shape (circle + 4 bolt holes) */}
               {isFan ? (
                 <>
-                  <circle cx={cx} cy={cy} r={ew / 2} fill={isRearSurface ? '#ffffff00' : '#282830'} stroke="#555" strokeWidth={0.6} strokeDasharray={isRearSurface ? '3,2' : 'none'} />
+                  <circle cx={cx} cy={cy} r={ew / 2} fill={isRearSurface ? 'transparent' : SVG_COLORS.deviceFill} stroke={SVG_COLORS.elementStroke} strokeWidth={0.6} strokeDasharray={isRearSurface ? '3,2' : 'none'} />
                   {/* Center cutout circle */}
-                  <circle cx={cx} cy={cy} r={((lib as typeof FANS[string])?.cutoutDiameter ?? el.w * 0.8) / 2 * SC} fill="#1e1e24" stroke="#666" strokeWidth={0.4} />
+                  <circle cx={cx} cy={cy} r={((lib as typeof FANS[string])?.cutoutDiameter ?? el.w * 0.8) / 2 * SC} fill={SVG_COLORS.connectorFill} stroke={SVG_COLORS.boreStroke} strokeWidth={0.4} />
                   {/* 4 bolt holes */}
                   {(() => {
                     const hs = ((lib as typeof FANS[string])?.holeSpacing ?? el.w * 0.85) / 2 * SC;
                     return [[-1,-1],[-1,1],[1,-1],[1,1]].map(([dx,dy], bi) => (
-                      <circle key={bi} cx={cx + dx * hs} cy={cy + dy * hs} r={1.5} fill="#1e1e24" stroke="#666" strokeWidth={0.3} />
+                      <circle key={bi} cx={cx + dx * hs} cy={cy + dy * hs} r={1.5} fill={SVG_COLORS.connectorFill} stroke={SVG_COLORS.boreStroke} strokeWidth={0.3} />
                     ));
                   })()}
-                  {isRearSurface && <text x={cx} y={cy - ew / 2 - 4} textAnchor="middle" fill="#888" fontSize={5} fontFamily="inherit">REAR</text>}
+                  {isRearSurface && <text x={cx} y={cy - ew / 2 - 4} textAnchor="middle" fill={SVG_COLORS.elementText} fontSize={5} fontFamily="inherit">REAR</text>}
                 </>
               ) : el.type === 'connector' ? (
                 isR ? (
                   <circle
                     cx={cx} cy={cy}
                     r={((lib && 'r' in lib ? (lib as typeof CONNECTORS[string]).r : el.w / 2) ?? el.w / 2) * SC}
-                    fill="#1e1e24"
-                    stroke={lib && 'color' in lib ? lib.color : '#666'}
+                    fill={SVG_COLORS.connectorFill}
+                    stroke={lib && 'color' in lib ? lib.color : SVG_COLORS.boreStroke}
                     strokeWidth={1}
                   />
                 ) : (
                   <rect
                     x={ex} y={ey} width={ew} height={eh}
-                    rx={1} fill="#1e1e24"
-                    stroke={lib && 'color' in lib ? lib.color : '#666'}
+                    rx={1} fill={SVG_COLORS.connectorFill}
+                    stroke={lib && 'color' in lib ? lib.color : SVG_COLORS.boreStroke}
                     strokeWidth={1}
                   />
                 )
@@ -634,8 +635,8 @@ export function FrontView() {
                       <path
                         d={outlinePath}
                         transform={`translate(${ex}, ${ey}) scale(${SC})`}
-                        fill="#282830"
-                        stroke={lib && 'color' in lib ? lib.color : '#888'}
+                        fill={SVG_COLORS.deviceFill}
+                        stroke={lib && 'color' in lib ? lib.color : SVG_COLORS.elementText}
                         strokeWidth={0.6 / SC}
                       />
                     );
@@ -644,12 +645,12 @@ export function FrontView() {
                     <>
                       <rect
                         x={ex} y={ey} width={ew} height={eh}
-                        rx={1.5} fill="#282830"
-                        stroke={lib && 'color' in lib ? lib.color : '#888'}
+                        rx={1.5} fill={SVG_COLORS.deviceFill}
+                        stroke={lib && 'color' in lib ? lib.color : SVG_COLORS.elementText}
                         strokeWidth={0.6}
                       />
-                      <line x1={ex} y1={ey} x2={ex + ew} y2={ey + eh} stroke="#444" strokeWidth={0.3} />
-                      <line x1={ex + ew} y1={ey} x2={ex} y2={ey + eh} stroke="#444" strokeWidth={0.3} />
+                      <line x1={ex} y1={ey} x2={ex + ew} y2={ey + eh} stroke={SVG_COLORS.panelStroke} strokeWidth={0.3} />
+                      <line x1={ex + ew} y1={ey} x2={ex} y2={ey + eh} stroke={SVG_COLORS.panelStroke} strokeWidth={0.3} />
                     </>
                   );
                 })()
@@ -659,7 +660,7 @@ export function FrontView() {
               <text
                 x={cx} y={cy + 1}
                 textAnchor="middle" dominantBaseline="central"
-                fill={isFan ? '#aaa' : el.type === 'connector' ? (lib && 'color' in lib ? lib.color : '#aaa') : '#bbb'}
+                fill={isFan ? SVG_COLORS.elementText : el.type === 'connector' ? (lib && 'color' in lib ? lib.color : SVG_COLORS.elementText) : SVG_COLORS.textSecondary}
                 fontSize={Math.min(ew, eh) * (el.type === 'connector' ? 0.38 : isFan ? 0.2 : 0.1)}
                 fontFamily="inherit"
               >
@@ -672,8 +673,8 @@ export function FrontView() {
                   <title>Device not found in current catalog</title>
                   <polygon
                     points={`${ex + ew - 1},${ey + 1} ${ex + ew + 7},${ey + 1} ${ex + ew + 3},${ey + 9}`}
-                    fill="#f59e0b"
-                    stroke="#92400e"
+                    fill={SVG_COLORS.warning}
+                    stroke={SVG_COLORS.panelStroke}
                     strokeWidth={0.5}
                   />
                   <text
@@ -681,7 +682,7 @@ export function FrontView() {
                     y={ey + 6.5}
                     textAnchor="middle"
                     dominantBaseline="central"
-                    fill="#451a03"
+                    fill={SVG_COLORS.canvasBg}
                     fontSize={6}
                     fontWeight="bold"
                     fontFamily="inherit"
@@ -703,7 +704,7 @@ export function FrontView() {
                       <path
                         d={iconPath}
                         transform={`translate(${lp.cx - iconOffset - 4}, ${lp.y - 4}) scale(1)`}
-                        fill="#777"
+                        fill={SVG_COLORS.labelIcon}
                         stroke="none"
                       />
                     )}
@@ -712,7 +713,7 @@ export function FrontView() {
                       y={lp.y}
                       textAnchor="middle"
                       dominantBaseline={lp.position === 'inside' ? 'central' : 'auto'}
-                      fill="#555"
+                      fill={SVG_COLORS.labelText}
                       fontSize={5}
                       fontFamily="inherit"
                     >
@@ -729,7 +730,7 @@ export function FrontView() {
         <text
           x={OX + (EIA.EAR_WIDTH + panW / 2) * SC}
           y={OY + panH * SC + 24}
-          textAnchor="middle" fill="#ff5500" fontSize={7} fontFamily="inherit"
+          textAnchor="middle" fill={SVG_COLORS.accent} fontSize={7} fontFamily="inherit"
         >
           {panW.toFixed(1)}mm ({totW === EIA.RACK_19 ? '19' : '10'}")
         </text>
@@ -737,7 +738,7 @@ export function FrontView() {
           x={OX + totW * SC + 20}
           y={OY + panH * SC / 2}
           textAnchor="start" dominantBaseline="central"
-          fill="#ff5500" fontSize={7} fontFamily="inherit"
+          fill={SVG_COLORS.accent} fontSize={7} fontFamily="inherit"
           transform={`rotate(90 ${OX + totW * SC + 20} ${OY + panH * SC / 2})`}
         >
           {panH.toFixed(1)}mm ({useConfigStore.getState().uHeight}U)
