@@ -19,7 +19,7 @@ Decimal phases appear between their surrounding integers in numeric order.
 - [ ] **Phase 4: Guided Wizard + Smart Auto-Layout** - Multi-step onboarding wizard and connector-grouping auto-layout replacing the greedy left-to-right algorithm
 - [ ] **Phase 5: UI + 3D Polish** - shadcn/ui component migration with Slate/Teal theme, PBR materials and CSG cutout geometry in 3D preview, Cmd+K command palette, and stable selector tests
 - [ ] **Phase 6: Cost Estimation + Community Contributions** - Filament and sheet metal cost range estimates, and GitHub PR contribution pipeline for community equipment submissions
-- [ ] **Phase 7: Tech Debt Cleanup** - Fix CAT-05 Sidebar reactive selector, delete dead Toast.tsx, set Cloudflare analytics token
+- [x] **Phase 7: Tech Debt Cleanup** - Fix CAT-05 Sidebar reactive selector, delete dead Toast.tsx, set Cloudflare analytics token (completed 2026-02-23)
 
 ## Phase Details
 
