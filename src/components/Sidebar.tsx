@@ -9,13 +9,13 @@ import { METALS, FILAMENTS } from '../constants/materials';
 import { PRINTERS } from '../constants/printers';
 import { BORE_HOLES } from '../constants/eia310';
 import type { FabMethod, RackStandard, PlacementSurface, AssemblyMode, EnclosureStyle, MountHoleType, ElementLabel } from '../types';
-import { SectionLabel } from './ui-legacy/SectionLabel';
-import { SelectField } from './ui-legacy/SelectField';
-import { SliderField } from './ui-legacy/SliderField';
-import { Checkbox } from './ui-legacy/Checkbox';
-import { ToggleButton } from './ui-legacy/ToggleButton';
-import { PaletteItem } from './ui-legacy/PaletteItem';
-import { PropertyRow } from './ui-legacy/PropertyRow';
+import { Select, SelectTrigger, SelectContent, SelectItem, SelectValue } from './ui/select';
+import { Slider } from './ui/slider';
+import { Checkbox } from './ui/checkbox';
+import { Toggle } from './ui/toggle';
+import { Button } from './ui/button';
+import { Label } from './ui/label';
+import { Input } from './ui/input';
 import { CustomDeviceModal } from './CustomDeviceModal';
 
 function confidenceBadge(level: string): { label: string; color: string } {
@@ -26,6 +26,104 @@ function confidenceBadge(level: string): { label: string; color: string } {
     case 'estimated': return { label: 'Estimated', color: '#fb923c' };
     default: return { label: level, color: '#888' };
   }
+}
+
+function SectionLabel({ children }: { children: React.ReactNode }) {
+  return (
+    <div className="text-[8px] font-bold text-muted-foreground tracking-[.12em] uppercase mb-[5px] mt-2">
+      {children}
+    </div>
+  );
+}
+
+function PropertyRow({ label, value }: { label: string; value: string | undefined }) {
+  return (
+    <div className="flex justify-between py-[1px] border-b border-border/50 text-[9px]">
+      <span className="text-muted-foreground">{label}</span>
+      <span className="text-foreground/80">{value}</span>
+    </div>
+  );
+}
+
+function PaletteItem({ onClick, icon, iconColor, name, desc, meta }: {
+  onClick: () => void; icon: string; iconColor: string; name: string; desc: string; meta?: string;
+}) {
+  return (
+    <Button
+      variant="ghost"
+      onClick={onClick}
+      className="flex items-center gap-[6px] w-full px-[5px] py-1 h-auto rounded-[2px] text-left text-foreground font-mono text-[9px] justify-start"
+    >
+      <span className="text-[13px] w-[18px] text-center" style={{ color: iconColor }}>{icon}</span>
+      <div className="flex-1 min-w-0">
+        <div className="font-semibold">{name}</div>
+        <div className="text-[7px] text-muted-foreground whitespace-nowrap overflow-hidden text-ellipsis">{desc}</div>
+      </div>
+      {meta && <div className="text-[7px] text-muted-foreground/50 whitespace-nowrap">{meta}</div>}
+    </Button>
+  );
+}
+
+function CompactSelect({ label, value, onValueChange, options, full }: {
+  label: string; value: string; onValueChange: (v: string) => void; options: [string | number, string][]; full?: boolean;
+}) {
+  return (
+    <div className={`flex flex-col gap-[1px] ${full ? 'flex-1 w-full' : ''}`}>
+      <Label className="text-[7px] text-muted-foreground tracking-[.08em] font-normal">{label}</Label>
+      <Select value={String(value)} onValueChange={onValueChange}>
+        <SelectTrigger className="h-7 text-[9px] font-mono bg-input/30 border-border px-[5px] py-[3px]">
+          <SelectValue />
+        </SelectTrigger>
+        <SelectContent>
+          {options.map(([v, l]) => (
+            <SelectItem key={v} value={String(v)} className="text-[9px] font-mono">{l}</SelectItem>
+          ))}
+        </SelectContent>
+      </Select>
+    </div>
+  );
+}
+
+function CompactSlider({ label, value, onChange, min, max, step, unit }: {
+  label: string; value: number; onChange: (v: number) => void; min: number; max: number; step: number; unit: string;
+}) {
+  return (
+    <div className="flex items-center gap-[6px] text-[9px] mt-1">
+      <span className="text-muted-foreground min-w-[60px]">{label}</span>
+      <Slider
+        value={[value]}
+        onValueChange={([v]) => onChange(v)}
+        min={min}
+        max={max}
+        step={step}
+        className="flex-1"
+      />
+      <span className="text-muted-foreground/70 min-w-[30px] text-right">{value}{unit}</span>
+    </div>
+  );
+}
+
+function CompactCheckbox({ label, checked, onChange }: { label: string; checked: boolean; onChange: (v: boolean) => void }) {
+  return (
+    <label className="flex items-center gap-1.5 text-[9px] text-muted-foreground cursor-pointer">
+      <Checkbox checked={checked} onCheckedChange={v => onChange(v === true)} className="size-3" />
+      {label}
+    </label>
+  );
+}
+
+function FabToggle({ label, active, onClick }: { label: string; active: boolean; onClick: () => void }) {
+  return (
+    <Toggle
+      pressed={active}
+      onPressedChange={() => onClick()}
+      variant="outline"
+      size="xs"
+      className="flex-1 text-[9px] font-bold font-mono data-[state=on]:bg-primary data-[state=on]:text-primary-foreground"
+    >
+      {label}
+    </Toggle>
+  );
 }
 
 export function Sidebar() {
@@ -102,23 +200,23 @@ export function Sidebar() {
   const printer = useConfigStore(selectPrinter);
 
   const budgetPct = Math.min(100, (usedWidth / panDims.panelWidth) * 100);
-  const budgetColor = remainingWidth < 0 ? '#ef4444' : remainingWidth < 30 ? '#f7b600' : '#4ade80';
+  const budgetColor = remainingWidth < 0 ? '#ef4444' : remainingWidth < 30 ? 'oklch(0.72 0.15 185)' : '#4ade80';
 
   return (
-    <div className="w-[264px] shrink-0 bg-bg-secondary border-r border-border overflow-y-auto overflow-x-hidden p-3 text-[10px]">
+    <div className="w-[264px] shrink-0 bg-secondary border-r border-border overflow-y-auto overflow-x-hidden p-3 text-[10px]">
       {/* Panel config */}
       <SectionLabel>PANEL</SectionLabel>
       <div className="flex gap-[5px] mb-[6px]">
-        <SelectField
+        <CompactSelect
           label="Std"
           value={standard}
-          onChange={v => setStandard(v as RackStandard)}
+          onValueChange={v => setStandard(v as RackStandard)}
           options={[['19', '19"'], ['10', '10"']]}
         />
-        <SelectField
+        <CompactSelect
           label="U"
-          value={uHeight}
-          onChange={v => setUHeight(+v)}
+          value={String(uHeight)}
+          onValueChange={v => setUHeight(+v)}
           options={[[1, '1U'], [2, '2U'], [3, '3U'], [4, '4U']]}
         />
       </div>
@@ -126,35 +224,35 @@ export function Sidebar() {
       {/* Fabrication */}
       <SectionLabel>FABRICATION</SectionLabel>
       <div className="flex gap-[5px] mb-[6px]">
-        <ToggleButton active={fabMethod === '3dp'} onClick={() => setFabMethod('3dp')} color="#22c55e">3D Print</ToggleButton>
-        <ToggleButton active={fabMethod === 'sm'} onClick={() => setFabMethod('sm')} color="#f7b600">Sheet Metal</ToggleButton>
+        <FabToggle label="3D Print" active={fabMethod === '3dp'} onClick={() => setFabMethod('3dp')} />
+        <FabToggle label="Sheet Metal" active={fabMethod === 'sm'} onClick={() => setFabMethod('sm')} />
       </div>
 
       {fabMethod === '3dp' ? (
         <div className="mt-[6px]">
-          <SelectField
+          <CompactSelect
             label="Printer" value={printerKey}
-            onChange={setPrinterKey}
+            onValueChange={setPrinterKey}
             options={Object.entries(PRINTERS).map(([k, v]) => [k, v.name])} full
           />
-          <SelectField
+          <CompactSelect
             label="Filament" value={filamentKey}
-            onChange={setFilamentKey}
+            onValueChange={setFilamentKey}
             options={Object.entries(FILAMENTS).map(([k, v]) => [k, `${v.name} (${v.heat})`])} full
           />
-          <SliderField label="Wall" value={wallThickness} onChange={setWallThickness} min={2} max={6} step={0.5} unit="mm" color="#22c55e" />
+          <CompactSlider label="Wall" value={wallThickness} onChange={setWallThickness} min={2} max={6} step={0.5} unit="mm" />
           {needsSplit && (
-            <div className="mt-[6px] px-[7px] py-[5px] bg-[#1a1406] border border-[#f7b60033] rounded-[3px] text-[9px] text-accent-gold">
+            <div className="mt-[6px] px-[7px] py-[5px] bg-primary/10 border border-primary/20 rounded-[3px] text-[9px] text-primary">
               &#9888; {splitInfo.type}: {splitInfo.desc}
             </div>
           )}
-          <div className="text-[8px] text-text-muted mt-1">Bed: {printer.bed.join('\u00d7')}mm</div>
+          <div className="text-[8px] text-muted-foreground mt-1">Bed: {printer.bed.join('\u00d7')}mm</div>
         </div>
       ) : (
         <div className="mt-[6px]">
-          <SelectField
+          <CompactSelect
             label="Material" value={metalKey}
-            onChange={setMetalKey}
+            onValueChange={setMetalKey}
             options={Object.entries(METALS).map(([k, v]) => [k, v.name])} full
           />
         </div>
@@ -163,20 +261,20 @@ export function Sidebar() {
       {/* Assembly */}
       <SectionLabel>ASSEMBLY</SectionLabel>
       <div className="flex gap-[5px] mb-[6px]">
-        <ToggleButton active={assemblyMode === 'monolithic'} onClick={() => setAssemblyMode('monolithic')} color="#888">Monolithic</ToggleButton>
-        <ToggleButton active={assemblyMode === 'modular'} onClick={() => setAssemblyMode('modular')} color="#4a90d9">Modular</ToggleButton>
+        <FabToggle label="Monolithic" active={assemblyMode === 'monolithic'} onClick={() => setAssemblyMode('monolithic')} />
+        <FabToggle label="Modular" active={assemblyMode === 'modular'} onClick={() => setAssemblyMode('modular')} />
       </div>
       {assemblyMode === 'modular' && (
         <div className="mt-[6px]">
-          <div className="flex gap-[5px] mb-[3px]">
-            <span className="text-[8px] text-text-label w-[50px]">Faceplate</span>
-            <ToggleButton active={faceFabMethod === '3dp'} onClick={() => setFaceFabMethod('3dp')} color="#22c55e">3DP</ToggleButton>
-            <ToggleButton active={faceFabMethod === 'sm'} onClick={() => setFaceFabMethod('sm')} color="#f7b600">SM</ToggleButton>
+          <div className="flex gap-[5px] mb-[3px] items-center">
+            <span className="text-[8px] text-muted-foreground w-[50px]">Faceplate</span>
+            <FabToggle label="3DP" active={faceFabMethod === '3dp'} onClick={() => setFaceFabMethod('3dp')} />
+            <FabToggle label="SM" active={faceFabMethod === 'sm'} onClick={() => setFaceFabMethod('sm')} />
           </div>
-          <div className="flex gap-[5px]">
-            <span className="text-[8px] text-text-label w-[50px]">Trays</span>
-            <ToggleButton active={trayFabMethod === '3dp'} onClick={() => setTrayFabMethod('3dp')} color="#22c55e">3DP</ToggleButton>
-            <ToggleButton active={trayFabMethod === 'sm'} onClick={() => setTrayFabMethod('sm')} color="#f7b600">SM</ToggleButton>
+          <div className="flex gap-[5px] items-center">
+            <span className="text-[8px] text-muted-foreground w-[50px]">Trays</span>
+            <FabToggle label="3DP" active={trayFabMethod === '3dp'} onClick={() => setTrayFabMethod('3dp')} />
+            <FabToggle label="SM" active={trayFabMethod === 'sm'} onClick={() => setTrayFabMethod('sm')} />
           </div>
         </div>
       )}
@@ -184,30 +282,30 @@ export function Sidebar() {
       {/* Enclosure */}
       <SectionLabel>ENCLOSURE</SectionLabel>
       <div className="flex gap-[5px] mb-[6px]">
-        <ToggleButton active={enclosureStyle === 'tray'} onClick={() => setEnclosureStyle('tray')} color="#4a90d9">Tray</ToggleButton>
-        <ToggleButton active={enclosureStyle === 'box'} onClick={() => setEnclosureStyle('box')} color="#888">Box</ToggleButton>
+        <FabToggle label="Tray" active={enclosureStyle === 'tray'} onClick={() => setEnclosureStyle('tray')} />
+        <FabToggle label="Box" active={enclosureStyle === 'box'} onClick={() => setEnclosureStyle('box')} />
       </div>
-      <SelectField
+      <CompactSelect
         label="Mount Hole" value={mountHoleType}
-        onChange={v => setMountHoleType(v as MountHoleType)}
+        onValueChange={v => setMountHoleType(v as MountHoleType)}
         options={Object.entries(BORE_HOLES).map(([k, v]) => [k, v.name])} full
       />
-      <SliderField label="Flange Depth" value={flangeDepth} onChange={setFlangeDepth} min={10} max={40} step={1} unit="mm" color="#f7b600" />
+      <CompactSlider label="Flange Depth" value={flangeDepth} onChange={setFlangeDepth} min={10} max={40} step={1} unit="mm" />
       <div className="flex gap-2 mt-1">
-        <Checkbox label="Flanges" checked={flanges} onChange={setFlanges} />
-        <Checkbox label="Chamfers" checked={chamfers} onChange={setChamfers} />
+        <CompactCheckbox label="Flanges" checked={flanges} onChange={setFlanges} />
+        <CompactCheckbox label="Chamfers" checked={chamfers} onChange={setChamfers} />
       </div>
       <div className="flex gap-2 mt-1">
-        <Checkbox label="Rear Panel" checked={rearPanel} onChange={setRearPanel} />
-        <Checkbox label="Vent Slots" checked={ventSlots} onChange={setVentSlots} />
+        <CompactCheckbox label="Rear Panel" checked={rearPanel} onChange={setRearPanel} />
+        <CompactCheckbox label="Vent Slots" checked={ventSlots} onChange={setVentSlots} />
       </div>
-      <div className="text-[9px] text-text-dim mt-1">
-        Auto depth: <b className="text-[#aaa]">{enclosureDepth.toFixed(0)}mm</b> (deepest: {maxDeviceDepth || '\u2014'}mm)
+      <div className="text-[9px] text-muted-foreground mt-1">
+        Auto depth: <b className="text-foreground/70">{enclosureDepth.toFixed(0)}mm</b> (deepest: {maxDeviceDepth || '\u2014'}mm)
       </div>
       <div className="flex items-center gap-2 mt-1">
-        <Checkbox label="Auto Ribs" checked={autoReinforcement} onChange={setAutoReinforcement} />
+        <CompactCheckbox label="Auto Ribs" checked={autoReinforcement} onChange={setAutoReinforcement} />
         {marginWarnings.length > 0 && (
-          <span className="text-[8px] px-[4px] py-[1px] rounded bg-[#f7b60020] text-accent-gold">
+          <span className="text-[8px] px-[4px] py-[1px] rounded bg-primary/10 text-primary">
             {marginWarnings.length} margin{marginWarnings.length > 1 ? 's' : ''}
           </span>
         )}
@@ -215,11 +313,11 @@ export function Sidebar() {
 
       {/* Width budget */}
       <div className="my-2">
-        <div className="flex justify-between text-[8px] text-text-dim mb-[2px]">
+        <div className="flex justify-between text-[8px] text-muted-foreground mb-[2px]">
           <span>WIDTH</span>
           <span style={{ color: budgetColor }}>{remainingWidth.toFixed(0)}mm free</span>
         </div>
-        <div className="h-[3px] bg-bg-input rounded-sm overflow-hidden">
+        <div className="h-[3px] bg-input rounded-sm overflow-hidden">
           <div
             className="h-full rounded-sm transition-[width] duration-300"
             style={{ width: `${budgetPct}%`, background: budgetColor }}
@@ -230,13 +328,13 @@ export function Sidebar() {
       {/* Grid / Snap */}
       <SectionLabel>GRID / SNAP</SectionLabel>
       <div className="flex gap-2 mt-1">
-        <Checkbox label="Grid (G)" checked={gridEnabled} onChange={setGridEnabled} />
-        <Checkbox label="Snap" checked={snapToEdges} onChange={setSnapToEdges} />
+        <CompactCheckbox label="Grid (G)" checked={gridEnabled} onChange={setGridEnabled} />
+        <CompactCheckbox label="Snap" checked={snapToEdges} onChange={setSnapToEdges} />
       </div>
       {gridEnabled && (
-        <SelectField
+        <CompactSelect
           label="Grid Size" value={String(gridSize)}
-          onChange={v => setGridSize(+v)}
+          onValueChange={v => setGridSize(+v)}
           options={[['1', '1mm'], ['2.5', '2.5mm'], ['5', '5mm'], ['7.5', '7.5mm'], ['15', '15mm']]} full
         />
       )}
@@ -247,13 +345,13 @@ export function Sidebar() {
       {/* Add Elements */}
       <SectionLabel>ADD ELEMENTS</SectionLabel>
       <div className="flex gap-[5px] mb-[6px] flex-wrap">
-        <ToggleButton active={addMode === 'con'} onClick={() => setAddMode(addMode === 'con' ? null : 'con')} color="#4a90d9">+ Connector</ToggleButton>
-        <ToggleButton active={addMode === 'dev'} onClick={() => setAddMode(addMode === 'dev' ? null : 'dev')} color="#22c55e">+ Device</ToggleButton>
-        <ToggleButton active={addMode === 'fan'} onClick={() => setAddMode(addMode === 'fan' ? null : 'fan')} color="#888">+ Fan</ToggleButton>
+        <FabToggle label="+ Connector" active={addMode === 'con'} onClick={() => setAddMode(addMode === 'con' ? null : 'con')} />
+        <FabToggle label="+ Device" active={addMode === 'dev'} onClick={() => setAddMode(addMode === 'dev' ? null : 'dev')} />
+        <FabToggle label="+ Fan" active={addMode === 'fan'} onClick={() => setAddMode(addMode === 'fan' ? null : 'fan')} />
       </div>
 
       {addMode === 'con' && (
-        <div className="bg-[#151520] rounded border border-border p-[5px] mb-[6px] max-h-[220px] overflow-y-auto">
+        <div className="bg-card rounded border border-border p-[5px] mb-[6px] max-h-[220px] overflow-y-auto">
           {Object.entries(CONNECTORS).map(([k, c]) => (
             <PaletteItem
               key={k}
@@ -269,7 +367,7 @@ export function Sidebar() {
       )}
 
       {addMode === 'dev' && (
-        <div className="bg-[#151520] rounded border border-border p-[5px] mb-[6px] max-h-[280px] overflow-y-auto">
+        <div className="bg-card rounded border border-border p-[5px] mb-[6px] max-h-[280px] overflow-y-auto">
           {Object.entries(DEVICES).map(([k, d]) => (
             <PaletteItem
               key={k}
@@ -284,7 +382,7 @@ export function Sidebar() {
           {Object.keys(customDevices).length > 0 && (
             <>
               <div className="h-px bg-border my-1" />
-              <div className="text-[7px] text-text-label tracking-[.08em] px-1 mb-1">CUSTOM</div>
+              <div className="text-[7px] text-muted-foreground tracking-[.08em] px-1 mb-1">CUSTOM</div>
               {Object.entries(customDevices).map(([k, d]) => (
                 <div key={k} className="flex items-center gap-1">
                   <div className="flex-1">
@@ -296,29 +394,34 @@ export function Sidebar() {
                       desc={`${d.w}\u00d7${d.d}\u00d7${d.h}mm`}
                     />
                   </div>
-                  <button
+                  <Button
+                    variant="ghost"
+                    size="icon"
                     onClick={() => { setEditCustomKey(k); setShowCustomModal(true); }}
-                    className="bg-transparent border-none text-text-muted cursor-pointer text-[8px] font-mono px-px"
-                  >&#9998;</button>
-                  <button
+                    className="h-5 w-5 text-muted-foreground text-[8px]"
+                  >&#9998;</Button>
+                  <Button
+                    variant="ghost"
+                    size="icon"
                     onClick={() => removeCustomDevice(k)}
-                    className="bg-transparent border-none text-accent-danger cursor-pointer text-[8px] font-mono px-px"
-                  >&#10005;</button>
+                    className="h-5 w-5 text-destructive text-[8px]"
+                  >&#10005;</Button>
                 </div>
               ))}
             </>
           )}
-          <button
+          <Button
+            variant="outline"
             onClick={() => { setEditCustomKey(undefined); setShowCustomModal(true); }}
-            className="w-full mt-1 py-1 rounded-[3px] text-[9px] font-bold font-mono cursor-pointer border border-dashed border-border bg-transparent text-text-muted"
+            className="w-full mt-1 py-1 h-auto text-[9px] font-bold font-mono border-dashed"
           >
             + New Custom Device
-          </button>
+          </Button>
         </div>
       )}
 
       {addMode === 'fan' && (
-        <div className="bg-[#151520] rounded border border-border p-[5px] mb-[6px] max-h-[220px] overflow-y-auto">
+        <div className="bg-card rounded border border-border p-[5px] mb-[6px] max-h-[220px] overflow-y-auto">
           {Object.entries(FANS).map(([k, f]) => (
             <PaletteItem
               key={k}
@@ -338,7 +441,7 @@ export function Sidebar() {
       {/* Placed elements */}
       <SectionLabel>PLACED ({elements.length})</SectionLabel>
       {elements.length === 0 && (
-        <div className="text-[9px] text-[#3a3a3a] italic py-1">Add elements to begin</div>
+        <div className="text-[9px] text-muted-foreground/30 italic py-1">Add elements to begin</div>
       )}
       {elements.map(el => {
         const lib = el.type === 'connector' ? CONNECTORS[el.key] : el.type === 'fan' ? FANS[el.key] : (DEVICES[el.key] ?? customDevices[el.key]);
@@ -348,25 +451,27 @@ export function Sidebar() {
           <div
             key={el.id}
             onClick={() => selectElement(el.id)}
-            className="flex items-center justify-between px-[6px] py-1 rounded-[3px] cursor-pointer mb-[1px]"
-            style={{
-              background: selectedId === el.id ? '#1a1a28' : 'transparent',
-              border: selectedId === el.id ? '1px solid #f7b600' : '1px solid transparent',
-            }}
+            className={`flex items-center justify-between px-[6px] py-1 rounded-[3px] cursor-pointer mb-[1px] border ${
+              selectedId === el.id ? 'bg-card border-primary' : 'border-transparent hover:bg-card/50'
+            }`}
           >
             <div className="flex items-center gap-1 overflow-hidden">
               <span className="text-[12px]" style={{ color: lib?.color || '#888' }}>{icon}</span>
               <span className="whitespace-nowrap overflow-hidden text-ellipsis">{el.label}{surfaceTag}</span>
             </div>
             <div className="flex gap-[2px]">
-              <button
+              <Button
+                variant="ghost"
+                size="icon"
                 onClick={() => duplicateElement(el.id)}
-                className="bg-transparent border-none text-text-muted cursor-pointer text-[10px] px-[1px] font-mono"
-              >&#10697;</button>
-              <button
+                className="h-5 w-5 text-muted-foreground text-[10px]"
+              >&#10697;</Button>
+              <Button
+                variant="ghost"
+                size="icon"
                 onClick={e => { e.stopPropagation(); removeElement(el.id); }}
-                className="bg-transparent border-none text-danger cursor-pointer text-[10px] px-[1px] font-mono"
-              >&#10005;</button>
+                className="h-5 w-5 text-destructive text-[10px]"
+              >&#10005;</Button>
             </div>
           </div>
         );
@@ -401,10 +506,10 @@ export function Sidebar() {
             </>
           )}
           {(selEl.type === 'fan') && (
-            <SelectField
+            <CompactSelect
               label="Surface"
               value={selEl.surface ?? 'faceplate'}
-              onChange={v => setElementSurface(selEl.id, v as PlacementSurface)}
+              onValueChange={v => setElementSurface(selEl.id, v as PlacementSurface)}
               options={[['faceplate', 'Faceplate'], ['rear', 'Rear'], ['side-top', 'Side Top'], ['side-bottom', 'Side Bottom']]}
               full
             />
@@ -420,7 +525,7 @@ export function Sidebar() {
             const badge = confidenceBadge(entry.dataSource);
             return (
               <div className="flex items-center justify-between px-[6px] py-[2px] text-[9px]">
-                <span className="text-text-label">Source</span>
+                <span className="text-muted-foreground">Source</span>
                 <span className="px-[4px] py-[1px] rounded text-[8px] font-semibold" style={{ background: badge.color + '20', color: badge.color }}>
                   {badge.label}
                 </span>
@@ -446,7 +551,6 @@ export function Sidebar() {
                 icon: labelIcon,
                 ...patch,
               };
-              // Clear labelConfig if text is empty and no icon
               if (!current.text && !current.icon) {
                 setElementLabel(selEl.id, undefined);
               } else {
@@ -456,56 +560,49 @@ export function Sidebar() {
 
             return (
               <div className="px-[6px] space-y-[4px]">
-                <input
+                <Input
                   type="text"
                   value={labelText}
                   onChange={e => updateLabel({ text: e.target.value })}
                   placeholder="Label text..."
-                  className="w-full bg-bg-input border border-border rounded px-[6px] py-[3px] text-[10px] text-text-primary outline-none focus:border-accent-gold"
+                  className="h-7 text-[10px] bg-input/30"
                 />
-                <div className="flex gap-1 items-center text-[8px] text-text-label">
+                <div className="flex gap-1 items-center text-[8px] text-muted-foreground">
                   <span className="w-[28px]">Pos</span>
                   {(['above', 'below', 'inside'] as const).map(pos => (
-                    <button
+                    <Button
                       key={pos}
+                      variant={labelPos === pos ? 'default' : 'outline'}
+                      size="xs"
                       onClick={() => updateLabel({ position: pos })}
-                      className="px-[5px] py-[2px] rounded text-[8px] font-mono cursor-pointer border"
-                      style={{
-                        background: labelPos === pos ? '#1a1a28' : 'transparent',
-                        borderColor: labelPos === pos ? '#f7b600' : '#333',
-                        color: labelPos === pos ? '#f7b600' : '#888',
-                      }}
+                      className="h-5 px-[5px] text-[8px] font-mono"
                     >
                       {pos}
-                    </button>
+                    </Button>
                   ))}
                 </div>
                 {selEl.type === 'connector' && (
-                  <label className="flex items-center gap-[4px] text-[9px] text-text-label cursor-pointer">
-                    <input
-                      type="checkbox"
+                  <label className="flex items-center gap-[4px] text-[9px] text-muted-foreground cursor-pointer">
+                    <Checkbox
                       checked={autoNum}
-                      onChange={e => updateLabel({ autoNumber: e.target.checked })}
-                      className="accent-accent-gold"
+                      onCheckedChange={v => updateLabel({ autoNumber: v === true })}
+                      className="size-3"
                     />
                     Auto-number
                   </label>
                 )}
-                <div className="flex gap-1 items-center text-[8px] text-text-label">
+                <div className="flex gap-1 items-center text-[8px] text-muted-foreground">
                   <span className="w-[28px]">Icon</span>
                   {([undefined, 'network', 'video', 'audio', 'power'] as const).map(ic => (
-                    <button
+                    <Button
                       key={ic ?? 'none'}
+                      variant={labelIcon === ic ? 'default' : 'outline'}
+                      size="xs"
                       onClick={() => updateLabel({ icon: ic })}
-                      className="px-[4px] py-[2px] rounded text-[8px] cursor-pointer border"
-                      style={{
-                        background: labelIcon === ic ? '#1a1a28' : 'transparent',
-                        borderColor: labelIcon === ic ? '#f7b600' : '#333',
-                        color: labelIcon === ic ? '#f7b600' : '#888',
-                      }}
+                      className="h-5 px-[4px] text-[8px]"
                     >
                       {ic ?? '--'}
-                    </button>
+                    </Button>
                   ))}
                 </div>
               </div>
