@@ -108,7 +108,7 @@ function CompactSlider({ label, value, onChange, min, max, step, unit }: {
 function CompactCheckbox({ label, checked, onChange }: { label: string; checked: boolean; onChange: (v: boolean) => void }) {
   return (
     <label className="flex items-center gap-1.5 text-[9px] text-muted-foreground cursor-pointer">
-      <Checkbox checked={checked} onCheckedChange={v => onChange(v === true)} className="size-3" />
+      <Checkbox checked={checked} onCheckedChange={(v: boolean | 'indeterminate') => onChange(v === true)} className="size-3" />
       {label}
     </label>
   );
@@ -674,7 +674,7 @@ export function Sidebar() {
                   <label className="flex items-center gap-[4px] text-[9px] text-muted-foreground cursor-pointer">
                     <Checkbox
                       checked={autoNum}
-                      onCheckedChange={v => updateLabel({ autoNumber: v === true })}
+                      onCheckedChange={(v: boolean | 'indeterminate') => updateLabel({ autoNumber: v === true })}
                       className="size-3"
                     />
                     Auto-number
