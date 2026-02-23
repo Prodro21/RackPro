@@ -5,15 +5,15 @@
 See: .planning/PROJECT.md (updated 2026-02-23)
 
 **Core value:** Anyone can design a custom rack mount panel with real equipment dimensions and export a fabrication-ready file — without CAD expertise.
-**Current focus:** Phase 1 Frontend Design Rework — COMPLETE (all 5 plans executed)
+**Current focus:** Phase 2 UX Consolidation — flatten to single-view, modal overlays, grid/header fixes
 
 ## Current Position
 
-Milestone: Frontend Design Rework
-Phase: 01-frontend-design-rework
-Current Plan: 5 of 5 (COMPLETE)
-Status: Phase complete — all pages and components restyled with new theme tokens. Complete visual consistency across dark and light themes.
-Last activity: 2026-02-23 — Plan 05 executed (2 tasks, 13min)
+Milestone: UX Consolidation
+Phase: 02-ux-consolidation
+Current Plan: 1 of 3
+Status: Plan 01 complete — NavSidebar removed, useUIStore created, header subtitle added, sidebar trigger buttons wired
+Last activity: 2026-02-23 — Plan 01 executed (2 tasks, 3min)
 
 ## Performance Metrics
 
@@ -35,6 +35,12 @@ Last activity: 2026-02-23 — Plan 05 executed (2 tasks, 13min)
 | 05-ui-3d-polish | 5 | 48min | 10min |
 | 06-cost-estimation-community-contributions | 2 | 8min | 4min |
 | 07-tech-debt-cleanup | 1 | 2min | 2min |
+
+**Phase 02-ux-consolidation:**
+
+| Plan | Tasks | Duration |
+|------|-------|----------|
+| 02-01 Remove NavSidebar + Routes | 2 | 3min |
 
 ## Accumulated Context
 
@@ -59,6 +65,12 @@ All v1.0 decisions archived in `.planning/milestones/v1.0-ROADMAP.md` and `.plan
 - PWA theme_color updated to #0c0d11 matching --bg-root
 - Data visualization colors (confidence badges, budget bars) kept as inline hex (not theme-dependent)
 
+**Phase 02-ux-consolidation:**
+- Mutually exclusive modals: opening catalog closes wizard and vice versa in useUIStore
+- CommandPalette navigation updated to open modals instead of route navigation
+- NavSidebar.tsx kept on disk but removed from render tree
+- useUIStore pattern: ephemeral UI state (modals, drawers) lives in separate store from config undo/redo stack
+
 ### Pending Todos
 
 None.
@@ -75,5 +87,5 @@ None — clean slate for next milestone.
 ## Session Continuity
 
 Last session: 2026-02-23
-Stopped at: Completed 01-05-PLAN.md (Remaining Pages Restyle) — Phase 01 COMPLETE
-Resume file: .planning/phases/01-frontend-design-rework/01-05-SUMMARY.md
+Stopped at: Completed 02-01-PLAN.md (Remove NavSidebar + Routes)
+Resume file: .planning/phases/02-ux-consolidation/02-01-SUMMARY.md
