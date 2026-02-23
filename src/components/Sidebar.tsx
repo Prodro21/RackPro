@@ -227,7 +227,7 @@ export function Sidebar() {
 
   return (
     <div className="w-[272px] shrink-0 bg-bg-sidebar border-r border-border-subtle flex flex-col overflow-hidden">
-      <div className="flex-1 overflow-y-auto overflow-x-hidden p-4 space-y-5">
+      <div className="flex-1 overflow-y-auto overflow-x-hidden px-5 py-4 space-y-5">
 
         {/* Panel config */}
         <div>
@@ -792,7 +792,7 @@ export function Sidebar() {
 
       {/* Modal trigger buttons */}
       <div className="h-px bg-border-subtle" />
-      <div className="space-y-1.5 px-4 py-3 shrink-0">
+      <div className="space-y-1.5 px-5 py-3 shrink-0">
         <button
           onClick={openCatalogModal}
           className="w-full h-9 text-xs font-medium rounded-md border border-border-default hover:bg-bg-elevated hover:border-border-strong transition-colors"
