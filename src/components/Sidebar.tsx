@@ -1,5 +1,6 @@
 import { useState } from 'react';
-import { useConfigStore, selectPanelDims, selectPanelHeight, selectEnclosureDepth, selectMaxDeviceDepth, selectNeedsSplit, selectSplitInfo, selectUsedWidth, selectRemainingWidth, selectTotalWeight, selectSelectedElement, selectMetal, selectFilament, selectPrinter, selectMarginWarnings, selectAssemblyMode, selectMountHoleType } from '../store';
+import { useConfigStore, selectPanelDims, selectPanelHeight, selectEnclosureDepth, selectMaxDeviceDepth, selectNeedsSplit, selectSplitInfo, selectUsedWidth, selectRemainingWidth, selectTotalWeight, selectSelectedElement, selectMetal, selectFilament, selectPrinter, selectMarginWarnings, selectAssemblyMode, selectMountHoleType, selectCostEstimate } from '../store';
+import { DEFAULT_FILAMENT_PRICES } from '../lib/costEstimation';
 import { useCustomDevices } from '../store/useCustomDevices';
 import { useCatalogStore } from '../catalog/useCatalogStore';
 import { CONNECTORS } from '../constants/connectors';
@@ -199,6 +200,10 @@ export function Sidebar() {
   const metal = useConfigStore(selectMetal);
   const filament = useConfigStore(selectFilament);
   const printer = useConfigStore(selectPrinter);
+  const costEstimate = useConfigStore(selectCostEstimate);
+  const filamentPriceOverrides = useConfigStore(s => s.filamentPriceOverrides);
+  const setFilamentPriceOverride = useConfigStore(s => s.setFilamentPriceOverride);
+  const setActiveTab = useConfigStore(s => s.setActiveTab);
 
   const budgetPct = Math.min(100, (usedWidth / panDims.panelWidth) * 100);
   const budgetColor = remainingWidth < 0 ? '#ef4444' : remainingWidth < 30 ? 'oklch(0.72 0.15 185)' : '#4ade80';
@@ -248,6 +253,22 @@ export function Sidebar() {
             onValueChange={setFilamentKey}
             options={Object.entries(FILAMENTS).map(([k, v]) => [k, `${v.name} (${v.heat})`])} full
           />
+          <div className="flex items-center gap-[6px] text-[9px] mt-1">
+            <span className="text-muted-foreground min-w-[60px]">$/kg</span>
+            <Input
+              type="number"
+              min={1}
+              max={200}
+              step={1}
+              value={filamentPriceOverrides[filamentKey] ?? DEFAULT_FILAMENT_PRICES[filamentKey] ?? 22}
+              onChange={e => {
+                const v = parseFloat(e.target.value);
+                if (!isNaN(v) && v > 0) setFilamentPriceOverride(filamentKey, v);
+              }}
+              className="h-6 w-[60px] text-[9px] font-mono bg-input/30 border-border px-[5px] py-[2px]"
+            />
+            <span className="text-muted-foreground/50 text-[8px]">per kg</span>
+          </div>
           <Tooltip>
             <TooltipTrigger asChild>
               <div>
@@ -367,6 +388,29 @@ export function Sidebar() {
           />
         </div>
       </div>
+
+      {/* Cost Summary Card */}
+      {costEstimate && (
+        <div className="bg-card border border-border rounded-[5px] p-2 my-2">
+          <div className="flex items-center justify-between">
+            <span className="text-[8px] text-muted-foreground tracking-[.08em]">
+              {fabMethod === '3dp' ? 'EST. FDM' : 'EST. SHEET METAL'}
+            </span>
+            <button
+              onClick={() => setActiveTab('export')}
+              className="text-[7px] text-primary hover:underline cursor-pointer bg-transparent border-none p-0"
+            >
+              Details in Export
+            </button>
+          </div>
+          <div className="text-[11px] font-bold text-foreground">
+            ~${costEstimate.low.toFixed(0)}&ndash;${costEstimate.high.toFixed(0)}
+          </div>
+          <div className="text-[8px] text-muted-foreground">
+            {costEstimate.assumptions.find(a => a.label === 'Material')?.value ?? ''}
+          </div>
+        </div>
+      )}
 
       {/* Grid / Snap */}
       <SectionLabel>GRID / SNAP</SectionLabel>

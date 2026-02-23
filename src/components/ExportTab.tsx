@@ -1,5 +1,7 @@
 import { useState, useEffect, useCallback, useMemo } from 'react';
 import { useConfigStore, selectPanelDims, selectPanelHeight, selectEnclosureDepth, selectNeedsSplit, selectSplitInfo, selectBendAllowance90, selectPrinter, selectAssemblyMode, selectFaceFabMethod, selectTrayFabMethod } from '../store';
+import { estimatePrintCost, estimateSheetMetalCost, FILAMENT_DENSITY, DEFAULT_FILAMENT_PRICES, DEFAULT_FILL_FACTOR, SHEET_METAL_RATE_PER_CM2, FABRICATOR_URLS, type CostEstimate } from '../lib/costEstimation';
+import { METALS, FILAMENTS, bendAllowance90 as computeBendAllowance90 } from '../constants/materials';
 import { generateConfig, exportJSON, downloadFile } from '../export/configJson';
 import { generateOpenSCAD } from '../export/openscadGen';
 import { generateFusion360 } from '../export/fusion360Gen';
@@ -85,6 +87,67 @@ export function ExportTab() {
   const faceFab = useConfigStore(selectFaceFabMethod);
   const trayFab = useConfigStore(selectTrayFabMethod);
   const isModular = assemblyMode === 'modular';
+  const filamentKey = useConfigStore(s => s.filamentKey);
+  const metalKey = useConfigStore(s => s.metalKey);
+  const filamentPriceOverrides = useConfigStore(s => s.filamentPriceOverrides);
+  const wallThickness = useConfigStore(s => s.wallThickness);
+
+  // Compute cost estimates for both fab methods (for comparison toggle)
+  const [showCompare, setShowCompare] = useState(false);
+
+  const currentCost = useMemo((): CostEstimate | null => {
+    if (fabMethod === '3dp') {
+      const density = FILAMENT_DENSITY[filamentKey] ?? 1.24;
+      const pricePerKg = filamentPriceOverrides[filamentKey] ?? DEFAULT_FILAMENT_PRICES[filamentKey] ?? 22;
+      const fil = FILAMENTS[filamentKey];
+      return estimatePrintCost({
+        panelWidth: panDims.totalWidth,
+        panelHeight: panH,
+        enclosureDepth: depth,
+        fillFactor: DEFAULT_FILL_FACTOR,
+        materialDensity: density,
+        pricePerKg,
+        materialName: fil?.name ?? filamentKey,
+      });
+    } else {
+      const mt = METALS[metalKey];
+      if (!mt) return null;
+      const ba = computeBendAllowance90(mt.br, mt.t, 0.40);
+      const flatW = panDims.totalWidth + 2 * (flangeDepth + ba);
+      const flatH = panH + 2 * (flangeDepth + ba);
+      const rate = SHEET_METAL_RATE_PER_CM2[metalKey] ?? 0.07;
+      return estimateSheetMetalCost({ flatWidth: flatW, flatHeight: flatH, ratePerCm2: rate, materialName: mt.name });
+    }
+  }, [fabMethod, filamentKey, metalKey, filamentPriceOverrides, panDims.totalWidth, panH, depth, flangeDepth]);
+
+  const compareCost = useMemo((): CostEstimate | null => {
+    if (!showCompare) return null;
+    // Compute the OTHER fab method
+    if (fabMethod === '3dp') {
+      // Compare: sheet metal
+      const mt = METALS[metalKey];
+      if (!mt) return null;
+      const ba = computeBendAllowance90(mt.br, mt.t, 0.40);
+      const flatW = panDims.totalWidth + 2 * (flangeDepth + ba);
+      const flatH = panH + 2 * (flangeDepth + ba);
+      const rate = SHEET_METAL_RATE_PER_CM2[metalKey] ?? 0.07;
+      return estimateSheetMetalCost({ flatWidth: flatW, flatHeight: flatH, ratePerCm2: rate, materialName: mt.name });
+    } else {
+      // Compare: 3D print
+      const density = FILAMENT_DENSITY[filamentKey] ?? 1.24;
+      const pricePerKg = filamentPriceOverrides[filamentKey] ?? DEFAULT_FILAMENT_PRICES[filamentKey] ?? 22;
+      const fil = FILAMENTS[filamentKey];
+      return estimatePrintCost({
+        panelWidth: panDims.totalWidth,
+        panelHeight: panH,
+        enclosureDepth: depth,
+        fillFactor: DEFAULT_FILL_FACTOR,
+        materialDensity: density,
+        pricePerKg,
+        materialName: fil?.name ?? filamentKey,
+      });
+    }
+  }, [showCompare, fabMethod, filamentKey, metalKey, filamentPriceOverrides, panDims.totalWidth, panH, depth, flangeDepth]);
 
   // Preflight validation state
   const [preflightResult, setPreflightResult] = useState<ValidationResult | null>(null);
@@ -110,17 +173,19 @@ export function ExportTab() {
     return result;
   }, []);
 
-  // Run preflight on mount and when elements or fab method change
+  // Position-sensitive key so preflight re-runs on moves, not just count changes
+  const positionKey = useMemo(
+    () => elements.map(e => `${e.id}:${e.x}:${e.y}`).join(','),
+    [elements],
+  );
+
+  // Run preflight on mount and when element positions or fab method change
   useEffect(() => {
     runPreflight();
-  }, [elements.length, fabMethod, runPreflight]);
-
-  // Clear validation IDs when unmounting (leaving export tab)
-  useEffect(() => {
     return () => {
       useConfigStore.getState().setValidationIssueIds([]);
     };
-  }, []);
+  }, [positionKey, fabMethod, runPreflight]);
 
   /** Gate function: re-runs validation and returns true if export is allowed. */
   const checkBeforeExport = useCallback((): boolean => {
@@ -344,6 +409,113 @@ export function ExportTab() {
           }}
           format="All Formats"
         />
+      )}
+
+      {/* Cost Breakdown */}
+      {currentCost && (
+        <div className="bg-card border border-border rounded-[5px] p-[14px] mb-[10px]">
+          <SectionLabel>COST ESTIMATE</SectionLabel>
+          <div className="flex items-baseline gap-2 mb-2">
+            <span className="text-[18px] font-bold text-foreground">
+              ~${currentCost.low.toFixed(0)}&ndash;${currentCost.high.toFixed(0)}
+            </span>
+            <span className="text-[10px] text-muted-foreground">
+              {fabMethod === '3dp' ? 'FDM 3D Print' : 'Sheet Metal'}
+            </span>
+          </div>
+
+          {/* Assumptions */}
+          <div className="space-y-[2px] mb-3">
+            {currentCost.assumptions.map((a, i) => (
+              <div key={i} className="flex justify-between text-[9px]">
+                <span className="text-muted-foreground">{a.label}</span>
+                <span className="text-foreground/80 font-mono">{a.value}</span>
+              </div>
+            ))}
+          </div>
+
+          {/* Disclaimer */}
+          <div className="text-[8px] text-muted-foreground/70 italic mb-3">
+            Estimate only -- actual cost varies by print settings, supports, and waste. Get an exact quote from a fabrication service.
+          </div>
+
+          {/* Fabricator links (sheet metal) */}
+          {fabMethod === 'sm' && (
+            <div className="flex gap-2 mb-3">
+              <a
+                href={FABRICATOR_URLS.sendcutsend}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-[9px] font-bold text-primary hover:underline"
+              >
+                Get Quote: SendCutSend
+              </a>
+              <span className="text-muted-foreground/30">|</span>
+              <a
+                href={FABRICATOR_URLS.protocase}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-[9px] font-bold text-primary hover:underline"
+              >
+                Get Quote: Protocase
+              </a>
+            </div>
+          )}
+
+          {/* Compare toggle */}
+          <button
+            onClick={() => setShowCompare(p => !p)}
+            className="text-[9px] text-primary hover:underline cursor-pointer bg-transparent border-none p-0"
+          >
+            {showCompare ? 'Hide comparison' : `Compare: ${fabMethod === '3dp' ? 'Sheet Metal' : '3D Print'}`}
+          </button>
+
+          {showCompare && compareCost && (
+            <div className="mt-3 pt-3 border-t border-border">
+              <div className="flex items-baseline gap-2 mb-2">
+                <span className="text-[14px] font-bold text-foreground/70">
+                  ~${compareCost.low.toFixed(0)}&ndash;${compareCost.high.toFixed(0)}
+                </span>
+                <span className="text-[10px] text-muted-foreground">
+                  {fabMethod === '3dp' ? 'Sheet Metal' : 'FDM 3D Print'}
+                </span>
+              </div>
+              <div className="space-y-[2px] mb-2">
+                {compareCost.assumptions.map((a, i) => (
+                  <div key={i} className="flex justify-between text-[9px]">
+                    <span className="text-muted-foreground">{a.label}</span>
+                    <span className="text-foreground/80 font-mono">{a.value}</span>
+                  </div>
+                ))}
+              </div>
+              <div className="text-[8px] text-muted-foreground/70 italic">
+                Estimate only -- actual cost varies by fabrication service, material availability, and quantity.
+              </div>
+              {/* Show fab links for the compared method too if it's SM */}
+              {fabMethod !== 'sm' && (
+                <div className="flex gap-2 mt-2">
+                  <a
+                    href={FABRICATOR_URLS.sendcutsend}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="text-[9px] font-bold text-primary hover:underline"
+                  >
+                    Get Quote: SendCutSend
+                  </a>
+                  <span className="text-muted-foreground/30">|</span>
+                  <a
+                    href={FABRICATOR_URLS.protocase}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="text-[9px] font-bold text-primary hover:underline"
+                  >
+                    Get Quote: Protocase
+                  </a>
+                </div>
+              )}
+            </div>
+          )}
+        </div>
       )}
 
       <SectionLabel>EXPORT</SectionLabel>
