@@ -1,9 +1,35 @@
-import { useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import { useConfigStore } from '../store';
 
-export function useKeyboard() {
+/**
+ * useCommandPalette -- Manages command palette open/close state.
+ * Used by root layout to wire open state to CommandPalette component.
+ */
+export function useCommandPalette() {
+  const [open, setOpen] = useState(false);
+  return { open, setOpen };
+}
+
+/**
+ * useKeyboard -- Global keyboard shortcut handler.
+ *
+ * When commandPaletteOpen is true, all shortcuts except Escape are suppressed
+ * because cmdk handles its own keyboard events internally.
+ */
+export function useKeyboard(commandPaletteOpen?: boolean, setCommandPaletteOpen?: (v: boolean) => void) {
   useEffect(() => {
     const handler = (ev: KeyboardEvent) => {
+      // Cmd+K / Ctrl+K -- toggle command palette
+      if (ev.key === 'k' && (ev.metaKey || ev.ctrlKey)) {
+        ev.preventDefault();
+        setCommandPaletteOpen?.(!commandPaletteOpen);
+        return;
+      }
+
+      // When command palette is open, suppress all other keyboard shortcuts
+      // (cmdk handles its own arrow keys, Enter, Escape internally)
+      if (commandPaletteOpen) return;
+
       const active = document.activeElement;
       if (active && (active.tagName === 'INPUT' || active.tagName === 'SELECT' || active.tagName === 'TEXTAREA')) return;
 
@@ -90,5 +116,5 @@ export function useKeyboard() {
 
     window.addEventListener('keydown', handler);
     return () => window.removeEventListener('keydown', handler);
-  }, []);
+  }, [commandPaletteOpen, setCommandPaletteOpen]);
 }
