@@ -8,6 +8,7 @@ import { lookupDevice } from '../constants/deviceLookup';
 import { lookupConnector } from '../constants/connectorLookup';
 import { FANS } from '../constants/fans';
 import { useEnclosure, type TrayGeometry } from '../hooks/useEnclosure';
+import { buildCSGFaceplate, csgCacheKey, type CutoutDef } from '../lib/csg';
 
 /** Build an ExtrudeGeometry for a hex-lightweighted tray floor.
  *  Creates a rectangle with hexagonal holes punched through it. */
@@ -183,72 +184,61 @@ function EnclosureMesh() {
   // Convert mm to scene units (1 unit = 1mm, but we'll scale the scene)
   const scale = 0.01; // 100mm = 1 scene unit
 
-  // Faceplate with cutouts using CSG-like approach (simplified: just geometry)
-  const faceplateGeo = useMemo(() => new THREE.BoxGeometry(panW * scale, panH * scale, wallT * scale), [panW, panH, wallT]);
-
-  // Cutout geometries
-  const cutoutMeshes = useMemo(() => {
-    return elements.map(el => {
-      let lib: { w: number; h: number; color?: string; cut?: string; r?: number } | undefined;
+  // Collect cutout definitions from all placed elements
+  const cutouts = useMemo<CutoutDef[]>(() => {
+    const defs: CutoutDef[] = [];
+    for (const el of elements) {
       if (el.type === 'connector') {
         const con = lookupConnector(el.key);
-        if (con) lib = con;
+        if (!con) continue;
+        const cutType = (con.cut === 'round' || con.cut === 'd-shape') ? con.cut : 'rect' as const;
+        defs.push({
+          x: el.x, y: el.y,
+          w: con.cut === 'd-sub' ? con.w : el.w,
+          h: con.cut === 'd-sub' ? con.h : el.h,
+          r: con.r,
+          type: cutType === 'round' || cutType === 'd-shape' ? cutType : (con.cut === 'd-sub' ? 'd-sub' : 'rect'),
+        });
       } else if (el.type === 'fan') {
         const fan = FANS[el.key];
-        if (fan) lib = { w: fan.size, h: fan.size, color: fan.color };
+        if (!fan) continue;
+        // Fan cutout is a circle (cutoutDiameter)
+        defs.push({
+          x: el.x, y: el.y,
+          w: fan.size, h: fan.size,
+          r: fan.cutoutDiameter / 2,
+          type: 'round',
+        });
       } else {
+        // Device: rectangular cutout
         const dev = lookupDevice(el.key);
-        if (dev) lib = dev;
+        if (!dev) continue;
+        defs.push({
+          x: el.x, y: el.y,
+          w: el.w, h: el.h,
+          type: 'rect',
+        });
       }
-      if (!lib) return null;
+    }
+    return defs;
+  }, [elements]);
 
-      const x = (el.x - panW / 2) * scale;
-      const y = (panH / 2 - el.y) * scale;
-      const isRound = el.type === 'connector' && lib.cut && (lib.cut === 'round' || lib.cut === 'd-shape');
-
-      if (isRound && lib.r) {
-        return {
-          id: el.id,
-          type: 'circle' as const,
-          position: [x, y, 0] as [number, number, number],
-          radius: lib.r * scale,
-          color: lib.color,
-        };
-      }
-      return {
-        id: el.id,
-        type: 'rect' as const,
-        position: [x, y, 0] as [number, number, number],
-        width: el.w * scale,
-        height: el.h * scale,
-        color: lib.color,
-      };
-    }).filter(Boolean);
-  }, [elements, panW, panH]);
+  // Build CSG faceplate with cutout holes, cached on cutout positions
+  const cacheKey = csgCacheKey(cutouts);
+  const faceplateGeo = useMemo(() => {
+    try {
+      return buildCSGFaceplate(panW, panH, wallT, cutouts, scale);
+    } catch (err) {
+      console.warn('[Preview3D] CSG computation failed, falling back to solid faceplate:', err);
+      return new THREE.BoxGeometry(panW * scale, panH * scale, wallT * scale);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [cacheKey, panW, panH, wallT]);
 
   return (
     <group>
-      {/* Faceplate */}
+      {/* Faceplate with CSG-subtracted cutout holes */}
       <mesh geometry={faceplateGeo} material={MATERIAL_PANEL} position={[0, 0, 0]} />
-
-      {/* Cutout indicators (dark holes on faceplate) */}
-      {cutoutMeshes.map(cut => {
-        if (!cut) return null;
-        if (cut.type === 'circle') {
-          return (
-            <mesh key={cut.id} position={cut.position}>
-              <cylinderGeometry args={[cut.radius, cut.radius, wallT * scale + 0.002, 32]} />
-              <meshStandardMaterial color="#08080d" />
-            </mesh>
-          );
-        }
-        return (
-          <mesh key={cut.id} position={cut.position}>
-            <boxGeometry args={[cut.width, cut.height, wallT * scale + 0.002]} />
-            <meshStandardMaterial color="#08080d" />
-          </mesh>
-        );
-      })}
 
       {/* Ears */}
       {[0, 1].map(s => {
