@@ -39,3 +39,12 @@ Plans:
 - [x] 01-03-PLAN.md — Sidebar + UI components (compact controls, segment toggles, shadcn/ui restyling)
 - [x] 01-04-PLAN.md — SVG theme-awareness (FrontView, SideView, SplitView, grid background)
 - [x] 01-05-PLAN.md — Page restyling (Catalog, Wizard, ExportTab, SpecsTab, modals, 3D preview)
+
+### Phase 2: UX Consolidation
+
+**Goal:** Remove icon-nav and page routing. Configurator is the only base view. Convert Catalog to a modal overlay (triggered from "Browse Catalog..." in sidebar). Convert Wizard to a modal overlay (triggered from "Quick Setup" button). Fix grid background visibility, snap grid dot contrast, and header mockup fidelity.
+**Depends on:** Phase 1
+**Plans:** 0 plans
+
+Plans:
+- [ ] TBD (run /gsd:plan-phase 2 to break down)

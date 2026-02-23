@@ -66,6 +66,7 @@ None.
 ### Roadmap Evolution
 
 - Phase 1 added: Frontend Design Rework
+- Phase 2 added: UX Consolidation — remove icon-nav, catalog/wizard modals, grid/header fixes
 
 ### Blockers/Concerns
 
