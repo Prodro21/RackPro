@@ -120,11 +120,11 @@ Plans:
   4. A Cmd+K command palette supports navigation, device/connector search-and-add, export triggers, panel config changes, and undo/redo
   5. Tooltips appear on settings controls, validation warnings, toolbar buttons, and export options to explain meaning
   6. Every Zustand selector returning an object or array passes a stability test (call twice, assert `===`) and has its cache key composition documented inline
-**Plans:** 3/5 plans executed
+**Plans:** 4/5 plans executed
 
 Plans:
-- [ ] 05-01-PLAN.md — Initialize shadcn/ui with Slate/Neutral + Teal/Cyan dark theme; replace all 9 legacy ui/ wrappers with shadcn equivalents in Sidebar, ExportTab, SpecsTab, SplitView; replace CustomDeviceModal with Dialog; replace Toast with Sonner; migrate all raw HTML buttons/inputs
-- [ ] 05-02-PLAN.md — Build Cmd+K command palette using shadcn Command (cmdk) with Fuse.js device/connector search, navigation, export triggers, panel config, undo/redo; add Tooltips to settings controls, toolbar buttons, export options
+- [x] 05-01-PLAN.md — Initialize shadcn/ui with Slate/Neutral + Teal/Cyan dark theme; replace all 9 legacy ui/ wrappers with shadcn equivalents in Sidebar, ExportTab, SpecsTab, SplitView; replace CustomDeviceModal with Dialog; replace Toast with Sonner; migrate all raw HTML buttons/inputs
+- [x] 05-02-PLAN.md — Build Cmd+K command palette using shadcn Command (cmdk) with Fuse.js device/connector search, navigation, export triggers, panel config, undo/redo; add Tooltips to settings controls, toolbar buttons, export options
 - [ ] 05-03-PLAN.md — Implement CSG boolean subtraction for connector cutouts and device bay openings using three-bvh-csg with union-then-subtract batching and mesh caching; add simplified 3D connector body meshes behind the faceplate
 - [ ] 05-04-PLAN.md — Create PBR texture assets and usePanelMaterial hook; upgrade to MeshPhysicalMaterial with brushed metal, matte plastic, carbon fiber presets; auto-switch on fab method; material override dropdown; Environment upgrade to warehouse preset
 - [ ] 05-05-PLAN.md — Audit all Zustand selectors returning objects/arrays; add module-level memoization to selectFaceplateElements, selectRearElements, selectMaxDeviceDepth; document all cache keys inline; write selector stability tests
@@ -158,5 +158,5 @@ Note: Phases 4 and 5/6 can proceed in parallel after Phase 3 completes (Phase 4 
 | 2. Catalog Browser + Routing | 3/3 | Complete    | 2026-02-22 |
 | 3. Export Hardening + Web Deployment | 2/2 | Complete | 2026-02-22 |
 | 4. Guided Wizard + Smart Auto-Layout | 3/5 | Gap closure | - |
-| 5. UI + 3D Polish | 3/5 | In Progress|  |
+| 5. UI + 3D Polish | 4/5 | In Progress|  |
 | 6. Cost Estimation + Community Contributions | 0/2 | Not started | - |

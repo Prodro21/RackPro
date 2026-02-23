@@ -10,18 +10,18 @@ See: .planning/PROJECT.md (updated 2026-02-21)
 ## Current Position
 
 Phase: 5 of 6 (UI + 3D Polish) -- IN PROGRESS
-Plan: 4 of 5 in current phase -- COMPLETE
+Plan: 5 of 5 in current phase -- COMPLETE
 Status: Executing Phase 5 plans
-Last activity: 2026-02-22 — Completed 05-01-PLAN.md (shadcn/ui Foundation + Component Migration)
+Last activity: 2026-02-22 — Completed 05-02-PLAN.md (Command Palette + Tooltips)
 
-Progress: [█████████░] 88%
+Progress: [██████████] 92%
 
 ## Performance Metrics
 
 **Velocity:**
-- Total plans completed: 21
+- Total plans completed: 22
 - Average duration: 6min
-- Total execution time: 2.14 hours
+- Total execution time: 2.24 hours
 
 **By Phase:**
 
@@ -32,11 +32,11 @@ Progress: [█████████░] 88%
 | 02-catalog-browser-routing | 3 | 12min | 4min |
 | 03-export-hardening-web-deployment | 2 | 37min | 19min |
 | 04-guided-wizard-smart-auto-layout | 5 | 31min | 6min |
-| 05-ui-3d-polish | 3 | 25min | 8min |
+| 05-ui-3d-polish | 4 | 31min | 8min |
 
 **Recent Trend:**
-- Last 5 plans: 04-04 (3min), 05-05 (3min), 05-03 (3min), 05-01 (19min)
-- Trend: 05-01 larger scope (full component migration), other Phase 5 plans averaging 3min
+- Last 5 plans: 05-05 (3min), 05-03 (3min), 05-01 (19min), 05-02 (6min)
+- Trend: Phase 5 stabilizing around 6min average per plan
 
 *Updated after each plan completion*
 
@@ -127,6 +127,12 @@ Recent decisions affecting current work:
 - [Phase 05]: [05-01]: Compact wrapper pattern (CompactSelect/Slider/Checkbox, FabToggle) in Sidebar for dense layouts
 - [Phase 05]: [05-01]: Kept raw buttons for complex multi-state patterns (selection cards, filter pills, step indicators)
 - [Phase 05]: [05-01]: Sonner toast positioned bottom-center with dark theme in root layout
+- [Phase 05]: [05-02]: Fuse.js index rebuilt on palette open (not once) to pick up runtime catalog changes
+- [Phase 05]: [05-02]: shouldFilter={false} on CommandDialog to use Fuse.js results instead of cmdk built-in filtering
+- [Phase 05]: [05-02]: useCommandPalette hook returns {open, setOpen} state lifted to root layout
+- [Phase 05]: [05-02]: TooltipProvider at root layout level with delayDuration=300 for consistent behavior
+- [Phase 05]: [05-02]: Tooltip on SectionLabel headers rather than individual toggle buttons for cleaner UX
+- [Phase 05]: [05-02]: ExportCard tooltip prop wraps title text with cursor-help for discoverability
 
 ### Pending Todos
 
@@ -141,5 +147,5 @@ None yet.
 ## Session Continuity
 
 Last session: 2026-02-22
-Stopped at: Completed 05-01-PLAN.md (shadcn/ui Foundation + Component Migration)
+Stopped at: Completed 05-02-PLAN.md (Command Palette + Tooltips)
 Resume file: None
