@@ -1,9 +1,9 @@
 ---
-status: complete
+status: resolved
 phase: 04-guided-wizard-smart-auto-layout
 source: [04-01-SUMMARY.md, 04-02-SUMMARY.md, 04-03-SUMMARY.md]
 started: 2026-02-22T20:10:00Z
-updated: 2026-02-22T20:40:00Z
+updated: 2026-02-23T00:00:00Z
 ---
 
 ## Current Test
@@ -77,33 +77,63 @@ skipped: 0
 ## Gaps
 
 - truth: "Auto-layout result has no overlaps, no out-of-bounds elements, and passes validation"
-  status: failed
+  status: resolved
   reason: "User reported: When adding 8 keystone jacks a couple went over a device. Even after manually moving them, validation still showed conflicts."
   severity: major
   test: 1
-  artifacts: []
-  missing: []
+  root_cause: |
+    BUG 1: placeConnectorsInZone 'between' case (autoLayoutV2.ts:357-362) advances cursor without checking betweenEnd. 8 keystones need 160mm but gap is 125.85mm — last 2 connectors overlap right device by 9.65mm and 30.15mm.
+    BUG 2: validationIssueIds only re-runs on elements.length change, not position changes. moveElement changes x/y but doesn't trigger re-validation — stale red highlights persist after drag.
+  artifacts:
+    - src/lib/autoLayoutV2.ts (lines 357-362 between-zone placement)
+    - src/store/useConfigStore.ts (moveElement line 305-310)
+    - src/components/wizard/StepReview.tsx (preflight useEffect line 58-63)
+  missing:
+    - Cursor bounds check against betweenEnd in between-zone placement
+    - Position-aware re-validation after moveElement
 
 - truth: "3D rendering shows all placed elements including trays, multiple devices, and connectors"
-  status: failed
+  status: resolved
   reason: "User reported: 3D rendering not showing a tray, only showing the first device. Second device and all keystones missing from 3D view."
   severity: major
   test: 1
-  artifacts: []
-  missing: []
+  root_cause: |
+    PRE-EXISTING BUG: Preview3D.tsx uses inline DEVICES[el.key]/CONNECTORS[el.key] instead of catalog-aware lookupDevice()/lookupConnector(). Catalog-sourced elements silently return undefined and are skipped. useEnclosure.ts has the same issue for tray generation. Also no fan branch in Preview3D.
+  artifacts:
+    - src/components/Preview3D.tsx (line 191 cutout lookup, line 284 retention lip)
+    - src/hooks/useEnclosure.ts (line 46-47 tray generation)
+  missing:
+    - Catalog-aware lookups (lookupDevice/lookupConnector) in Preview3D.tsx
+    - Catalog-aware lookup in useEnclosure.ts
+    - Fan element branch in Preview3D cutout generation
 
 - truth: "Connector zone modes (left/right/split) keep all elements within panel bounds"
-  status: failed
+  status: resolved
   reason: "User reported: Switching zone options puts main devices outside the 2U panel bounds. Needs tweaking."
   severity: major
   test: 4
-  artifacts: []
-  missing: []
+  root_cause: |
+    All zone mode shift logic (left:379, right:403, split:460-462) applies uniform shift to ALL devices without bounds clamping. Weight-based placement spreads devices to opposite ears; uniform shift pushes far-side device off panel (e.g., UX7 to 532.85mm on 450.85mm panel). Split mode explicitly punts on right-zone overlap. No final bounds clamping in main function (lines 193-208).
+  artifacts:
+    - src/lib/autoLayoutV2.ts (lines 376-381 left zone, 397-404 right zone, 442-464 split zone, 193-208 final output)
+  missing:
+    - Per-device repositioning instead of uniform shift
+    - Post-shift bounds clamping (cx - w/2 >= 0 and cx + w/2 <= panW)
+    - Split mode right-zone overlap handling
 
 - truth: "Overflow suggestions appear as a visible warning when elements exceed panel width"
-  status: failed
+  status: resolved
   reason: "User reported: Not seeing a warning when overflowing panel width. Overflow toast not firing or not visible."
   severity: minor
   test: 11
-  artifacts: []
-  missing: []
+  root_cause: |
+    THREE issues: (1) detectOverflow (autoLayoutV2.ts:474) only checks if any element's right edge exceeds panW — misses overlapping elements within bounds (alternating L/R placement puts both devices within panW even when they overlap). (2) suggestLayoutV2 store action (useConfigStore.ts:316) silently discards result.overflow and result.validationIssues. (3) Wizard steps (StepDevices/StepConnectors) never call setValidationIssueIds with result.validationIssues.
+  artifacts:
+    - src/lib/autoLayoutV2.ts (detectOverflow lines 474-518)
+    - src/store/useConfigStore.ts (suggestLayoutV2 line 316-323)
+    - src/components/wizard/StepDevices.tsx (runAutoLayout callback)
+    - src/components/wizard/StepConnectors.tsx (runAutoLayout callback)
+  missing:
+    - Total-width-based overflow detection (sum element widths vs panW)
+    - Overflow surfacing in suggestLayoutV2 store action
+    - validationIssues surfacing in wizard steps
