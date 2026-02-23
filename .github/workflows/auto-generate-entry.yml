@@ -1,0 +1,146 @@
+name: Auto-Generate Catalog Entry
+
+on:
+  issues:
+    types: [opened, labeled]
+
+permissions:
+  contents: write
+  pull-requests: write
+  issues: write
+
+jobs:
+  generate:
+    if: contains(github.event.issue.labels.*.name, 'catalog-submission')
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+
+      - run: npm ci
+
+      - name: Parse issue form
+        id: parse
+        uses: onmax/issue-form-parser@v1.6
+        with:
+          issue_number: ${{ github.event.issue.number }}
+
+      - name: Generate catalog entry
+        id: generate
+        env:
+          PAYLOAD: ${{ steps.parse.outputs.payload }}
+          IS_DEVICE: ${{ contains(github.event.issue.labels.*.name, 'device') }}
+        run: |
+          node -e "
+            const fs = require('fs');
+            const payload = JSON.parse(process.env.PAYLOAD);
+            const isDevice = process.env.IS_DEVICE === 'true';
+
+            if (isDevice) {
+              const entry = {
+                slug: (payload.slug || '').trim().toLowerCase(),
+                name: (payload.name || '').trim(),
+                brand: (payload.brand || '').trim(),
+                category: (payload.category || 'other').trim().toLowerCase(),
+                width: parseFloat(payload.width) || 0,
+                depth: parseFloat(payload.depth) || 0,
+                height: parseFloat(payload.height) || 0,
+                weight: parseFloat(payload.weight) || 0,
+                ports: [],
+                dataSource: (payload.dataSource || 'estimated').trim(),
+                schemaVersion: 1,
+              };
+              if (payload.productUrl) entry.source = payload.productUrl.trim();
+              if (payload.notes) entry.notes = payload.notes.trim();
+
+              const file = 'public/catalog/devices.json';
+              const catalog = JSON.parse(fs.readFileSync(file, 'utf8'));
+              catalog.push(entry);
+              fs.writeFileSync(file, JSON.stringify(catalog, null, 2) + '\n');
+              console.log('Added device:', entry.slug);
+            } else {
+              const entry = {
+                slug: (payload.slug || '').trim().toLowerCase(),
+                name: (payload.name || '').trim(),
+                cutoutType: (payload.cutoutType || 'rect').trim().toLowerCase(),
+                cutoutWidth: parseFloat(payload.cutoutWidth) || 0,
+                cutoutHeight: parseFloat(payload.cutoutHeight) || 0,
+                depthBehind: parseFloat(payload.depthBehind) || 0,
+                mountHoles: parseInt(payload.mountHoles, 10) || 0,
+                dataSource: (payload.dataSource || 'estimated').trim(),
+                schemaVersion: 1,
+              };
+              if (payload.cutoutRadius) entry.cutoutRadius = parseFloat(payload.cutoutRadius);
+              if (payload.productUrl) entry.source = payload.productUrl.trim();
+              if (payload.notes) entry.notes = payload.notes.trim();
+
+              const file = 'public/catalog/connectors.json';
+              const catalog = JSON.parse(fs.readFileSync(file, 'utf8'));
+              catalog.push(entry);
+              fs.writeFileSync(file, JSON.stringify(catalog, null, 2) + '\n');
+              console.log('Added connector:', entry.slug);
+            }
+          "
+
+      - name: Validate generated entry
+        id: validate
+        run: npx tsx scripts/validate-catalog.ts --json > validation-result.json
+
+      - name: Create PR
+        if: steps.validate.outcome == 'success'
+        uses: peter-evans/create-pull-request@v7
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          commit-message: "feat(catalog): add entry from issue #${{ github.event.issue.number }}"
+          branch: "catalog/issue-${{ github.event.issue.number }}"
+          title: "feat(catalog): add entry from #${{ github.event.issue.number }}"
+          body: |
+            Auto-generated from #${{ github.event.issue.number }}
+
+            This PR was automatically created from a catalog submission issue.
+            CI will validate the entry. Review and merge if correct.
+          labels: catalog-submission
+
+      - name: Comment results on issue
+        if: always()
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const fs = require('fs');
+            let result;
+            try {
+              result = JSON.parse(fs.readFileSync('validation-result.json', 'utf8'));
+            } catch {
+              result = {
+                valid: false,
+                errors: [{ slug: '', field: '', message: 'Generation or validation failed' }],
+                warnings: [],
+              };
+            }
+
+            let body = '## Auto-Generation Results\n\n';
+            if (result.valid) {
+              body += 'Entry generated and validated successfully. A draft PR has been created.\n';
+              if (result.warnings?.length) {
+                body += '\n### Warnings (maintainer will review)\n\n';
+                for (const w of result.warnings) {
+                  body += `- **${w.field}**: ${w.message}\n`;
+                }
+              }
+            } else {
+              body += 'Validation failed. Please check the following errors and update your submission:\n\n';
+              for (const e of (result.errors || [])) {
+                body += `- **${e.field || 'general'}**: ${e.message}\n`;
+              }
+            }
+
+            await github.rest.issues.createComment({
+              issue_number: context.issue.number,
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              body,
+            });
