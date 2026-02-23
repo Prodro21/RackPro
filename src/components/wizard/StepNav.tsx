@@ -14,7 +14,7 @@ interface StepNavProps {
 
 export function StepNav({ steps, labels, current, onChange }: StepNavProps) {
   return (
-    <nav className="flex items-center gap-1 px-4 py-3 bg-bg-nav border-b border-border-default">
+    <nav className="flex items-center gap-2.5 px-5 py-3 bg-bg-nav border-b border-border-default">
       {steps.map((_, i) => {
         const isCompleted = i < current;
         const isActive = i === current;
@@ -28,8 +28,8 @@ export function StepNav({ steps, labels, current, onChange }: StepNavProps) {
             }}
             disabled={isLocked}
             className={`
-              flex items-center gap-1.5 px-2 py-1 rounded transition-colors text-xs tracking-wide
-              ${isActive ? 'bg-accent-subtle text-accent-text font-bold' : ''}
+              flex items-center gap-1.5 px-3 py-1.5 rounded-md transition-colors text-xs tracking-wide
+              ${isActive ? 'bg-accent text-white font-bold shadow-sm' : ''}
               ${isCompleted ? 'text-success cursor-pointer hover:bg-success-subtle' : ''}
               ${isLocked ? 'text-text-tertiary cursor-not-allowed opacity-50' : ''}
             `}
@@ -37,7 +37,7 @@ export function StepNav({ steps, labels, current, onChange }: StepNavProps) {
             <span
               className={`
                 flex items-center justify-center w-5 h-5 rounded-full text-[11px] font-bold border
-                ${isActive ? 'border-accent bg-accent-subtle text-accent-text' : ''}
+                ${isActive ? 'border-white/30 bg-white/15 text-white' : ''}
                 ${isCompleted ? 'border-success bg-success-subtle text-success' : ''}
                 ${isLocked ? 'border-border-default bg-transparent text-text-tertiary' : ''}
               `}

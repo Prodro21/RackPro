@@ -64,7 +64,7 @@ export function Header() {
             className={cn(
               'px-3 py-[5px] text-[11px] font-medium uppercase tracking-wider rounded-md transition-all whitespace-nowrap border',
               activeTab === t.id
-                ? 'text-text-primary bg-seg-active border-border-default shadow-sm'
+                ? 'text-white bg-accent border-accent shadow-sm'
                 : 'text-text-tertiary hover:text-text-secondary hover:bg-bg-hover border-transparent'
             )}
           >
@@ -79,7 +79,7 @@ export function Header() {
           <TooltipTrigger asChild>
             <button
               onClick={undo}
-              className="w-8 h-8 flex items-center justify-center rounded-md text-text-tertiary hover:text-text-secondary hover:bg-bg-hover transition-all"
+              className="w-8 h-8 flex items-center justify-center rounded-md text-accent hover:text-accent/80 hover:bg-accent/10 transition-all"
               aria-label="Undo"
             >
               <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
@@ -94,7 +94,7 @@ export function Header() {
           <TooltipTrigger asChild>
             <button
               onClick={redo}
-              className="w-8 h-8 flex items-center justify-center rounded-md text-text-tertiary hover:text-text-secondary hover:bg-bg-hover transition-all"
+              className="w-8 h-8 flex items-center justify-center rounded-md text-accent hover:text-accent/80 hover:bg-accent/10 transition-all"
               aria-label="Redo"
             >
               <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
@@ -111,7 +111,7 @@ export function Header() {
           <TooltipTrigger asChild>
             <button
               onClick={toggleTheme}
-              className="w-8 h-8 flex items-center justify-center rounded-md text-text-tertiary hover:text-text-secondary hover:bg-bg-hover transition-all"
+              className="w-8 h-8 flex items-center justify-center rounded-md text-accent hover:text-accent/80 hover:bg-accent/10 transition-all"
               aria-label={`Switch to ${theme === 'dark' ? 'light' : 'dark'} theme`}
             >
               {theme === 'dark' ? (

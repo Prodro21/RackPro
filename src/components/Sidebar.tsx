@@ -227,7 +227,7 @@ export function Sidebar() {
 
   return (
     <div className="w-[296px] shrink-0 bg-bg-sidebar border-r border-border-subtle flex flex-col overflow-hidden">
-      <div className="flex-1 overflow-y-auto overflow-x-hidden py-4 space-y-5" style={{ paddingLeft: 20, paddingRight: 16 }}>
+      <div className="flex-1 overflow-y-auto overflow-x-hidden py-4 space-y-5" style={{ paddingLeft: 10, paddingRight: 10 }}>
 
         {/* Panel config */}
         <div>
@@ -238,12 +238,14 @@ export function Sidebar() {
               value={standard}
               onValueChange={v => setStandard(v as RackStandard)}
               options={[['19', '19"'], ['10', '10"']]}
+              full
             />
             <CompactSelect
               label="U"
               value={String(uHeight)}
               onValueChange={v => setUHeight(+v)}
               options={[[1, '1U'], [2, '2U'], [3, '3U'], [4, '4U']]}
+              full
             />
           </div>
         </div>
@@ -792,7 +794,7 @@ export function Sidebar() {
 
       {/* Modal trigger buttons */}
       <div className="h-px bg-border-subtle" />
-      <div className="space-y-1.5 py-3 shrink-0" style={{ paddingLeft: 20, paddingRight: 16 }}>
+      <div className="space-y-1.5 py-3 shrink-0" style={{ paddingLeft: 10, paddingRight: 10 }}>
         <button
           onClick={openCatalogModal}
           className="w-full h-9 text-xs font-medium rounded-md border border-border-default hover:bg-bg-elevated hover:border-border-strong transition-colors"

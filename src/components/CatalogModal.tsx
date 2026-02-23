@@ -16,7 +16,7 @@ export function CatalogModal() {
 
   return (
     <Dialog open={open} onOpenChange={(v) => { if (!v) close(); }}>
-      <DialogContent className="max-w-[85vw] w-[85vw] h-[65vh] p-0 overflow-hidden flex flex-col">
+      <DialogContent className="max-w-[85vw] sm:max-w-[85vw] w-[85vw] h-[65vh] p-0 overflow-hidden flex flex-col">
         <VisuallyHidden>
           <DialogTitle>Browse Catalog</DialogTitle>
         </VisuallyHidden>
