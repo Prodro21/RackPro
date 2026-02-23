@@ -403,13 +403,17 @@ export function FrontView() {
         style={{ filter: 'drop-shadow(0 2px 16px rgba(0,0,0,.35))' }}
         onMouseDown={() => selectElement(null)}
       >
-        {/* Background + grid dots */}
+        {/* Background + grid lines + grid dots */}
         <defs>
           <pattern id="g" width={5 * SC} height={5 * SC} patternUnits="userSpaceOnUse" patternTransform={`translate(${OX},${OY})`}>
             <circle cx={5 * SC} cy={5 * SC} r={0.3} fill={SVG_COLORS.gridDot} />
           </pattern>
+          <pattern id="grid-lines" width="40" height="40" patternUnits="userSpaceOnUse">
+            <path d="M 40 0 L 0 0 0 40" fill="none" stroke={SVG_COLORS.gridLine} strokeWidth="0.5" />
+          </pattern>
         </defs>
         <rect width={vW} height={vH} fill={SVG_COLORS.canvasBg} />
+        <rect width={vW} height={vH} fill="url(#grid-lines)" />
         <rect width={vW} height={vH} fill="url(#g)" />
 
         {/* Total panel outline (dashed) */}

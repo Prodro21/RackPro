@@ -70,7 +70,8 @@
   --svg-bore-stroke: #5f606b;
   --svg-bore-fill: #12131a;
   --svg-canvas-bg: var(--bg-main);
-  --svg-grid-dot: #1e2029;
+  --svg-grid-dot: #2a2d3a;
+  --svg-grid-line: #1a1c24;
   --svg-element-fill: #252730;
   --svg-element-stroke: #3a3c48;
   --svg-element-text: #9d9da6;
@@ -172,7 +173,8 @@
   --svg-bore-stroke: #78716c;
   --svg-bore-fill: #e8e6e0;
   --svg-canvas-bg: var(--bg-main);
-  --svg-grid-dot: #d1cfc9;
+  --svg-grid-dot: #c0bdb5;
+  --svg-grid-line: #d8d6d0;
   --svg-element-fill: #e2e0da;
   --svg-element-stroke: #a8a29e;
   --svg-element-text: #57534e;
@@ -261,6 +263,7 @@
   --color-svg-bore-fill: var(--svg-bore-fill);
   --color-svg-canvas-bg: var(--svg-canvas-bg);
   --color-svg-grid-dot: var(--svg-grid-dot);
+  --color-svg-grid-line: var(--svg-grid-line);
   --color-svg-element-fill: var(--svg-element-fill);
   --color-svg-element-stroke: var(--svg-element-stroke);
   --color-svg-element-text: var(--svg-element-text);

@@ -24,6 +24,7 @@ export const SVG_COLORS = {
   // Canvas
   canvasBg: 'var(--svg-canvas-bg)',
   gridDot: 'var(--svg-grid-dot)',
+  gridLine: 'var(--svg-grid-line)',
 
   // Elements (devices/connectors)
   elementFill: 'var(--svg-element-fill)',
