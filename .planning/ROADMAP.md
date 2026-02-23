@@ -158,7 +158,7 @@ Plans:
 **Plans**: 1 plan
 
 Plans:
-- [ ] 07-01-PLAN.md — Fix CAT-05-SIDEBAR reactive selector in Sidebar.tsx, delete dead Toast.tsx, update Cloudflare analytics token in index.html
+- [ ] 07-01-PLAN.md — Fix CAT-05-SIDEBAR reactive selector in Sidebar.tsx, delete dead Toast.tsx (Cloudflare token pre-completed)
 
 ## Progress
 
