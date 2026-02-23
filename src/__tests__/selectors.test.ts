@@ -29,7 +29,7 @@ const state = {
   validationIssueIds: [],
   assemblyMode: 'monolithic',
   trayFabMethod: '3dp',
-} as ConfigState;
+} as unknown as ConfigState;
 
 describe('selector stability — referential equality on same state', () => {
   it('selectPanelDims returns stable reference', () => {
@@ -106,7 +106,7 @@ describe('selector stability — with elements present', () => {
       { id: 'a', type: 'connector', key: 'neutrik-d', x: 50, y: 20, w: 24, h: 24, label: 'XLR' },
       { id: 'b', type: 'device', key: 'usw-lite-16-poe', x: 200, y: 20, w: 192, h: 43.7, label: 'Switch', surface: 'faceplate' as const },
     ],
-  } as ConfigState;
+  } as unknown as ConfigState;
 
   it('selectFaceplateElements returns stable reference with elements', () => {
     const a = selectFaceplateElements(stateWithEls);

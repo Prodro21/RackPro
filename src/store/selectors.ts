@@ -12,7 +12,10 @@ import { computeTrayReinforcement } from '../lib/trayReinforcement';
 import { computeTrayDimensions } from '../lib/trayGeometry';
 
 // --- Memoized selectors (return stable references for objects/arrays) ---
+// Each uses module-level _key/_val caching to satisfy React 19 useSyncExternalStore
+// referential equality requirements. See MEMORY.md "Selector Memoization Required".
 
+// Cache key: s.standard (string)
 let _pdKey: string;
 let _pdVal: ReturnType<typeof panelDimensions>;
 export const selectPanelDims = (s: ConfigState) => {
@@ -22,6 +25,7 @@ export const selectPanelDims = (s: ConfigState) => {
   return _pdVal;
 };
 
+// Cache key: s.uHeight (number)
 let _bKey: number;
 let _bVal: number[];
 export const selectBores = (s: ConfigState) => {
@@ -31,6 +35,7 @@ export const selectBores = (s: ConfigState) => {
   return _bVal;
 };
 
+// Cache key: `${s.standard}_${s.uHeight}_${s.fabMethod}_${s.printerKey}` (composite string)
 let _siKey: string;
 let _siVal: SplitInfo;
 export const selectSplitInfo = (s: ConfigState): SplitInfo => {
@@ -91,6 +96,7 @@ export const selectSplitInfo = (s: ConfigState): SplitInfo => {
   return _siVal;
 };
 
+// Cache key: s.elements (reference equality)
 let _olEls: PanelElement[];
 let _olVal: [string, string][];
 export const selectOverlaps = (s: ConfigState): [string, string][] => {
@@ -114,6 +120,7 @@ export const selectOverlaps = (s: ConfigState): [string, string][] => {
   return _olVal;
 };
 
+// Cache key: s.elements (ref) + s.standard (string) + s.uHeight (number)
 let _oobEls: PanelElement[];
 let _oobStd: string;
 let _oobU: number;
@@ -134,6 +141,7 @@ export const selectOutOfBounds = (s: ConfigState): string[] => {
   return _oobVal;
 };
 
+// Cache key: s.elements (ref) + s.selectedId (string | null)
 let _seEls: PanelElement[];
 let _seId: string | null;
 let _seVal: PanelElement | null;
@@ -160,6 +168,7 @@ export const selectFilament = (s: ConfigState) => FILAMENTS[s.filamentKey];
 
 export const selectPrinter = (s: ConfigState) => PRINTERS[s.printerKey];
 
+// Cache key: s.elements (reference equality)
 let _mddEls: PanelElement[];
 let _mddVal: number;
 export const selectMaxDeviceDepth = (s: ConfigState): number => {
@@ -206,6 +215,7 @@ export const selectBendAllowance90 = (s: ConfigState) => {
 
 // ─── Surface-aware selectors (memoized) ─────────────────────
 
+// Cache key: s.elements (reference equality)
 let _feEls: PanelElement[];
 let _feVal: PanelElement[];
 export const selectFaceplateElements = (s: ConfigState): PanelElement[] => {
@@ -215,6 +225,7 @@ export const selectFaceplateElements = (s: ConfigState): PanelElement[] => {
   return _feVal;
 };
 
+// Cache key: s.elements (reference equality)
 let _reEls: PanelElement[];
 let _reVal: PanelElement[];
 export const selectRearElements = (s: ConfigState): PanelElement[] => {
@@ -226,6 +237,7 @@ export const selectRearElements = (s: ConfigState): PanelElement[] => {
 
 // ─── Margin warnings (memoized) ──────────────────────────────
 
+// Cache key: composite string from standard, uHeight, fabMethod, metalKey, element positions
 let _mwKey: string;
 let _mwVal: MarginWarning[];
 export const selectMarginWarnings = (s: ConfigState): MarginWarning[] => {
@@ -261,6 +273,7 @@ interface TrayReinforcementEntry {
   result: TrayReinforcementResult;
 }
 
+// Cache key: composite string from assemblyMode, wallThickness, trayFabMethod, device element IDs/keys
 let _trKey: string;
 let _trVal: TrayReinforcementEntry[];
 export const selectTrayReinforcements = (s: ConfigState): TrayReinforcementEntry[] => {
