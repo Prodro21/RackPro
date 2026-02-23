@@ -11,6 +11,7 @@ import { useState, useEffect, useCallback, useMemo } from 'react';
 import { useConfigStore } from '../../store/useConfigStore';
 import { selectPanelDims, selectPanelHeight, selectUsedWidth } from '../../store/selectors';
 import { PreflightReport } from '../PreflightReport';
+import { Button } from '../ui/button';
 import { generateConfig } from '../../export/configJson';
 import { validateExportConfig } from '../../lib/validation';
 import type { ValidationResult } from '../../lib/validation';
@@ -76,45 +77,45 @@ export function StepReview({ onNext, onBack, onCancel, onEditInConfigurator }: S
   return (
     <div className="flex flex-col gap-4 p-4">
       <div>
-        <h2 className="text-sm font-bold text-text-primary mb-1">Review Design</h2>
-        <p className="text-[10px] text-text-muted">
+        <h2 className="text-sm font-bold text-foreground mb-1">Review Design</h2>
+        <p className="text-[10px] text-muted-foreground">
           Review your panel configuration. The live preview on the right shows the final layout.
         </p>
       </div>
 
       {/* Summary */}
-      <div className="bg-bg-card border border-border rounded p-3 space-y-1.5">
-        <div className="text-[9px] font-mono text-text-muted tracking-wide mb-2">SUMMARY</div>
+      <div className="bg-card border border-border rounded p-3 space-y-1.5">
+        <div className="text-[9px] font-mono text-muted-foreground tracking-wide mb-2">SUMMARY</div>
         <div className="grid grid-cols-2 gap-x-4 gap-y-1 text-[10px]">
-          <span className="text-text-muted">Rack Standard</span>
-          <span className="text-text-primary font-bold">{standard === '19' ? '19" (Standard)' : '10" (Compact)'}</span>
+          <span className="text-muted-foreground">Rack Standard</span>
+          <span className="text-foreground font-bold">{standard === '19' ? '19" (Standard)' : '10" (Compact)'}</span>
 
-          <span className="text-text-muted">U-Height</span>
-          <span className="text-text-primary font-bold">{uHeight}U ({panH.toFixed(1)}mm)</span>
+          <span className="text-muted-foreground">U-Height</span>
+          <span className="text-foreground font-bold">{uHeight}U ({panH.toFixed(1)}mm)</span>
 
-          <span className="text-text-muted">Panel Width</span>
-          <span className="text-text-primary font-bold">{panDims.panelWidth.toFixed(1)}mm</span>
+          <span className="text-muted-foreground">Panel Width</span>
+          <span className="text-foreground font-bold">{panDims.panelWidth.toFixed(1)}mm</span>
 
-          <span className="text-text-muted">Used Width</span>
-          <span className={`font-bold ${usedWidth > panDims.panelWidth ? 'text-danger' : 'text-accent-green'}`}>
+          <span className="text-muted-foreground">Used Width</span>
+          <span className={`font-bold ${usedWidth > panDims.panelWidth ? 'text-destructive' : 'text-green-500'}`}>
             {usedWidth.toFixed(1)}mm ({((usedWidth / panDims.panelWidth) * 100).toFixed(0)}%)
           </span>
 
-          <span className="text-text-muted">Devices</span>
-          <span className="text-text-primary font-bold">{deviceCount}</span>
+          <span className="text-muted-foreground">Devices</span>
+          <span className="text-foreground font-bold">{deviceCount}</span>
 
-          <span className="text-text-muted">Connectors</span>
-          <span className="text-text-primary font-bold">{connectorCount}</span>
+          <span className="text-muted-foreground">Connectors</span>
+          <span className="text-foreground font-bold">{connectorCount}</span>
 
           {fanCount > 0 && (
             <>
-              <span className="text-text-muted">Fans</span>
-              <span className="text-text-primary font-bold">{fanCount}</span>
+              <span className="text-muted-foreground">Fans</span>
+              <span className="text-foreground font-bold">{fanCount}</span>
             </>
           )}
 
-          <span className="text-text-muted">Total Elements</span>
-          <span className="text-text-primary font-bold">{elements.length}</span>
+          <span className="text-muted-foreground">Total Elements</span>
+          <span className="text-foreground font-bold">{elements.length}</span>
         </div>
       </div>
 
@@ -129,7 +130,7 @@ export function StepReview({ onNext, onBack, onCancel, onEditInConfigurator }: S
 
       {/* Empty panel notice */}
       {elements.length === 0 && (
-        <div className="bg-bg-card border border-border rounded p-3 text-[10px] text-text-dim text-center">
+        <div className="bg-card border border-border rounded p-3 text-[10px] text-muted-foreground text-center">
           No elements placed. This will export as a blank panel with mounting ears and bores.
         </div>
       )}
@@ -137,33 +138,40 @@ export function StepReview({ onNext, onBack, onCancel, onEditInConfigurator }: S
       {/* Actions */}
       <div className="flex flex-col gap-2 mt-2">
         <div className="flex items-center gap-2">
-          <button
+          <Button
             onClick={onEditInConfigurator}
-            className="flex-1 px-4 py-2 rounded text-xs font-mono text-text-muted border border-border hover:border-accent-gold hover:text-accent-gold transition-all text-center"
+            variant="outline"
+            size="sm"
+            className="flex-1 text-xs font-mono hover:border-primary hover:text-primary"
           >
             Edit in Configurator
-          </button>
-          <button
+          </Button>
+          <Button
             onClick={onNext}
-            className="flex-1 px-4 py-2 rounded text-xs font-bold font-mono bg-accent-gold text-bg-primary hover:brightness-110 transition-all text-center"
+            size="sm"
+            className="flex-1 text-xs font-bold font-mono"
           >
             Export Now
-          </button>
+          </Button>
         </div>
 
         <div className="flex items-center justify-between">
-          <button
+          <Button
             onClick={onBack}
-            className="px-4 py-1.5 rounded text-xs font-mono text-text-muted border border-border hover:border-text-muted transition-all"
+            variant="outline"
+            size="sm"
+            className="text-xs font-mono"
           >
             Back
-          </button>
-          <button
+          </Button>
+          <Button
             onClick={onCancel}
-            className="text-[9px] font-mono text-danger hover:text-danger/80 transition-colors"
+            variant="ghost"
+            size="xs"
+            className="text-[9px] font-mono text-destructive hover:text-destructive/80"
           >
             Cancel Wizard
-          </button>
+          </Button>
         </div>
       </div>
     </div>

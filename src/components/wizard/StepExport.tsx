@@ -13,7 +13,8 @@ import { generateOpenSCAD } from '../../export/openscadGen';
 import { generateFusion360 } from '../../export/fusion360Gen';
 import { generateDXF } from '../../export/dxfGen';
 import { generateProductionDocs } from '../../export/productionDocs';
-import { showToast } from '../Toast';
+import { toast } from 'sonner';
+import { Button } from '../ui/button';
 
 interface StepExportProps {
   onBack: () => void;
@@ -39,7 +40,7 @@ export function StepExport({ onBack, onDone, onStartOver }: StepExportProps) {
     const config = getConfig();
     const json = exportJSON(config);
     downloadFile(json, 'rack-config.json', 'application/json');
-    showToast('JSON config downloaded');
+    toast('JSON config downloaded');
   }, [getConfig]);
 
   const handleCopyJSON = useCallback(() => {
@@ -53,35 +54,35 @@ export function StepExport({ onBack, onDone, onStartOver }: StepExportProps) {
     const config = getConfig();
     const scad = generateOpenSCAD(config);
     downloadFile(scad, 'rackmount.scad', 'text/plain');
-    showToast('OpenSCAD file downloaded');
+    toast('OpenSCAD file downloaded');
   }, [getConfig]);
 
   const handleDownloadFusion360 = useCallback(() => {
     const config = getConfig();
     const py = generateFusion360(config);
     downloadFile(py, 'rackmount_fusion360.py', 'text/x-python');
-    showToast('Fusion 360 script downloaded');
+    toast('Fusion 360 script downloaded');
   }, [getConfig]);
 
   const handleDownloadDXF = useCallback(() => {
     const config = getConfig();
     const dxf = generateDXF(config);
     downloadFile(dxf, 'rackmount-flat.dxf', 'application/dxf');
-    showToast('DXF flat pattern downloaded');
+    toast('DXF flat pattern downloaded');
   }, [getConfig]);
 
   const handleDownloadProductionDocs = useCallback(() => {
     const config = getConfig();
     const md = generateProductionDocs(config);
     downloadFile(md, 'rackpro-production-notes.md', 'text/markdown');
-    showToast('Production notes downloaded');
+    toast('Production notes downloaded');
   }, [getConfig]);
 
   return (
     <div className="flex flex-col gap-4 p-4">
       <div>
-        <h2 className="text-sm font-bold text-text-primary mb-1">Export</h2>
-        <p className="text-[10px] text-text-muted">
+        <h2 className="text-sm font-bold text-foreground mb-1">Export</h2>
+        <p className="text-[10px] text-muted-foreground">
           Download your panel design in various formats for fabrication.
         </p>
       </div>
@@ -165,7 +166,7 @@ export function StepExport({ onBack, onDone, onStartOver }: StepExportProps) {
 
       {/* Empty panel notice */}
       {elements.length === 0 && (
-        <div className="bg-bg-card border border-border rounded p-3 text-[10px] text-text-dim text-center">
+        <div className="bg-card border border-border rounded p-3 text-[10px] text-muted-foreground text-center">
           Exporting a blank panel with mounting ears and bore pattern.
         </div>
       )}
@@ -173,25 +174,30 @@ export function StepExport({ onBack, onDone, onStartOver }: StepExportProps) {
       {/* Actions */}
       <div className="flex items-center justify-between mt-4 pt-3 border-t border-border">
         <div className="flex items-center gap-2">
-          <button
+          <Button
             onClick={onBack}
-            className="px-4 py-1.5 rounded text-xs font-mono text-text-muted border border-border hover:border-text-muted transition-all"
+            variant="outline"
+            size="sm"
+            className="text-xs font-mono"
           >
             Back
-          </button>
-          <button
+          </Button>
+          <Button
             onClick={onStartOver}
-            className="text-[9px] font-mono text-danger hover:text-danger/80 transition-colors"
+            variant="ghost"
+            size="xs"
+            className="text-[9px] font-mono text-destructive hover:text-destructive/80"
           >
             Start Over
-          </button>
+          </Button>
         </div>
-        <button
+        <Button
           onClick={onDone}
-          className="px-4 py-1.5 rounded text-xs font-bold font-mono bg-accent-green text-bg-primary hover:brightness-110 transition-all"
+          size="sm"
+          className="text-xs font-bold font-mono bg-green-500 text-white hover:bg-green-600"
         >
           Done
-        </button>
+        </Button>
       </div>
     </div>
   );
@@ -215,24 +221,20 @@ function ExportRow({
   actions: ExportAction[];
 }) {
   return (
-    <div className="bg-bg-card border border-border rounded p-3">
-      <div className="text-[11px] font-bold text-text-primary mb-0.5">{title}</div>
-      <div className="text-[9px] text-text-muted mb-2">{desc}</div>
+    <div className="bg-card border border-border rounded p-3">
+      <div className="text-[11px] font-bold text-foreground mb-0.5">{title}</div>
+      <div className="text-[9px] text-muted-foreground mb-2">{desc}</div>
       <div className="flex items-center gap-2">
         {actions.map((a) => (
-          <button
+          <Button
             key={a.label}
             onClick={a.onClick}
-            className={`
-              px-3 py-1 rounded text-[9px] font-bold font-mono transition-all
-              ${a.primary
-                ? 'bg-accent-gold text-bg-primary hover:brightness-110'
-                : 'border border-border text-text-muted hover:border-text-muted'
-              }
-            `}
+            variant={a.primary ? 'default' : 'outline'}
+            size="xs"
+            className="text-[9px] font-bold font-mono"
           >
             {a.label}
-          </button>
+          </Button>
         ))}
       </div>
     </div>

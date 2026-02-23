@@ -1,9 +1,12 @@
 /**
- * CatalogSearchSidebar — Search input, category filters, brand filters.
+ * CatalogSearchSidebar -- Search input, category filters, brand filters.
  *
  * Faceted-search sidebar pattern: search bar at top, followed by
  * category pill/checkbox filters and brand filters with clear-all.
  */
+
+import { Input } from './ui/input';
+import { Button } from './ui/button';
 
 // ─── Props ──────────────────────────────────────────────────
 
@@ -58,20 +61,20 @@ export function CatalogSearchSidebar({
   const hasActiveFilters = query.length > 0 || categories.size > 0 || brands.size > 0;
 
   return (
-    <div className="w-[220px] shrink-0 bg-bg-secondary border-r border-border overflow-y-auto flex flex-col p-3 gap-3">
+    <div className="w-[220px] shrink-0 bg-secondary border-r border-border overflow-y-auto flex flex-col p-3 gap-3">
       {/* Search input */}
       <div className="relative">
-        <input
+        <Input
           type="text"
           value={query}
           onChange={(e) => setQuery(e.target.value)}
           placeholder="Search devices & connectors..."
-          className="w-full text-xs bg-bg-primary border border-border rounded px-2 py-1.5 text-text-primary placeholder:text-text-dim focus:outline-none focus:border-accent-gold/50"
+          className="w-full h-8 text-xs font-mono"
         />
         {query.length > 0 && (
           <button
             onClick={() => setQuery('')}
-            className="absolute right-1.5 top-1/2 -translate-y-1/2 text-text-dim hover:text-text-primary text-xs w-4 h-4 flex items-center justify-center"
+            className="absolute right-1.5 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-foreground text-xs w-4 h-4 flex items-center justify-center"
             aria-label="Clear search"
           >
             x
@@ -80,14 +83,14 @@ export function CatalogSearchSidebar({
       </div>
 
       {/* Result count */}
-      <div className="text-[10px] text-text-dim">
+      <div className="text-[10px] text-muted-foreground">
         {resultCount} item{resultCount !== 1 ? 's' : ''}
       </div>
 
       {/* Category filters */}
       {availableCategories.length > 0 && (
         <div>
-          <div className="text-[10px] font-bold uppercase tracking-wider text-text-muted mb-1.5">
+          <div className="text-[10px] font-bold uppercase tracking-wider text-muted-foreground mb-1.5">
             Categories
           </div>
           <div className="flex flex-wrap gap-1">
@@ -99,8 +102,8 @@ export function CatalogSearchSidebar({
                   onClick={() => toggleCategory(cat)}
                   className={`text-[10px] px-1.5 py-0.5 rounded border transition-colors ${
                     isActive
-                      ? 'bg-accent-gold/20 border-accent-gold text-accent-gold'
-                      : 'border-border text-text-dim hover:border-text-muted hover:text-text-muted'
+                      ? 'bg-primary/20 border-primary text-primary'
+                      : 'border-border text-muted-foreground hover:border-muted-foreground hover:text-foreground'
                   }`}
                 >
                   {categoryLabel(cat)}
@@ -114,7 +117,7 @@ export function CatalogSearchSidebar({
       {/* Brand filters */}
       {availableBrands.length > 0 && (
         <div>
-          <div className="text-[10px] font-bold uppercase tracking-wider text-text-muted mb-1.5">
+          <div className="text-[10px] font-bold uppercase tracking-wider text-muted-foreground mb-1.5">
             Brands
           </div>
           <div className="flex flex-wrap gap-1">
@@ -126,8 +129,8 @@ export function CatalogSearchSidebar({
                   onClick={() => toggleBrand(brand)}
                   className={`text-[10px] px-1.5 py-0.5 rounded border transition-colors ${
                     isActive
-                      ? 'bg-accent-gold/20 border-accent-gold text-accent-gold'
-                      : 'border-border text-text-dim hover:border-text-muted hover:text-text-muted'
+                      ? 'bg-primary/20 border-primary text-primary'
+                      : 'border-border text-muted-foreground hover:border-muted-foreground hover:text-foreground'
                   }`}
                 >
                   {brand}
@@ -140,12 +143,14 @@ export function CatalogSearchSidebar({
 
       {/* Clear all */}
       {hasActiveFilters && (
-        <button
+        <Button
           onClick={clearFilters}
-          className="text-[10px] text-text-dim hover:text-accent-gold transition-colors border border-border rounded px-2 py-1"
+          variant="outline"
+          size="sm"
+          className="text-[10px]"
         >
           Clear All Filters
-        </button>
+        </Button>
       )}
     </div>
   );

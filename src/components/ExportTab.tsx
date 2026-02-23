@@ -7,7 +7,7 @@ import { generateDXF, generateTrayDXF } from '../export/dxfGen';
 import { generateProductionDocs } from '../export/productionDocs';
 import { fusionPing, fusionBuild, fusionExport, fusionScreenshot, fusionQueryProperties, type FusionBuildResponse, type FusionExportResponse, type FusionQueryResponse } from '../mcp/fusion-client';
 import { generateShareUrl } from '../hooks/useDesignPersistence';
-import { showToast } from './Toast';
+import { toast } from 'sonner';
 import { Button } from './ui/button';
 import { Input } from './ui/input';
 import { PreflightReport } from './PreflightReport';
@@ -116,7 +116,7 @@ export function ExportTab() {
   const checkBeforeExport = useCallback((): boolean => {
     const result = runPreflight();
     if (result.hasCritical) {
-      showToast(`Export blocked: ${result.summary.critical} critical issue(s) found`);
+      toast(`Export blocked: ${result.summary.critical} critical issue(s) found`);
       return false;
     }
     return true;
@@ -297,7 +297,7 @@ export function ExportTab() {
     const url = generateShareUrl();
     try {
       await navigator.clipboard.writeText(url);
-      showToast('Share URL copied to clipboard');
+      toast('Share URL copied to clipboard');
     } catch {
       // Fallback for browsers that block clipboard API
       const input = document.createElement('input');
@@ -306,7 +306,7 @@ export function ExportTab() {
       input.select();
       document.execCommand('copy');
       document.body.removeChild(input);
-      showToast('Share URL copied to clipboard');
+      toast('Share URL copied to clipboard');
     }
   }, []);
 
@@ -329,7 +329,7 @@ export function ExportTab() {
           onProceed={() => {
             // Generic proceed — user can download any format below
             if (preflightResult.hasCritical) {
-              showToast(`Export blocked: ${preflightResult.summary.critical} critical issue(s)`);
+              toast(`Export blocked: ${preflightResult.summary.critical} critical issue(s)`);
             }
           }}
           format="All Formats"

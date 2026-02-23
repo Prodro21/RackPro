@@ -6,6 +6,7 @@
  */
 
 import { useConfigStore } from '../../store/useConfigStore';
+import { Button } from '../ui/button';
 import { panelHeight } from '../../constants/eia310';
 
 interface StepUHeightProps {
@@ -26,8 +27,8 @@ export function StepUHeight({ onNext, onBack }: StepUHeightProps) {
   return (
     <div className="flex flex-col gap-4 p-4">
       <div>
-        <h2 className="text-sm font-bold text-text-primary mb-1">U-Height</h2>
-        <p className="text-[10px] text-text-muted">
+        <h2 className="text-sm font-bold text-foreground mb-1">U-Height</h2>
+        <p className="text-[10px] text-muted-foreground">
           Select how tall your panel should be. 1U is the most common for network equipment.
         </p>
       </div>
@@ -43,31 +44,34 @@ export function StepUHeight({ onNext, onBack }: StepUHeightProps) {
               className={`
                 flex flex-col items-center justify-center p-3 rounded border-2 transition-all
                 ${isSelected
-                  ? 'border-accent-gold bg-accent-gold/10'
-                  : 'border-border hover:border-accent-gold/40 bg-bg-card'
+                  ? 'border-primary bg-primary/10'
+                  : 'border-border hover:border-primary/40 bg-card'
                 }
               `}
             >
-              <span className="text-lg font-bold text-text-primary">{u}U</span>
-              <span className="text-[9px] font-mono text-text-muted">{h.toFixed(1)}mm</span>
+              <span className="text-lg font-bold text-foreground">{u}U</span>
+              <span className="text-[9px] font-mono text-muted-foreground">{h.toFixed(1)}mm</span>
             </button>
           );
         })}
       </div>
 
       <div className="flex items-center justify-between mt-2">
-        <button
+        <Button
           onClick={onBack}
-          className="px-4 py-1.5 rounded text-xs font-mono text-text-muted border border-border hover:border-text-muted transition-all"
+          variant="outline"
+          size="sm"
+          className="text-xs font-mono"
         >
           Back
-        </button>
-        <button
+        </Button>
+        <Button
           onClick={onNext}
-          className="px-4 py-1.5 rounded text-xs font-bold font-mono bg-accent-gold text-bg-primary hover:brightness-110 transition-all"
+          size="sm"
+          className="text-xs font-bold font-mono"
         >
           Next
-        </button>
+        </Button>
       </div>
     </div>
   );

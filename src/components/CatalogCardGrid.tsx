@@ -38,7 +38,7 @@ function CollapsibleSection({
     <div className="mb-3">
       <button
         onClick={onToggleSection}
-        className="w-full flex items-center justify-between px-2 py-1.5 text-xs font-bold uppercase tracking-wider text-text-muted hover:text-text-primary transition-colors"
+        className="w-full flex items-center justify-between px-2 py-1.5 text-xs font-bold uppercase tracking-wider text-muted-foreground hover:text-foreground transition-colors"
       >
         <span className="flex items-center gap-2">
           <span
@@ -49,7 +49,7 @@ function CollapsibleSection({
           </span>
           {title}
         </span>
-        <span className="text-[10px] font-normal bg-bg-primary border border-border rounded-full px-1.5 py-0.5">
+        <span className="text-[10px] font-normal bg-background border border-border rounded-full px-1.5 py-0.5">
           {count}
         </span>
       </button>
@@ -125,7 +125,7 @@ export function CatalogCardGrid({
 
   if (items.length === 0) {
     return (
-      <div className="flex-1 flex items-center justify-center text-text-dim text-sm p-8">
+      <div className="flex-1 flex items-center justify-center text-muted-foreground text-sm p-8">
         No items match your search.
       </div>
     );

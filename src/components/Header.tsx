@@ -1,4 +1,5 @@
 import { useConfigStore } from '../store';
+import { Button } from './ui/button';
 import type { TabId } from '../types';
 
 const TABS: TabId[] = ['front', 'side', '3d', 'split', 'specs', 'export'];
@@ -11,46 +12,52 @@ export function Header() {
   const redo = useConfigStore(s => s.redo);
 
   return (
-    <div className="bg-bg-secondary border-b border-border px-3 py-[10px] flex items-center justify-between gap-2 shrink-0 min-w-0">
+    <div className="bg-secondary border-b border-border px-3 py-[10px] flex items-center justify-between gap-2 shrink-0 min-w-0">
       <div className="flex items-center gap-[10px] min-w-0 shrink-1">
-        <div className="w-8 h-8 shrink-0 bg-gradient-to-br from-accent-gold to-[#d4a017] rounded-[5px] flex items-center justify-center text-[16px] font-black text-[#111]">
+        <div className="w-8 h-8 shrink-0 bg-gradient-to-br from-primary to-primary/70 rounded-[5px] flex items-center justify-center text-[16px] font-black text-primary-foreground">
           &#8862;
         </div>
         <div className="min-w-0">
           <div className="text-sm font-bold tracking-[.05em] truncate">RACK MOUNT CONFIGURATOR</div>
-          <div className="text-[8px] text-text-dim tracking-[.12em] truncate">EIA-310 &bull; 3D PRINT / SHEET METAL &bull; FULL ENCLOSURE</div>
+          <div className="text-[8px] text-muted-foreground tracking-[.12em] truncate">EIA-310 &bull; 3D PRINT / SHEET METAL &bull; FULL ENCLOSURE</div>
         </div>
       </div>
       <div className="flex items-center gap-2 shrink-0">
         <div className="flex gap-[2px]">
-          <button
+          <Button
             onClick={undo}
-            className="border-none px-2 py-1 rounded-[3px] text-[11px] cursor-pointer font-mono bg-transparent text-text-muted hover:text-text-primary"
+            variant="ghost"
+            size="icon"
+            className="h-7 w-7 text-[11px] font-mono text-muted-foreground hover:text-foreground"
             title="Undo (Ctrl+Z)"
           >
             &#8617;
-          </button>
-          <button
+          </Button>
+          <Button
             onClick={redo}
-            className="border-none px-2 py-1 rounded-[3px] text-[11px] cursor-pointer font-mono bg-transparent text-text-muted hover:text-text-primary"
+            variant="ghost"
+            size="icon"
+            className="h-7 w-7 text-[11px] font-mono text-muted-foreground hover:text-foreground"
             title="Redo (Ctrl+Shift+Z)"
           >
             &#8618;
-          </button>
+          </Button>
         </div>
         <div className="flex gap-[1px]">
           {TABS.map(t => (
-            <button
+            <Button
               key={t}
               onClick={() => setActiveTab(t)}
-              className="border-none px-2 py-1 rounded-[3px] text-[9px] font-bold tracking-[.08em] cursor-pointer uppercase font-mono"
-              style={{
-                background: activeTab === t ? '#f7b600' : 'transparent',
-                color: activeTab === t ? '#111' : '#666',
-              }}
+              variant={activeTab === t ? 'default' : 'ghost'}
+              size="xs"
+              className={`text-[9px] font-bold tracking-[.08em] uppercase font-mono ${
+                activeTab === t
+                  ? 'bg-primary text-primary-foreground'
+                  : 'text-muted-foreground'
+              }`}
             >
               {t}
-            </button>
+            </Button>
           ))}
         </div>
       </div>

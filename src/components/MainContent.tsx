@@ -1,6 +1,7 @@
 import { Component, lazy, Suspense, useEffect } from 'react';
 import type { ReactNode } from 'react';
 import { useConfigStore } from '../store';
+import { Button } from './ui/button';
 import { FrontView } from './FrontView';
 import { SideView } from './SideView';
 import { SplitView } from './SplitView';
@@ -14,7 +15,7 @@ const Preview3D = lazy(() =>
 
 function Loading3D() {
   return (
-    <div className="flex-1 flex items-center justify-center bg-bg-primary text-text-muted text-sm">
+    <div className="flex-1 flex items-center justify-center bg-background text-muted-foreground text-sm">
       Loading 3D preview...
     </div>
   );
@@ -33,20 +34,22 @@ class Preview3DErrorBoundary extends Component<
   render() {
     if (this.state.error) {
       return (
-        <div className="flex-1 flex flex-col items-center justify-center bg-bg-primary text-text-muted gap-3 p-6">
-          <div className="text-accent-danger text-sm font-bold">3D Preview Error</div>
-          <div className="text-[10px] text-text-dim max-w-[400px] text-center">
+        <div className="flex-1 flex flex-col items-center justify-center bg-background text-muted-foreground gap-3 p-6">
+          <div className="text-destructive text-sm font-bold">3D Preview Error</div>
+          <div className="text-[10px] text-muted-foreground max-w-[400px] text-center">
             The 3D preview encountered an error (possibly degenerate CSG geometry). Try adjusting element positions or panel dimensions.
           </div>
-          <pre className="text-[8px] text-[#555] bg-bg-secondary rounded p-3 max-w-[500px] overflow-auto">
+          <pre className="text-[8px] text-muted-foreground/60 bg-secondary rounded p-3 max-w-[500px] overflow-auto">
             {this.state.error.message}
           </pre>
-          <button
+          <Button
             onClick={() => this.setState({ error: null })}
-            className="px-3 py-1 rounded text-[9px] font-bold font-mono border border-border bg-transparent text-text-muted cursor-pointer"
+            variant="outline"
+            size="xs"
+            className="text-[9px] font-bold font-mono"
           >
             Retry
-          </button>
+          </Button>
         </div>
       );
     }
@@ -70,7 +73,7 @@ export function MainContent() {
   }, [is3dVisible]);
 
   return (
-    <div className="flex-1 flex flex-col bg-bg-primary min-w-0 overflow-hidden">
+    <div className="flex-1 flex flex-col bg-background min-w-0 overflow-hidden">
       {activeTab === 'front' && <FrontView />}
       {activeTab === 'side' && <SideView />}
       {activeTab === 'split' && <SplitView />}

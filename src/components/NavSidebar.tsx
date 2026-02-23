@@ -36,14 +36,14 @@ const NAV_ITEMS = [
 
 export function NavSidebar() {
   return (
-    <nav className="w-[52px] shrink-0 bg-bg-secondary border-r border-border flex flex-col items-center py-3 gap-3">
+    <nav className="w-[52px] shrink-0 bg-secondary border-r border-border flex flex-col items-center py-3 gap-3">
       {NAV_ITEMS.map((item) => (
         <Link
           key={item.to}
           to={item.to}
           className="flex flex-col items-center gap-0.5 text-[9px] no-underline transition-colors"
-          activeProps={{ className: 'flex flex-col items-center gap-0.5 text-[9px] no-underline text-accent-gold' }}
-          inactiveProps={{ className: 'flex flex-col items-center gap-0.5 text-[9px] no-underline text-text-muted hover:text-text-primary' }}
+          activeProps={{ className: 'flex flex-col items-center gap-0.5 text-[9px] no-underline text-primary' }}
+          inactiveProps={{ className: 'flex flex-col items-center gap-0.5 text-[9px] no-underline text-muted-foreground hover:text-foreground' }}
         >
           {item.icon}
           <span>{item.label}</span>

@@ -6,6 +6,7 @@
  */
 
 import { useConfigStore } from '../../store/useConfigStore';
+import { Button } from '../ui/button';
 import type { RackStandard } from '../../types';
 
 interface StepStandardProps {
@@ -43,8 +44,8 @@ export function StepStandard({ onNext }: StepStandardProps) {
   return (
     <div className="flex flex-col gap-4 p-4">
       <div>
-        <h2 className="text-sm font-bold text-text-primary mb-1">Rack Standard</h2>
-        <p className="text-[10px] text-text-muted">
+        <h2 className="text-sm font-bold text-foreground mb-1">Rack Standard</h2>
+        <p className="text-[10px] text-muted-foreground">
           Choose the rack width for your panel. This determines available space for devices and connectors.
         </p>
       </div>
@@ -59,27 +60,28 @@ export function StepStandard({ onNext }: StepStandardProps) {
               className={`
                 text-left p-4 rounded border-2 transition-all
                 ${isSelected
-                  ? 'border-accent-gold bg-accent-gold/10'
-                  : 'border-border hover:border-accent-gold/40 bg-bg-card'
+                  ? 'border-primary bg-primary/10'
+                  : 'border-border hover:border-primary/40 bg-card'
                 }
               `}
             >
               <div className="flex items-center justify-between mb-1">
-                <span className="text-sm font-bold text-text-primary">{opt.title}</span>
-                <span className="text-[10px] font-mono text-text-muted">{opt.width}</span>
+                <span className="text-sm font-bold text-foreground">{opt.title}</span>
+                <span className="text-[10px] font-mono text-muted-foreground">{opt.width}</span>
               </div>
-              <p className="text-[10px] text-text-muted">{opt.desc}</p>
+              <p className="text-[10px] text-muted-foreground">{opt.desc}</p>
             </button>
           );
         })}
       </div>
 
-      <button
+      <Button
         onClick={onNext}
-        className="self-end mt-2 px-4 py-1.5 rounded text-xs font-bold font-mono bg-accent-gold text-bg-primary hover:brightness-110 transition-all"
+        size="sm"
+        className="self-end mt-2 text-xs font-bold font-mono"
       >
         Next
-      </button>
+      </Button>
     </div>
   );
 }

@@ -12,7 +12,9 @@ import { useCatalogSearch, type CatalogItem } from '../../hooks/useCatalogSearch
 import { CatalogCardGrid } from '../CatalogCardGrid';
 import { autoLayoutV2, type ConnectorZone } from '../../lib/autoLayoutV2';
 import { panelDimensions, panelHeight } from '../../constants/eia310';
-import { showToast } from '../Toast';
+import { toast } from 'sonner';
+import { Button } from '../ui/button';
+import { Input } from '../ui/input';
 
 interface StepDevicesProps {
   onNext: () => void;
@@ -62,10 +64,10 @@ export function StepDevices({ onNext, onBack, connectorZone }: StepDevicesProps)
     // FIX 6: Surface validation issues and overflow as toasts
     store.setValidationIssueIds(result.validationIssues);
     if (result.overflow) {
-      showToast(result.overflow.message);
+      toast(result.overflow.message);
     }
     if (result.validationIssues.length > 0) {
-      showToast(`${result.validationIssues.length} element(s) have placement issues`);
+      toast(`${result.validationIssues.length} element(s) have placement issues`);
     }
   }, [connectorZone]);
 
@@ -93,18 +95,18 @@ export function StepDevices({ onNext, onBack, connectorZone }: StepDevicesProps)
   return (
     <div className="flex flex-col h-full">
       <div className="p-4 pb-2">
-        <h2 className="text-sm font-bold text-text-primary mb-1">Add Devices</h2>
-        <p className="text-[10px] text-text-muted mb-3">
+        <h2 className="text-sm font-bold text-foreground mb-1">Add Devices</h2>
+        <p className="text-[10px] text-muted-foreground mb-3">
           Browse the device catalog and add items to your panel. This step is optional -- skip if building a connector-only patch panel.
         </p>
 
         {/* Search input */}
-        <input
+        <Input
           type="text"
           value={query}
           onChange={(e) => setQuery(e.target.value)}
           placeholder="Search devices..."
-          className="w-full px-3 py-1.5 text-xs rounded border border-border bg-bg-input text-text-primary font-mono placeholder:text-text-dim"
+          className="w-full h-8 text-xs font-mono"
         />
 
         {/* Category filters */}
@@ -118,8 +120,8 @@ export function StepDevices({ onNext, onBack, connectorZone }: StepDevicesProps)
                 className={`
                   px-2 py-0.5 rounded text-[9px] font-mono transition-colors border
                   ${isActive
-                    ? 'border-accent-gold bg-accent-gold/15 text-accent-gold'
-                    : 'border-border text-text-dim hover:border-text-muted'
+                    ? 'border-primary bg-primary/15 text-primary'
+                    : 'border-border text-muted-foreground hover:border-muted-foreground'
                   }
                 `}
               >
@@ -130,7 +132,7 @@ export function StepDevices({ onNext, onBack, connectorZone }: StepDevicesProps)
           {(categories.size > 0 || query) && (
             <button
               onClick={clearFilters}
-              className="px-2 py-0.5 rounded text-[9px] font-mono text-text-dim hover:text-text-muted"
+              className="px-2 py-0.5 rounded text-[9px] font-mono text-muted-foreground hover:text-foreground"
             >
               Clear
             </button>
@@ -151,22 +153,24 @@ export function StepDevices({ onNext, onBack, connectorZone }: StepDevicesProps)
       {/* Placed devices list */}
       {placedDevices.length > 0 && (
         <div className="border-t border-border p-3">
-          <div className="text-[9px] font-mono text-text-muted mb-1 tracking-wide">
+          <div className="text-[9px] font-mono text-muted-foreground mb-1 tracking-wide">
             PLACED DEVICES ({placedDevices.length})
           </div>
           <div className="flex flex-col gap-1 max-h-[120px] overflow-y-auto">
             {placedDevices.map((el) => (
               <div
                 key={el.id}
-                className="flex items-center justify-between px-2 py-1 rounded bg-bg-card border border-border text-[10px]"
+                className="flex items-center justify-between px-2 py-1 rounded bg-card border border-border text-[10px]"
               >
-                <span className="text-text-primary truncate">{el.label}</span>
-                <button
+                <span className="text-foreground truncate">{el.label}</span>
+                <Button
                   onClick={() => handleRemoveDevice(el.id)}
-                  className="text-danger hover:text-danger/80 text-[9px] font-mono shrink-0 ml-2"
+                  variant="ghost"
+                  size="xs"
+                  className="text-destructive hover:text-destructive/80 text-[9px] font-mono shrink-0 ml-2"
                 >
                   Remove
-                </button>
+                </Button>
               </div>
             ))}
           </div>
@@ -175,27 +179,32 @@ export function StepDevices({ onNext, onBack, connectorZone }: StepDevicesProps)
 
       {/* Navigation */}
       <div className="flex items-center justify-between p-3 border-t border-border">
-        <button
+        <Button
           onClick={onBack}
-          className="px-4 py-1.5 rounded text-xs font-mono text-text-muted border border-border hover:border-text-muted transition-all"
+          variant="outline"
+          size="sm"
+          className="text-xs font-mono"
         >
           Back
-        </button>
+        </Button>
         <div className="flex items-center gap-2">
           {placedDevices.length === 0 && (
-            <button
+            <Button
               onClick={onNext}
-              className="px-4 py-1.5 rounded text-xs font-mono text-text-muted border border-border hover:border-text-muted transition-all"
+              variant="outline"
+              size="sm"
+              className="text-xs font-mono"
             >
               Skip
-            </button>
+            </Button>
           )}
-          <button
+          <Button
             onClick={onNext}
-            className="px-4 py-1.5 rounded text-xs font-bold font-mono bg-accent-gold text-bg-primary hover:brightness-110 transition-all"
+            size="sm"
+            className="text-xs font-bold font-mono"
           >
             Next
-          </button>
+          </Button>
         </div>
       </div>
     </div>

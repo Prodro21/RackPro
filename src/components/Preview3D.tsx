@@ -418,8 +418,11 @@ export function Preview3D({ frameloop = 'always' }: { frameloop?: 'always' | 'ne
       <div className="absolute top-3 right-3 z-10 flex gap-1">
         <button
           onClick={() => setWireframe(!wireframe)}
-          className="px-2 py-1 text-[9px] font-bold rounded border border-border font-mono"
-          style={{ background: wireframe ? '#f7b600' : '#1a1a22', color: wireframe ? '#111' : '#888' }}
+          className={`px-2 py-1 text-[9px] font-bold rounded border font-mono ${
+            wireframe
+              ? 'bg-primary text-primary-foreground border-primary'
+              : 'bg-[#1a1a22] text-muted-foreground border-border'
+          }`}
         >
           {wireframe ? 'SOLID' : 'WIRE'}
         </button>

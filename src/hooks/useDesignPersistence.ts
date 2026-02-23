@@ -18,7 +18,7 @@ import {
   decodeDesign,
   applyDesignToStore,
 } from '../lib/designSerializer';
-import { showToast } from '../components/Toast';
+import { toast } from 'sonner';
 
 // ─── Constants ────────────────────────────────────────────────
 
@@ -92,9 +92,11 @@ function loadInitialDesign(): void {
       applyDesignToStore(design);
 
       // Show toast offering to restore localStorage design
-      showToast('Loaded shared design. Your saved design is still available.', {
-        label: 'Restore saved',
-        onClick: () => restoreFromLocalStorage(),
+      toast('Loaded shared design. Your saved design is still available.', {
+        action: {
+          label: 'Restore saved',
+          onClick: () => restoreFromLocalStorage(),
+        },
       });
 
       // Clean up: remove design param from URL to prevent re-loading on refresh.

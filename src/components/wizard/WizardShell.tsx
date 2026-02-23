@@ -9,6 +9,8 @@ import { useState, useEffect, useRef, useCallback } from 'react';
 import { useNavigate, useBlocker } from '@tanstack/react-router';
 import { useConfigStore } from '../../store/useConfigStore';
 import type { ConnectorZone } from '../../lib/autoLayoutV2';
+import { Button } from '../ui/button';
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription, DialogFooter } from '../ui/dialog';
 import { FrontView } from '../FrontView';
 import { StepNav } from './StepNav';
 import { StepStandard } from './StepStandard';
@@ -143,7 +145,7 @@ export function WizardShell() {
   };
 
   return (
-    <div className="flex-1 flex flex-col bg-bg-primary text-text-primary min-h-0">
+    <div className="flex-1 flex flex-col bg-background text-foreground min-h-0">
       {/* Step navigation bar */}
       <StepNav steps={STEPS} labels={LABELS} current={currentStep} onChange={goToStep} />
 
@@ -152,16 +154,18 @@ export function WizardShell() {
         {/* Left: wizard form panel */}
         <div className="w-[420px] shrink-0 flex flex-col border-r border-border overflow-y-auto">
           {/* Cancel button header */}
-          <div className="flex items-center justify-between px-3 py-1.5 border-b border-border bg-bg-secondary/50">
-            <span className="text-[9px] font-mono text-text-dim tracking-wide">
+          <div className="flex items-center justify-between px-3 py-1.5 border-b border-border bg-secondary/50">
+            <span className="text-[9px] font-mono text-muted-foreground tracking-wide">
               WIZARD -- Step {currentStep + 1}/{STEPS.length}
             </span>
-            <button
+            <Button
               onClick={handleCancel}
-              className="text-[9px] font-mono text-danger hover:text-danger/80 transition-colors"
+              variant="ghost"
+              size="xs"
+              className="text-[9px] font-mono text-destructive hover:text-destructive/80"
             >
               Cancel Wizard
-            </button>
+            </Button>
           </div>
 
           {/* Step content */}
@@ -171,36 +175,39 @@ export function WizardShell() {
         </div>
 
         {/* Right: live FrontView preview */}
-        <div className="flex-1 flex items-center justify-center overflow-auto bg-bg-primary">
+        <div className="flex-1 flex items-center justify-center overflow-auto bg-background">
           <FrontView />
         </div>
       </div>
 
       {/* Navigation blocker confirmation dialog */}
-      {blocker.status === 'blocked' && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60">
-          <div className="bg-bg-secondary border border-border rounded-lg p-6 max-w-sm shadow-xl">
-            <h3 className="text-sm font-bold text-text-primary mb-2">Leave wizard?</h3>
-            <p className="text-[10px] text-text-muted mb-4">
+      <Dialog open={blocker.status === 'blocked'} onOpenChange={(open) => { if (!open) blocker.reset?.(); }}>
+        <DialogContent className="bg-secondary border-border max-w-sm">
+          <DialogHeader>
+            <DialogTitle className="text-sm font-bold">Leave wizard?</DialogTitle>
+            <DialogDescription className="text-[10px] text-muted-foreground">
               Your progress is saved. You can resume the wizard later from where you left off.
-            </p>
-            <div className="flex items-center justify-end gap-2">
-              <button
-                onClick={() => blocker.reset()}
-                className="px-3 py-1.5 rounded text-xs font-mono border border-border text-text-muted hover:text-text-primary transition-colors"
-              >
-                Stay
-              </button>
-              <button
-                onClick={() => blocker.proceed()}
-                className="px-3 py-1.5 rounded text-xs font-bold font-mono bg-accent-gold text-bg-primary hover:brightness-110 transition-all"
-              >
-                Leave
-              </button>
-            </div>
-          </div>
-        </div>
-      )}
+            </DialogDescription>
+          </DialogHeader>
+          <DialogFooter className="gap-2">
+            <Button
+              onClick={() => blocker.reset?.()}
+              variant="outline"
+              size="sm"
+              className="text-xs font-mono"
+            >
+              Stay
+            </Button>
+            <Button
+              onClick={() => blocker.proceed?.()}
+              size="sm"
+              className="text-xs font-bold font-mono"
+            >
+              Leave
+            </Button>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
     </div>
   );
 }

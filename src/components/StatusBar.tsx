@@ -17,7 +17,7 @@ export function StatusBar() {
   const material = fabMethod === '3dp' ? `${printer.name}/${filament.name}` : metal.name;
 
   return (
-    <div className="border-t border-border px-3 py-1 flex justify-between text-[8px] text-text-muted bg-bg-secondary shrink-0">
+    <div className="border-t border-border px-3 py-1 flex justify-between text-[8px] text-muted-foreground bg-secondary shrink-0">
       <span>
         {panDims.panelWidth.toFixed(0)}&times;{panH.toFixed(0)}&times;{depth.toFixed(0)}mm &bull; {material} &bull; {elements.length} features &bull; {remaining.toFixed(0)}mm free
       </span>

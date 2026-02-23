@@ -1,14 +1,19 @@
 import { useState } from 'react';
 import { useCustomDevices } from '../store/useCustomDevices';
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription, DialogFooter } from './ui/dialog';
+import { Button } from './ui/button';
+import { Input } from './ui/input';
+import { Label } from './ui/label';
 import type { DeviceDef } from '../types';
 
 interface CustomDeviceModalProps {
+  open: boolean;
   onClose: () => void;
   editKey?: string;
   editDef?: DeviceDef;
 }
 
-export function CustomDeviceModal({ onClose, editKey, editDef }: CustomDeviceModalProps) {
+export function CustomDeviceModal({ open, onClose, editKey, editDef }: CustomDeviceModalProps) {
   const addCustomDevice = useCustomDevices(s => s.addCustomDevice);
   const updateCustomDevice = useCustomDevices(s => s.updateCustomDevice);
 
@@ -50,47 +55,71 @@ export function CustomDeviceModal({ onClose, editKey, editDef }: CustomDeviceMod
   const ph = h * scale;
 
   return (
-    <div
-      className="fixed inset-0 z-50 flex items-center justify-center"
-      style={{ background: 'rgba(0,0,0,0.7)' }}
-      onClick={onClose}
-    >
-      <div
-        className="bg-bg-secondary border border-border rounded-lg p-5 w-[380px] max-h-[90vh] overflow-y-auto"
-        onClick={e => e.stopPropagation()}
-      >
-        <div className="text-sm font-bold text-text-primary mb-4">
-          {isEdit ? 'Edit Custom Device' : 'New Custom Device'}
-        </div>
+    <Dialog open={open} onOpenChange={(isOpen) => { if (!isOpen) onClose(); }}>
+      <DialogContent className="bg-secondary border-border max-w-[380px]">
+        <DialogHeader>
+          <DialogTitle className="text-sm font-bold">
+            {isEdit ? 'Edit Custom Device' : 'New Custom Device'}
+          </DialogTitle>
+          <DialogDescription className="text-[10px] text-muted-foreground">
+            Define custom device dimensions for your rack panel layout.
+          </DialogDescription>
+        </DialogHeader>
 
         <div className="space-y-3">
-          <Field label="Name" value={name} onChange={setName} type="text" />
-          <div className="flex gap-3">
-            <Field label="Width (mm)" value={w} onChange={v => setW(+v)} type="number" min={15} max={390} />
-            <Field label="Depth (mm)" value={d} onChange={v => setD(+v)} type="number" min={30} max={400} />
-            <Field label="Height (mm)" value={h} onChange={v => setH(+v)} type="number" min={11} max={250} />
+          <div className="space-y-1">
+            <Label className="text-[7px] text-muted-foreground tracking-[.08em]">Name</Label>
+            <Input
+              type="text"
+              value={name}
+              onChange={e => setName(e.target.value)}
+              className="h-7 text-[9px] font-mono"
+            />
           </div>
           <div className="flex gap-3">
-            <Field label="Weight (kg)" value={wt} onChange={v => setWt(+v)} type="number" min={0} max={15} step={0.1} />
-            <div className="flex flex-col gap-px flex-1">
-              <span className="text-[7px] text-text-label tracking-[.08em]">Color</span>
+            <div className="space-y-1 flex-1">
+              <Label className="text-[7px] text-muted-foreground tracking-[.08em]">Width (mm)</Label>
+              <Input type="number" value={w} onChange={e => setW(+e.target.value)} min={15} max={390} className="h-7 text-[9px] font-mono" />
+            </div>
+            <div className="space-y-1 flex-1">
+              <Label className="text-[7px] text-muted-foreground tracking-[.08em]">Depth (mm)</Label>
+              <Input type="number" value={d} onChange={e => setD(+e.target.value)} min={30} max={400} className="h-7 text-[9px] font-mono" />
+            </div>
+            <div className="space-y-1 flex-1">
+              <Label className="text-[7px] text-muted-foreground tracking-[.08em]">Height (mm)</Label>
+              <Input type="number" value={h} onChange={e => setH(+e.target.value)} min={11} max={250} className="h-7 text-[9px] font-mono" />
+            </div>
+          </div>
+          <div className="flex gap-3">
+            <div className="space-y-1 flex-1">
+              <Label className="text-[7px] text-muted-foreground tracking-[.08em]">Weight (kg)</Label>
+              <Input type="number" value={wt} onChange={e => setWt(+e.target.value)} min={0} max={15} step={0.1} className="h-7 text-[9px] font-mono" />
+            </div>
+            <div className="space-y-1 flex-1">
+              <Label className="text-[7px] text-muted-foreground tracking-[.08em]">Color</Label>
               <input
                 type="color"
                 value={color}
                 onChange={e => setColor(e.target.value)}
-                className="w-full h-[26px] rounded border border-border cursor-pointer bg-bg-input"
+                className="w-full h-7 rounded border border-border cursor-pointer bg-input"
               />
             </div>
           </div>
           <div className="flex gap-3">
-            <Field label="Ports" value={ports} onChange={setPorts} type="text" />
-            <Field label="PoE" value={poe} onChange={setPoe} type="text" />
+            <div className="space-y-1 flex-1">
+              <Label className="text-[7px] text-muted-foreground tracking-[.08em]">Ports</Label>
+              <Input type="text" value={ports} onChange={e => setPorts(e.target.value)} className="h-7 text-[9px] font-mono" />
+            </div>
+            <div className="space-y-1 flex-1">
+              <Label className="text-[7px] text-muted-foreground tracking-[.08em]">PoE</Label>
+              <Input type="text" value={poe} onChange={e => setPoe(e.target.value)} className="h-7 text-[9px] font-mono" />
+            </div>
           </div>
         </div>
 
         {/* Preview */}
-        <div className="mt-4 bg-bg-primary rounded p-3">
-          <div className="text-[8px] text-text-label mb-2">PREVIEW (relative to 1U)</div>
+        <div className="mt-2 bg-background rounded p-3">
+          <div className="text-[8px] text-muted-foreground mb-2">PREVIEW (relative to 1U)</div>
           <svg width={maxPreviewW + 20} height={60} viewBox={`0 0 ${maxPreviewW + 20} 60`}>
             {/* 1U reference */}
             <rect x={10} y={5} width={maxPreviewW} height={maxPreviewH * scale} fill="none" stroke="#333" strokeWidth={0.5} strokeDasharray="3,2" />
@@ -113,50 +142,17 @@ export function CustomDeviceModal({ onClose, editKey, editDef }: CustomDeviceMod
           </svg>
         </div>
 
-        {error && <div className="mt-2 text-[9px] text-accent-danger">{error}</div>}
+        {error && <div className="text-[9px] text-destructive">{error}</div>}
 
-        <div className="flex gap-2 mt-4 justify-end">
-          <button
-            onClick={onClose}
-            className="px-3 py-1.5 rounded text-[9px] font-bold font-mono border border-border bg-transparent text-text-muted cursor-pointer"
-          >
+        <DialogFooter className="gap-2">
+          <Button variant="outline" size="sm" onClick={onClose} className="text-[9px] font-mono">
             Cancel
-          </button>
-          <button
-            onClick={handleSave}
-            className="px-3 py-1.5 rounded text-[9px] font-bold font-mono border-none bg-accent-gold text-[#111] cursor-pointer"
-          >
+          </Button>
+          <Button size="sm" onClick={handleSave} className="text-[9px] font-mono font-bold">
             {isEdit ? 'Update' : 'Create'}
-          </button>
-        </div>
-      </div>
-    </div>
-  );
-}
-
-function Field({
-  label, value, onChange, type, min, max, step,
-}: {
-  label: string;
-  value: string | number;
-  onChange: (v: string) => void;
-  type: string;
-  min?: number;
-  max?: number;
-  step?: number;
-}) {
-  return (
-    <label className="flex flex-col gap-px flex-1">
-      <span className="text-[7px] text-text-label tracking-[.08em]">{label}</span>
-      <input
-        type={type}
-        value={value}
-        onChange={e => onChange(e.target.value)}
-        min={min}
-        max={max}
-        step={step}
-        className="bg-bg-input text-text-primary border border-border rounded-[3px] px-1.5 py-[3px] text-[9px] font-mono outline-none"
-      />
-    </label>
+          </Button>
+        </DialogFooter>
+      </DialogContent>
+    </Dialog>
   );
 }

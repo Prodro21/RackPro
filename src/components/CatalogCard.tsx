@@ -1,5 +1,5 @@
 /**
- * CatalogCard — Adaptive card with compact/expanded states.
+ * CatalogCard -- Adaptive card with compact/expanded states.
  *
  * Compact: name, brand (devices only), key dimension, confidence dot.
  * Expanded: full dimensions, category, weight, SVG outline thumbnail,
@@ -10,6 +10,7 @@
 
 import type { CatalogItem } from '../hooks/useCatalogSearch';
 import { getCachedOutlinePath } from '../catalog/outlines';
+import { Button } from './ui/button';
 
 // ─── Confidence Dot ─────────────────────────────────────────
 
@@ -67,11 +68,11 @@ export function CatalogCard({ item, isExpanded, onToggle, onAdd }: CatalogCardPr
       onClick={onToggle}
       className={`border rounded p-2 cursor-pointer transition-colors ${
         isExpanded
-          ? 'border-accent-gold/50 bg-bg-secondary'
-          : 'border-border hover:border-accent-gold/50'
+          ? 'border-primary/50 bg-secondary'
+          : 'border-border hover:border-primary/50'
       }`}
     >
-      {/* ── Compact state (always visible) ── */}
+      {/* Compact state (always visible) */}
       <div className="flex items-center justify-between gap-1">
         <span className="text-sm font-medium truncate">{item.name}</span>
         <span
@@ -82,37 +83,37 @@ export function CatalogCard({ item, isExpanded, onToggle, onAdd }: CatalogCardPr
       </div>
 
       {item.itemType === 'device' && (
-        <div className="text-xs text-text-dim truncate">{item.brand}</div>
+        <div className="text-xs text-muted-foreground truncate">{item.brand}</div>
       )}
 
-      <div className="text-xs text-text-muted mt-0.5">{dimensionLine}</div>
+      <div className="text-xs text-muted-foreground mt-0.5">{dimensionLine}</div>
 
-      {/* ── Expanded state ── */}
+      {/* Expanded state */}
       {isExpanded && (
         <div className="mt-2 border-t border-border pt-2 space-y-1.5">
           {/* Full dimensions */}
           {item.itemType === 'device' ? (
             <>
-              <div className="text-xs text-text-muted">
+              <div className="text-xs text-muted-foreground">
                 {item.width} x {item.depth} x {item.height} mm (W x D x H)
               </div>
-              <div className="text-xs text-text-muted">
+              <div className="text-xs text-muted-foreground">
                 Weight: {item.weight} kg
               </div>
             </>
           ) : (
-            <div className="text-xs text-text-muted">
+            <div className="text-xs text-muted-foreground">
               Cutout: {item.cutoutWidth} x {item.cutoutHeight} mm ({item.cutoutType})
             </div>
           )}
 
           {/* Category tag */}
-          <div className="inline-block text-[10px] px-1.5 py-0.5 rounded bg-bg-primary border border-border text-text-dim">
+          <div className="inline-block text-[10px] px-1.5 py-0.5 rounded bg-background border border-border text-muted-foreground">
             {item.itemType === 'device' ? item.category : 'connector'}
           </div>
 
           {/* Confidence badge text */}
-          <div className="flex items-center gap-1 text-[10px] text-text-dim">
+          <div className="flex items-center gap-1 text-[10px] text-muted-foreground">
             <span
               className="w-1.5 h-1.5 rounded-full"
               style={{ backgroundColor: dotColor }}
@@ -133,7 +134,7 @@ export function CatalogCard({ item, isExpanded, onToggle, onAdd }: CatalogCardPr
                   fill="none"
                   stroke="currentColor"
                   strokeWidth={1}
-                  className="text-text-muted"
+                  className="text-muted-foreground"
                 />
               </svg>
             </div>
@@ -141,22 +142,23 @@ export function CatalogCard({ item, isExpanded, onToggle, onAdd }: CatalogCardPr
 
           {/* Compatible modules (connectors only) */}
           {item.itemType === 'connector' && item.compatibleModules.length > 0 && (
-            <div className="text-[10px] text-text-dim">
+            <div className="text-[10px] text-muted-foreground">
               <span className="font-medium">Modules:</span>{' '}
               {item.compatibleModules.map((m) => m.name).join(', ')}
             </div>
           )}
 
           {/* Add to Panel button */}
-          <button
+          <Button
             onClick={(e) => {
               e.stopPropagation();
               onAdd();
             }}
-            className="w-full bg-accent-gold text-bg-primary font-bold px-3 py-1 rounded text-xs hover:brightness-110 transition-all mt-1"
+            size="sm"
+            className="w-full text-xs font-bold mt-1"
           >
             + Add to Panel
-          </button>
+          </Button>
         </div>
       )}
     </div>

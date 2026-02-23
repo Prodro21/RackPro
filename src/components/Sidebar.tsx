@@ -621,13 +621,12 @@ export function Sidebar() {
         </>
       )}
 
-      {showCustomModal && (
-        <CustomDeviceModal
-          onClose={() => { setShowCustomModal(false); setEditCustomKey(undefined); }}
-          editKey={editCustomKey}
-          editDef={editCustomKey ? customDevices[editCustomKey] : undefined}
-        />
-      )}
+      <CustomDeviceModal
+        open={showCustomModal}
+        onClose={() => { setShowCustomModal(false); setEditCustomKey(undefined); }}
+        editKey={editCustomKey}
+        editDef={editCustomKey ? customDevices[editCustomKey] : undefined}
+      />
     </div>
   );
 }
