@@ -177,7 +177,7 @@ export function StepExport({ onBack, onDone, onStartOver }: StepExportProps) {
           <Button
             onClick={onBack}
             variant="outline"
-            size="default"
+            size="lg"
           >
             Back
           </Button>
@@ -192,8 +192,8 @@ export function StepExport({ onBack, onDone, onStartOver }: StepExportProps) {
         </div>
         <Button
           onClick={onDone}
-          size="default"
-          className="font-semibold bg-success text-white hover:bg-success/90"
+          size="lg"
+          className="font-semibold bg-success text-white hover:bg-success/90 min-w-[100px]"
         >
           Done
         </Button>

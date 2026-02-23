@@ -75,13 +75,15 @@ export function StepStandard({ onNext }: StepStandardProps) {
         })}
       </div>
 
-      <Button
-        onClick={onNext}
-        size="default"
-        className="self-end mt-2 font-semibold"
-      >
-        Next
-      </Button>
+      <div className="flex items-center justify-end mt-3">
+        <Button
+          onClick={onNext}
+          size="lg"
+          className="font-semibold min-w-[100px]"
+        >
+          Next
+        </Button>
+      </div>
     </div>
   );
 }

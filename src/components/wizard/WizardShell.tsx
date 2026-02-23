@@ -32,9 +32,10 @@ const SESSION_KEY = 'rackpro-wizard-step';
 
 interface WizardShellProps {
   onClose?: () => void;
+  modal?: boolean;
 }
 
-export function WizardShell({ onClose }: WizardShellProps) {
+export function WizardShell({ onClose, modal }: WizardShellProps) {
   // Reset wizard step to 0 on mount (clear stale sessionStorage)
   const [currentStep, setCurrentStep] = useState<number>(0);
 
@@ -138,12 +139,12 @@ export function WizardShell({ onClose }: WizardShellProps) {
 
       {/* Main content: form + preview */}
       <div className="flex-1 flex min-h-0">
-        {/* Left: wizard form panel */}
-        <div className="w-[440px] shrink-0 flex flex-col border-r border-border-default overflow-y-auto">
+        {/* Form panel — full width in modal, fixed width with preview otherwise */}
+        <div className={`flex flex-col overflow-y-auto ${modal ? 'flex-1' : 'w-[440px] shrink-0 border-r border-border-default'}`}>
           {/* Cancel button header */}
-          <div className="flex items-center justify-between px-4 py-2.5 border-b border-border-default bg-bg-elevated/50">
+          <div className="flex items-center justify-between px-5 py-2 border-b border-border-default bg-bg-elevated/50">
             <span className="text-xs font-mono text-text-tertiary tracking-wide">
-              WIZARD -- Step {currentStep + 1}/{STEPS.length}
+              WIZARD &mdash; Step {currentStep + 1}/{STEPS.length}
             </span>
             <Tooltip>
               <TooltipTrigger asChild>
@@ -166,10 +167,12 @@ export function WizardShell({ onClose }: WizardShellProps) {
           </div>
         </div>
 
-        {/* Right: live FrontView preview */}
-        <div className="flex-1 flex items-center justify-center overflow-auto bg-bg-main">
-          <FrontView />
-        </div>
+        {/* Right: live FrontView preview (hidden in modal mode) */}
+        {!modal && (
+          <div className="flex-1 flex items-center justify-center overflow-auto bg-bg-main">
+            <FrontView />
+          </div>
+        )}
       </div>
 
     </div>

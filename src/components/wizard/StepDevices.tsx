@@ -182,7 +182,7 @@ export function StepDevices({ onNext, onBack, connectorZone }: StepDevicesProps)
         <Button
           onClick={onBack}
           variant="outline"
-          size="default"
+          size="lg"
         >
           Back
         </Button>
@@ -191,15 +191,15 @@ export function StepDevices({ onNext, onBack, connectorZone }: StepDevicesProps)
             <Button
               onClick={onNext}
               variant="outline"
-              size="default"
+              size="lg"
             >
               Skip
             </Button>
           )}
           <Button
             onClick={onNext}
-            size="default"
-            className="font-semibold"
+            size="lg"
+            className="font-semibold min-w-[100px]"
           >
             Next
           </Button>

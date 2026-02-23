@@ -25,11 +25,11 @@ export function WizardModal() {
 
   return (
     <Dialog open={open} onOpenChange={(v) => { if (!v) close(); }}>
-      <DialogContent className="max-w-[720px] w-full h-[80vh] p-0 overflow-hidden flex flex-col">
+      <DialogContent className="max-w-[560px] w-full h-[80vh] p-0 overflow-hidden flex flex-col">
         <VisuallyHidden>
           <DialogTitle>Quick Setup Wizard</DialogTitle>
         </VisuallyHidden>
-        {open && <WizardShell key={mountKey} onClose={close} />}
+        {open && <WizardShell key={mountKey} onClose={close} modal />}
       </DialogContent>
     </Dialog>
   );

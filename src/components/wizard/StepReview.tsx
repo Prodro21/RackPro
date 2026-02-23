@@ -79,7 +79,7 @@ export function StepReview({ onNext, onBack, onCancel, onEditInConfigurator }: S
       <div>
         <h2 className="text-sm font-bold text-text-primary mb-1.5">Review Design</h2>
         <p className="text-xs text-text-secondary leading-relaxed">
-          Review your panel configuration. The live preview on the right shows the final layout.
+          Review your panel configuration before exporting.
         </p>
       </div>
 
@@ -141,14 +141,14 @@ export function StepReview({ onNext, onBack, onCancel, onEditInConfigurator }: S
           <Button
             onClick={onEditInConfigurator}
             variant="outline"
-            size="default"
+            size="lg"
             className="flex-1 hover:border-accent hover:text-accent-text"
           >
             Edit in Configurator
           </Button>
           <Button
             onClick={onNext}
-            size="default"
+            size="lg"
             className="flex-1 font-semibold"
           >
             Export Now
@@ -159,7 +159,7 @@ export function StepReview({ onNext, onBack, onCancel, onEditInConfigurator }: S
           <Button
             onClick={onBack}
             variant="outline"
-            size="default"
+            size="lg"
           >
             Back
           </Button>
