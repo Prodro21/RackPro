@@ -15,7 +15,6 @@
 
 import { useState, useMemo, useCallback, useEffect } from 'react';
 import Fuse from 'fuse.js';
-import { useNavigate } from '@tanstack/react-router';
 import {
   CommandDialog,
   CommandInput,
@@ -28,6 +27,7 @@ import {
 } from './ui/command';
 import { useCatalogStore } from '../catalog/useCatalogStore';
 import { useConfigStore } from '../store';
+import { useUIStore } from '../store/useUIStore';
 import { CONNECTORS } from '../constants/connectors';
 import { DEVICES } from '../constants/devices';
 import { generateConfig, exportJSON, downloadFile } from '../export/configJson';
@@ -53,7 +53,6 @@ interface SearchItem {
 }
 
 export function CommandPalette({ open, onOpenChange }: CommandPaletteProps) {
-  const navigate = useNavigate();
   const [query, setQuery] = useState('');
 
   // Reset query when palette opens
@@ -136,14 +135,16 @@ export function CommandPalette({ open, onOpenChange }: CommandPaletteProps) {
 
   const close = useCallback(() => onOpenChange(false), [onOpenChange]);
 
-  // Navigation commands
-  const handleNavigate = useCallback(
-    (to: '/' | '/catalog' | '/wizard') => {
-      close();
-      navigate({ to });
-    },
-    [close, navigate],
-  );
+  // Navigation commands — catalog/wizard are now modals, not routes
+  const handleOpenCatalog = useCallback(() => {
+    close();
+    useUIStore.getState().openCatalogModal();
+  }, [close]);
+
+  const handleOpenWizard = useCallback(() => {
+    close();
+    useUIStore.getState().openWizardModal();
+  }, [close]);
 
   // Add element from search result
   const handleAddElement = useCallback(
@@ -263,17 +264,13 @@ export function CommandPalette({ open, onOpenChange }: CommandPaletteProps) {
         )}
 
         <CommandGroup heading="Navigation">
-          <CommandItem value="nav-configurator" onSelect={() => handleNavigate('/')}>
-            <span className="text-[13px] mr-1">&#8862;</span>
-            Configurator
-          </CommandItem>
-          <CommandItem value="nav-catalog" onSelect={() => handleNavigate('/catalog')}>
+          <CommandItem value="nav-catalog" onSelect={handleOpenCatalog}>
             <span className="text-[13px] mr-1">&#9776;</span>
-            Catalog Browser
+            Browse Catalog
           </CommandItem>
-          <CommandItem value="nav-wizard" onSelect={() => handleNavigate('/wizard')}>
+          <CommandItem value="nav-wizard" onSelect={handleOpenWizard}>
             <span className="text-[13px] mr-1">&#10070;</span>
-            Design Wizard
+            Quick Setup Wizard
           </CommandItem>
         </CommandGroup>
 

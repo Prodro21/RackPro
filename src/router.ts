@@ -11,7 +11,7 @@ const rootRoute = createRootRoute({
   component: lazyRouteComponent(() => import('./routes/__root'), 'RootLayout'),
 });
 
-// Child routes — each lazy-loaded for code splitting
+// Single child route — configurator is the entire app
 const configuratorRoute = createRoute({
   getParentRoute: () => rootRoute,
   path: '/',
@@ -21,30 +21,8 @@ const configuratorRoute = createRoute({
   ),
 });
 
-const catalogRoute = createRoute({
-  getParentRoute: () => rootRoute,
-  path: '/catalog',
-  component: lazyRouteComponent(
-    () => import('./routes/catalog'),
-    'CatalogRoute',
-  ),
-});
-
-const wizardRoute = createRoute({
-  getParentRoute: () => rootRoute,
-  path: '/wizard',
-  component: lazyRouteComponent(
-    () => import('./routes/wizard'),
-    'WizardRoute',
-  ),
-});
-
 // Build route tree
-const routeTree = rootRoute.addChildren([
-  configuratorRoute,
-  catalogRoute,
-  wizardRoute,
-]);
+const routeTree = rootRoute.addChildren([configuratorRoute]);
 
 // Hash history for client-side routing without server config
 const hashHistory = createHashHistory();
