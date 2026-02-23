@@ -11,9 +11,9 @@ See: .planning/PROJECT.md (updated 2026-02-23)
 
 Milestone: UX Consolidation
 Phase: 02-ux-consolidation
-Current Plan: 1 of 3
-Status: Plan 01 complete — NavSidebar removed, useUIStore created, header subtitle added, sidebar trigger buttons wired
-Last activity: 2026-02-23 — Plan 01 executed (2 tasks, 3min)
+Current Plan: 2 of 3
+Status: Plan 02 complete — CatalogModal and WizardModal overlays created, orphaned files deleted
+Last activity: 2026-02-23 — Plan 02 executed (2 tasks, 3min)
 
 ## Performance Metrics
 
@@ -41,6 +41,7 @@ Last activity: 2026-02-23 — Plan 01 executed (2 tasks, 3min)
 | Plan | Tasks | Duration |
 |------|-------|----------|
 | 02-01 Remove NavSidebar + Routes | 2 | 3min |
+| 02-02 Catalog/Wizard Modal Overlays | 2 | 3min |
 
 ## Accumulated Context
 
@@ -70,6 +71,11 @@ All v1.0 decisions archived in `.planning/milestones/v1.0-ROADMAP.md` and `.plan
 - CommandPalette navigation updated to open modals instead of route navigation
 - NavSidebar.tsx kept on disk but removed from render tree
 - useUIStore pattern: ephemeral UI state (modals, drawers) lives in separate store from config undo/redo stack
+- CatalogModal uses 90vw x 85vh sizing for large overlay with full-bleed catalog layout
+- WizardModal uses key-based remount to reset wizard step on each open
+- WizardShell removed useBlocker/useNavigate router deps entirely in favor of onClose callback
+- CatalogBrowser closes modal and shows toast after adding item in modal mode
+- CommandPalette group renamed from Navigation to Tools
 
 ### Pending Todos
 
@@ -87,5 +93,5 @@ None — clean slate for next milestone.
 ## Session Continuity
 
 Last session: 2026-02-23
-Stopped at: Completed 02-01-PLAN.md (Remove NavSidebar + Routes)
-Resume file: .planning/phases/02-ux-consolidation/02-01-SUMMARY.md
+Stopped at: Completed 02-02-PLAN.md (Catalog/Wizard Modal Overlays)
+Resume file: .planning/phases/02-ux-consolidation/02-02-SUMMARY.md
