@@ -139,9 +139,9 @@ export function WizardShell({ onClose }: WizardShellProps) {
       {/* Main content: form + preview */}
       <div className="flex-1 flex min-h-0">
         {/* Left: wizard form panel */}
-        <div className="w-[420px] shrink-0 flex flex-col border-r border-border-default overflow-y-auto">
+        <div className="w-[440px] shrink-0 flex flex-col border-r border-border-default overflow-y-auto">
           {/* Cancel button header */}
-          <div className="flex items-center justify-between px-3 py-1.5 border-b border-border-default bg-bg-elevated/50">
+          <div className="flex items-center justify-between px-4 py-2.5 border-b border-border-default bg-bg-elevated/50">
             <span className="text-xs font-mono text-text-tertiary tracking-wide">
               WIZARD -- Step {currentStep + 1}/{STEPS.length}
             </span>
@@ -150,7 +150,7 @@ export function WizardShell({ onClose }: WizardShellProps) {
                 <Button
                   onClick={handleCancel}
                   variant="ghost"
-                  size="xs"
+                  size="sm"
                   className="text-xs text-danger hover:text-danger/80"
                 >
                   Cancel Wizard
@@ -161,7 +161,7 @@ export function WizardShell({ onClose }: WizardShellProps) {
           </div>
 
           {/* Step content */}
-          <div className="flex-1 overflow-y-auto">
+          <div className="flex-1 overflow-y-auto p-1">
             {renderStep()}
           </div>
         </div>

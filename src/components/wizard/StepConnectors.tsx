@@ -123,9 +123,9 @@ export function StepConnectors({
 
   return (
     <div className="flex flex-col h-full">
-      <div className="p-4 pb-2">
-        <h2 className="text-sm font-bold text-text-primary mb-1">Add Connectors</h2>
-        <p className="text-xs text-text-secondary mb-3">
+      <div className="p-5 pb-3">
+        <h2 className="text-sm font-bold text-text-primary mb-1.5">Add Connectors</h2>
+        <p className="text-xs text-text-secondary mb-3 leading-relaxed">
           Browse the connector catalog and add pass-through connectors. This step is optional.
         </p>
 
@@ -197,8 +197,8 @@ export function StepConnectors({
 
       {/* Placed connectors list */}
       {placedConnectors.length > 0 && (
-        <div className="border-t border-border-default p-3">
-          <div className="text-xs font-mono text-text-tertiary mb-1 tracking-wide">
+        <div className="border-t border-border-default px-5 py-3">
+          <div className="text-xs font-mono text-text-tertiary mb-1.5 tracking-wide">
             PLACED CONNECTORS ({placedConnectors.length})
           </div>
           <div className="flex flex-col gap-1 max-h-[120px] overflow-y-auto">
@@ -223,12 +223,11 @@ export function StepConnectors({
       )}
 
       {/* Navigation */}
-      <div className="flex items-center justify-between p-3 border-t border-border-default">
+      <div className="flex items-center justify-between px-5 py-3 border-t border-border-default">
         <Button
           onClick={onBack}
           variant="outline"
-          size="sm"
-          className="text-xs"
+          size="default"
         >
           Back
         </Button>
@@ -237,16 +236,15 @@ export function StepConnectors({
             <Button
               onClick={onNext}
               variant="outline"
-              size="sm"
-              className="text-xs"
+              size="default"
             >
               Skip
             </Button>
           )}
           <Button
             onClick={onNext}
-            size="sm"
-            className="text-xs font-bold"
+            size="default"
+            className="font-semibold"
           >
             Next
           </Button>

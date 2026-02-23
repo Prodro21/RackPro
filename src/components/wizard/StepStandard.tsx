@@ -42,10 +42,10 @@ export function StepStandard({ onNext }: StepStandardProps) {
   };
 
   return (
-    <div className="flex flex-col gap-4 p-4">
+    <div className="flex flex-col gap-4 p-5">
       <div>
-        <h2 className="text-sm font-bold text-text-primary mb-1">Rack Standard</h2>
-        <p className="text-xs text-text-secondary">
+        <h2 className="text-sm font-bold text-text-primary mb-1.5">Rack Standard</h2>
+        <p className="text-xs text-text-secondary leading-relaxed">
           Choose the rack width for your panel. This determines available space for devices and connectors.
         </p>
       </div>
@@ -77,8 +77,8 @@ export function StepStandard({ onNext }: StepStandardProps) {
 
       <Button
         onClick={onNext}
-        size="sm"
-        className="self-end mt-2 text-xs font-bold"
+        size="default"
+        className="self-end mt-2 font-semibold"
       >
         Next
       </Button>

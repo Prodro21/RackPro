@@ -792,16 +792,16 @@ export function Sidebar() {
 
       {/* Modal trigger buttons */}
       <div className="h-px bg-border-subtle" />
-      <div className="space-y-1.5 px-3 py-2 shrink-0">
+      <div className="space-y-1.5 px-4 py-3 shrink-0">
         <button
           onClick={openCatalogModal}
-          className="w-full h-8 text-xs font-medium rounded-md border border-border-default hover:bg-bg-elevated transition-colors"
+          className="w-full h-9 text-xs font-medium rounded-md border border-border-default hover:bg-bg-elevated hover:border-border-strong transition-colors"
         >
           Browse Catalog...
         </button>
         <button
           onClick={openWizardModal}
-          className="w-full h-8 text-xs font-medium rounded-md border border-dashed border-border-default hover:bg-bg-elevated transition-colors"
+          className="w-full h-9 text-xs font-medium rounded-md border border-dashed border-border-default hover:bg-bg-elevated hover:border-border-strong transition-colors"
         >
           Quick Setup Wizard
         </button>

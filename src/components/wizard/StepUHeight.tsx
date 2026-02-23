@@ -25,10 +25,10 @@ export function StepUHeight({ onNext, onBack }: StepUHeightProps) {
   };
 
   return (
-    <div className="flex flex-col gap-4 p-4">
+    <div className="flex flex-col gap-4 p-5">
       <div>
-        <h2 className="text-sm font-bold text-text-primary mb-1">U-Height</h2>
-        <p className="text-xs text-text-secondary">
+        <h2 className="text-sm font-bold text-text-primary mb-1.5">U-Height</h2>
+        <p className="text-xs text-text-secondary leading-relaxed">
           Select how tall your panel should be. 1U is the most common for network equipment.
         </p>
       </div>
@@ -56,19 +56,18 @@ export function StepUHeight({ onNext, onBack }: StepUHeightProps) {
         })}
       </div>
 
-      <div className="flex items-center justify-between mt-2">
+      <div className="flex items-center justify-between mt-3">
         <Button
           onClick={onBack}
           variant="outline"
-          size="sm"
-          className="text-xs"
+          size="default"
         >
           Back
         </Button>
         <Button
           onClick={onNext}
-          size="sm"
-          className="text-xs font-bold"
+          size="default"
+          className="font-semibold"
         >
           Next
         </Button>

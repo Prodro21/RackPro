@@ -14,7 +14,7 @@ interface StepNavProps {
 
 export function StepNav({ steps, labels, current, onChange }: StepNavProps) {
   return (
-    <nav className="flex items-center gap-1 px-3 py-2 bg-bg-nav border-b border-border-default">
+    <nav className="flex items-center gap-1 px-4 py-2.5 bg-bg-nav border-b border-border-default">
       {steps.map((_, i) => {
         const isCompleted = i < current;
         const isActive = i === current;
@@ -36,7 +36,7 @@ export function StepNav({ steps, labels, current, onChange }: StepNavProps) {
           >
             <span
               className={`
-                flex items-center justify-center w-4 h-4 rounded-full text-xs font-bold border
+                flex items-center justify-center w-5 h-5 rounded-full text-[11px] font-bold border
                 ${isActive ? 'border-accent bg-accent-subtle text-accent-text' : ''}
                 ${isCompleted ? 'border-success bg-success-subtle text-success' : ''}
                 ${isLocked ? 'border-border-default bg-transparent text-text-tertiary' : ''}

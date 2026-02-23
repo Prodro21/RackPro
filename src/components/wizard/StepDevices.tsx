@@ -94,9 +94,9 @@ export function StepDevices({ onNext, onBack, connectorZone }: StepDevicesProps)
 
   return (
     <div className="flex flex-col h-full">
-      <div className="p-4 pb-2">
-        <h2 className="text-sm font-bold text-text-primary mb-1">Add Devices</h2>
-        <p className="text-xs text-text-secondary mb-3">
+      <div className="p-5 pb-3">
+        <h2 className="text-sm font-bold text-text-primary mb-1.5">Add Devices</h2>
+        <p className="text-xs text-text-secondary mb-3 leading-relaxed">
           Browse the device catalog and add items to your panel. This step is optional -- skip if building a connector-only patch panel.
         </p>
 
@@ -152,8 +152,8 @@ export function StepDevices({ onNext, onBack, connectorZone }: StepDevicesProps)
 
       {/* Placed devices list */}
       {placedDevices.length > 0 && (
-        <div className="border-t border-border-default p-3">
-          <div className="text-xs font-mono text-text-tertiary mb-1 tracking-wide">
+        <div className="border-t border-border-default px-5 py-3">
+          <div className="text-xs font-mono text-text-tertiary mb-1.5 tracking-wide">
             PLACED DEVICES ({placedDevices.length})
           </div>
           <div className="flex flex-col gap-1 max-h-[120px] overflow-y-auto">
@@ -178,12 +178,11 @@ export function StepDevices({ onNext, onBack, connectorZone }: StepDevicesProps)
       )}
 
       {/* Navigation */}
-      <div className="flex items-center justify-between p-3 border-t border-border-default">
+      <div className="flex items-center justify-between px-5 py-3 border-t border-border-default">
         <Button
           onClick={onBack}
           variant="outline"
-          size="sm"
-          className="text-xs"
+          size="default"
         >
           Back
         </Button>
@@ -192,16 +191,15 @@ export function StepDevices({ onNext, onBack, connectorZone }: StepDevicesProps)
             <Button
               onClick={onNext}
               variant="outline"
-              size="sm"
-              className="text-xs"
+              size="default"
             >
               Skip
             </Button>
           )}
           <Button
             onClick={onNext}
-            size="sm"
-            className="text-xs font-bold"
+            size="default"
+            className="font-semibold"
           >
             Next
           </Button>

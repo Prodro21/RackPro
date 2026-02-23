@@ -79,10 +79,10 @@ export function StepExport({ onBack, onDone, onStartOver }: StepExportProps) {
   }, [getConfig]);
 
   return (
-    <div className="flex flex-col gap-4 p-4">
+    <div className="flex flex-col gap-4 p-5">
       <div>
-        <h2 className="text-sm font-bold text-text-primary mb-1">Export</h2>
-        <p className="text-xs text-text-secondary">
+        <h2 className="text-sm font-bold text-text-primary mb-1.5">Export</h2>
+        <p className="text-xs text-text-secondary leading-relaxed">
           Download your panel design in various formats for fabrication.
         </p>
       </div>
@@ -172,20 +172,19 @@ export function StepExport({ onBack, onDone, onStartOver }: StepExportProps) {
       )}
 
       {/* Actions */}
-      <div className="flex items-center justify-between mt-4 pt-3 border-t border-border-default">
+      <div className="flex items-center justify-between mt-4 pt-4 border-t border-border-default">
         <div className="flex items-center gap-2">
           <Button
             onClick={onBack}
             variant="outline"
-            size="sm"
-            className="text-xs"
+            size="default"
           >
             Back
           </Button>
           <Button
             onClick={onStartOver}
             variant="ghost"
-            size="xs"
+            size="sm"
             className="text-xs text-danger hover:text-danger/80"
           >
             Start Over
@@ -193,8 +192,8 @@ export function StepExport({ onBack, onDone, onStartOver }: StepExportProps) {
         </div>
         <Button
           onClick={onDone}
-          size="sm"
-          className="text-xs font-bold bg-success text-white hover:bg-success/90"
+          size="default"
+          className="font-semibold bg-success text-white hover:bg-success/90"
         >
           Done
         </Button>
@@ -221,17 +220,17 @@ function ExportRow({
   actions: ExportAction[];
 }) {
   return (
-    <div className="bg-bg-card border border-border-default rounded p-3 hover:border-border-strong transition-colors">
+    <div className="bg-bg-card border border-border-default rounded-md p-4 hover:border-border-strong transition-colors">
       <div className="text-sm font-bold text-text-primary mb-0.5">{title}</div>
-      <div className="text-xs text-text-secondary mb-2">{desc}</div>
+      <div className="text-xs text-text-secondary mb-3">{desc}</div>
       <div className="flex items-center gap-2">
         {actions.map((a) => (
           <Button
             key={a.label}
             onClick={a.onClick}
             variant={a.primary ? 'default' : 'outline'}
-            size="xs"
-            className="text-xs font-bold"
+            size="sm"
+            className="font-semibold"
           >
             {a.label}
           </Button>

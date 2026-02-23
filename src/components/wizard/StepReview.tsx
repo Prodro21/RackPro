@@ -75,10 +75,10 @@ export function StepReview({ onNext, onBack, onCancel, onEditInConfigurator }: S
   const fanCount = useMemo(() => elements.filter((e) => e.type === 'fan').length, [elements]);
 
   return (
-    <div className="flex flex-col gap-4 p-4">
+    <div className="flex flex-col gap-4 p-5">
       <div>
-        <h2 className="text-sm font-bold text-text-primary mb-1">Review Design</h2>
-        <p className="text-xs text-text-secondary">
+        <h2 className="text-sm font-bold text-text-primary mb-1.5">Review Design</h2>
+        <p className="text-xs text-text-secondary leading-relaxed">
           Review your panel configuration. The live preview on the right shows the final layout.
         </p>
       </div>
@@ -136,20 +136,20 @@ export function StepReview({ onNext, onBack, onCancel, onEditInConfigurator }: S
       )}
 
       {/* Actions */}
-      <div className="flex flex-col gap-2 mt-2">
-        <div className="flex items-center gap-2">
+      <div className="flex flex-col gap-3 mt-3">
+        <div className="flex items-center gap-3">
           <Button
             onClick={onEditInConfigurator}
             variant="outline"
-            size="sm"
-            className="flex-1 text-xs hover:border-accent hover:text-accent-text"
+            size="default"
+            className="flex-1 hover:border-accent hover:text-accent-text"
           >
             Edit in Configurator
           </Button>
           <Button
             onClick={onNext}
-            size="sm"
-            className="flex-1 text-xs font-bold"
+            size="default"
+            className="flex-1 font-semibold"
           >
             Export Now
           </Button>
@@ -159,15 +159,14 @@ export function StepReview({ onNext, onBack, onCancel, onEditInConfigurator }: S
           <Button
             onClick={onBack}
             variant="outline"
-            size="sm"
-            className="text-xs"
+            size="default"
           >
             Back
           </Button>
           <Button
             onClick={onCancel}
             variant="ghost"
-            size="xs"
+            size="sm"
             className="text-xs text-danger hover:text-danger/80"
           >
             Cancel Wizard
