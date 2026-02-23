@@ -5,14 +5,15 @@
 See: .planning/PROJECT.md (updated 2026-02-23)
 
 **Core value:** Anyone can design a custom rack mount panel with real equipment dimensions and export a fabrication-ready file — without CAD expertise.
-**Current focus:** Phase 8 complete — ready for next milestone
+**Current focus:** Phase 1 Frontend Design Rework — Plan 01 complete (theme foundation)
 
 ## Current Position
 
-Milestone: v1.0 MVP — SHIPPED 2026-02-23
-Last completed phase: Phase 8 — Visual Theme Rework (4/4 plans)
-Status: Phase 8 complete. Ready for `/gsd:new-milestone`.
-Last activity: 2026-02-23 — Phase 8 executed, all 4 plans complete, build verified
+Milestone: Frontend Design Rework
+Phase: 01-frontend-design-rework
+Current Plan: 2 of 5
+Status: Plan 01 complete — theme foundation shipped. Ready for Plan 02.
+Last activity: 2026-02-23 — Plan 01 executed (2 tasks, 2min)
 
 ## Performance Metrics
 
@@ -41,6 +42,11 @@ Last activity: 2026-02-23 — Phase 8 executed, all 4 plans complete, build veri
 
 All v1.0 decisions archived in `.planning/milestones/v1.0-ROADMAP.md` and `.planning/PROJECT.md` Key Decisions table.
 
+**Phase 01-frontend-design-rework:**
+- Dark theme as default (:root), light via .light class
+- Google Fonts CDN for DM Sans + JetBrains Mono (replaces self-hosted @fontsource Inter)
+- Backward-compat bridge duplicated in :root and .light for seamless migration
+
 ### Pending Todos
 
 None.
@@ -56,5 +62,5 @@ None — clean slate for next milestone.
 ## Session Continuity
 
 Last session: 2026-02-23
-Stopped at: Phase 1 context gathered
-Resume file: .planning/phases/01-frontend-design-rework/01-CONTEXT.md
+Stopped at: Completed 01-01-PLAN.md (Theme Foundation)
+Resume file: .planning/phases/01-frontend-design-rework/01-01-SUMMARY.md

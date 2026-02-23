@@ -33,7 +33,7 @@ Full details: `.planning/milestones/v1.0-ROADMAP.md`
 **Plans:** 5 plans
 
 Plans:
-- [ ] 01-01-PLAN.md — Theme foundation (CSS variables, fonts, useTheme hook, backward-compat bridge)
+- [x] 01-01-PLAN.md — Theme foundation (CSS variables, fonts, useTheme hook, backward-compat bridge)
 - [ ] 01-02-PLAN.md — Layout + navigation (root layout, NavSidebar, Header with segmented tabs, StatusBar)
 - [ ] 01-03-PLAN.md — Sidebar + UI components (compact controls, segment toggles, shadcn/ui restyling)
 - [ ] 01-04-PLAN.md — SVG theme-awareness (FrontView, SideView, SplitView, grid background)
