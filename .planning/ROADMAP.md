@@ -2,7 +2,7 @@
 
 ## Overview
 
-RackPro ships a polished, publicly hosted parametric rack mount configurator built on top of a substantial working foundation. The six phases progress from data layer (catalog schema + seed data) to UI surface (catalog browser + routing), to public readiness (export hardening + deployment), to onboarding quality (wizard + smart auto-layout), to professional finish (cost estimation + UI polish), and finally to visual quality and community pipeline (3D preview + contribution workflow). Each phase delivers a coherent capability that builds on the previous one without dead-end work.
+RackPro ships a polished, publicly hosted parametric rack mount configurator built on top of a substantial working foundation. The six phases progress from data layer (catalog schema + seed data) to UI surface (catalog browser + routing), to public readiness (export hardening + deployment), to onboarding quality (wizard + smart auto-layout), to visual polish (shadcn/ui + PBR 3D preview), and finally to cost estimation and community pipeline. Each phase delivers a coherent capability that builds on the previous one without dead-end work.
 
 ## Phases
 
@@ -17,8 +17,8 @@ Decimal phases appear between their surrounding integers in numeric order.
 - [x] **Phase 2: Catalog Browser + Routing** - Multi-view navigation with a searchable equipment browser and URL-shareable design state (completed 2026-02-22)
 - [x] **Phase 3: Export Hardening + Web Deployment** - Validated DXF export, Safari WebGL fix, and publicly hosted static site on Cloudflare Workers (completed 2026-02-22)
 - [ ] **Phase 4: Guided Wizard + Smart Auto-Layout** - Multi-step onboarding wizard and connector-grouping auto-layout replacing the greedy left-to-right algorithm
-- [ ] **Phase 5: Cost Estimation + UI Polish** - Filament and sheet metal cost range estimates with shadcn/ui component upgrades and stable selector tests
-- [ ] **Phase 6: 3D Preview Polish + Community Contributions** - Orbit controls, material shading, accurate geometry in 3D preview, and GitHub PR contribution pipeline for community equipment submissions
+- [ ] **Phase 5: UI + 3D Polish** - shadcn/ui component migration with Slate/Teal theme, PBR materials and CSG cutout geometry in 3D preview, Cmd+K command palette, and stable selector tests
+- [ ] **Phase 6: Cost Estimation + Community Contributions** - Filament and sheet metal cost range estimates, and GitHub PR contribution pipeline for community equipment submissions
 
 ## Phase Details
 
@@ -109,35 +109,39 @@ Plans:
 - [ ] 04-04-PLAN.md — Gap closure: Fix between-zone overflow, zone shift bounds clamping, overlap-aware overflow detection, validation surfacing in store and wizard steps, moveElement re-validation
 - [ ] 04-05-PLAN.md — Gap closure: Replace inline DEVICES[]/CONNECTORS[] lookups with catalog-aware lookupDevice()/lookupConnector() in Preview3D and useEnclosure for full 3D rendering of all elements
 
-### Phase 5: Cost Estimation + UI Polish
-**Goal**: Users can see estimated fabrication cost ranges with explicit assumptions, and all form controls use accessible shadcn/ui components with stable, tested Zustand selectors
+### Phase 5: UI + 3D Polish
+**Goal**: All form controls use accessible shadcn/ui components with a refreshed Slate/Teal dark theme, the 3D preview renders accurate CSG cutout geometry with PBR materials, a Cmd+K command palette provides power-user access, and Zustand selectors are stable and tested
 **Depends on**: Phase 3
-**Requirements**: COST-01, COST-02, COST-03, COST-04, PLAT-03, PLAT-04
+**Requirements**: PLAT-03, PLAT-04, 3D-02, 3D-03
+**Success Criteria** (what must be TRUE):
+  1. All dropdown selects, text inputs, buttons, and modal dialogs use shadcn/ui components with a Slate/Neutral dark theme and Teal/Cyan accent color
+  2. The 3D preview shows connector cutouts and device bay openings as actual CSG-subtracted geometry (real holes), not visual overlays
+  3. The 3D preview uses PBR materials: brushed aluminum for sheet metal, matte plastic for standard FDM, carbon fiber texture for PA-CF/PET-CF, auto-switching on fab method with manual override
+  4. A Cmd+K command palette supports navigation, device/connector search-and-add, export triggers, panel config changes, and undo/redo
+  5. Tooltips appear on settings controls, validation warnings, toolbar buttons, and export options to explain meaning
+  6. Every Zustand selector returning an object or array passes a stability test (call twice, assert `===`) and has its cache key composition documented inline
+**Plans:** 5 plans
+
+Plans:
+- [ ] 05-01-PLAN.md — Initialize shadcn/ui with Slate/Neutral + Teal/Cyan dark theme; replace all 9 legacy ui/ wrappers with shadcn equivalents in Sidebar, ExportTab, SpecsTab, SplitView; replace CustomDeviceModal with Dialog; replace Toast with Sonner; migrate all raw HTML buttons/inputs
+- [ ] 05-02-PLAN.md — Build Cmd+K command palette using shadcn Command (cmdk) with Fuse.js device/connector search, navigation, export triggers, panel config, undo/redo; add Tooltips to settings controls, toolbar buttons, export options
+- [ ] 05-03-PLAN.md — Implement CSG boolean subtraction for connector cutouts and device bay openings using three-bvh-csg with union-then-subtract batching and mesh caching; add simplified 3D connector body meshes behind the faceplate
+- [ ] 05-04-PLAN.md — Create PBR texture assets and usePanelMaterial hook; upgrade to MeshPhysicalMaterial with brushed metal, matte plastic, carbon fiber presets; auto-switch on fab method; material override dropdown; Environment upgrade to warehouse preset
+- [ ] 05-05-PLAN.md — Audit all Zustand selectors returning objects/arrays; add module-level memoization to selectFaceplateElements, selectRearElements, selectMaxDeviceDepth; document all cache keys inline; write selector stability tests
+
+### Phase 6: Cost Estimation + Community Contributions
+**Goal**: Users can see estimated fabrication cost ranges with explicit assumptions, and the community can submit new equipment entries via a validated GitHub PR workflow
+**Depends on**: Phase 5
+**Requirements**: COST-01, COST-02, COST-03, COST-04, COMM-01, COMM-02
 **Success Criteria** (what must be TRUE):
   1. User can see a filament cost estimate displayed as a range (e.g., "$12-$18 FDM") with explicit assumptions shown (filament cost per kg, infill %, support factor)
   2. User can see a sheet metal cost estimate as a range with material selection context and a direct link to SendCutSend or Protocase for exact quoting, accompanied by a clear "estimate only" disclaimer
-  3. All dropdown selects, text inputs, and modal dialogs in the app use shadcn/ui components rather than raw HTML form elements
-  4. Every Zustand selector returning an object or array passes a stability test (call twice, assert `===`) and has its cache key composition documented inline
-**Plans**: TBD
-
-Plans:
-- [ ] 05-01: Build `src/lib/costEstimation.ts` with `estimatePrintCost()` (volume x density x $/kg x support factor) and `estimateSheetMetalCost()` (flat pattern area x material cost); build `CostPanel.tsx` with range display, visible assumptions, disclaimer, and fabricator links
-- [ ] 05-02: Replace raw HTML `<select>`, `<input>`, and dialog elements with shadcn/ui components (`Select`, `Input`, `Dialog`, `Badge`, `Tooltip`, `Command`); initialize shadcn/ui via copy-to-source pattern
-- [ ] 05-03: Audit all existing and new Zustand selectors returning objects/arrays; add module-level memoization with documented cache keys; add selector stability tests
-
-### Phase 6: 3D Preview Polish + Community Contributions
-**Goal**: The 3D preview renders the panel accurately with proper lighting and material appearance, and the community can submit new equipment entries via a validated GitHub PR workflow
-**Depends on**: Phase 3
-**Requirements**: 3D-02, 3D-03, COMM-01, COMM-02
-**Success Criteria** (what must be TRUE):
-  1. The 3D preview shows environment lighting with material-appropriate shading — plastic appearance for FDM materials, brushed metal appearance for sheet metal
-  2. Connector cutouts and device bay openings are visible as accurate geometry in the 3D panel model (not approximated or omitted)
   3. A community contributor can find a contribution guide explaining how to submit a new device or connector as a GitHub PR, with a template that includes all required fields
   4. A submitted PR triggers CI validation that checks the Zod schema, detects slug collisions, and flags dimension values outside plausible ranges — rejecting obviously malformed entries automatically
 **Plans**: TBD
 
 Plans:
-- [ ] 06-01: Add R3F orbit controls, environment map lighting, and material-appropriate shading (MeshStandardMaterial for plastic, MeshPhysicalMaterial brushed metal preset for sheet metal); ensure connector cutouts and device openings render as subtracted geometry in the 3D model
+- [ ] 06-01: Build `src/lib/costEstimation.ts` with `estimatePrintCost()` (volume x density x $/kg x support factor) and `estimateSheetMetalCost()` (flat pattern area x material cost); build `CostPanel.tsx` with range display, visible assumptions, disclaimer, and fabricator links
 - [ ] 06-02: Write `CONTRIBUTING.md` in the repo root with PR submission guide and device/connector JSON template; set up GitHub Actions CI job that runs Zod schema validation, slug collision detection, and dimension plausibility range checks on every PR touching `public/catalog/`
 
 ## Progress
@@ -154,5 +158,5 @@ Note: Phases 4 and 5/6 can proceed in parallel after Phase 3 completes (Phase 4 
 | 2. Catalog Browser + Routing | 3/3 | Complete    | 2026-02-22 |
 | 3. Export Hardening + Web Deployment | 2/2 | Complete | 2026-02-22 |
 | 4. Guided Wizard + Smart Auto-Layout | 3/5 | Gap closure | - |
-| 5. Cost Estimation + UI Polish | 0/3 | Not started | - |
-| 6. 3D Preview Polish + Community Contributions | 0/2 | Not started | - |
+| 5. UI + 3D Polish | 0/5 | Not started | - |
+| 6. Cost Estimation + Community Contributions | 0/2 | Not started | - |
