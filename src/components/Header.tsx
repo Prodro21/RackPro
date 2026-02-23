@@ -1,5 +1,6 @@
 import { useConfigStore } from '../store';
 import { Button } from './ui/button';
+import { Tooltip, TooltipTrigger, TooltipContent } from './ui/tooltip';
 import type { TabId } from '../types';
 
 const TABS: TabId[] = ['front', 'side', '3d', 'split', 'specs', 'export'];
@@ -24,24 +25,32 @@ export function Header() {
       </div>
       <div className="flex items-center gap-2 shrink-0">
         <div className="flex gap-[2px]">
-          <Button
-            onClick={undo}
-            variant="ghost"
-            size="icon"
-            className="h-7 w-7 text-[11px] font-mono text-muted-foreground hover:text-foreground"
-            title="Undo (Ctrl+Z)"
-          >
-            &#8617;
-          </Button>
-          <Button
-            onClick={redo}
-            variant="ghost"
-            size="icon"
-            className="h-7 w-7 text-[11px] font-mono text-muted-foreground hover:text-foreground"
-            title="Redo (Ctrl+Shift+Z)"
-          >
-            &#8618;
-          </Button>
+          <Tooltip>
+            <TooltipTrigger asChild>
+              <Button
+                onClick={undo}
+                variant="ghost"
+                size="icon"
+                className="h-7 w-7 text-[11px] font-mono text-muted-foreground hover:text-foreground"
+              >
+                &#8617;
+              </Button>
+            </TooltipTrigger>
+            <TooltipContent>Undo (Ctrl+Z)</TooltipContent>
+          </Tooltip>
+          <Tooltip>
+            <TooltipTrigger asChild>
+              <Button
+                onClick={redo}
+                variant="ghost"
+                size="icon"
+                className="h-7 w-7 text-[11px] font-mono text-muted-foreground hover:text-foreground"
+              >
+                &#8618;
+              </Button>
+            </TooltipTrigger>
+            <TooltipContent>Redo (Ctrl+Shift+Z)</TooltipContent>
+          </Tooltip>
         </div>
         <div className="flex gap-[1px]">
           {TABS.map(t => (

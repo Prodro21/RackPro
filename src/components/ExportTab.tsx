@@ -10,6 +10,7 @@ import { generateShareUrl } from '../hooks/useDesignPersistence';
 import { toast } from 'sonner';
 import { Button } from './ui/button';
 import { Input } from './ui/input';
+import { Tooltip, TooltipTrigger, TooltipContent } from './ui/tooltip';
 import { PreflightReport } from './PreflightReport';
 import { validateExportConfig } from '../lib/validation';
 import type { ValidationResult } from '../lib/validation';
@@ -22,12 +23,21 @@ function SectionLabel({ children }: { children: React.ReactNode }) {
   );
 }
 
-function ExportCard({ title, desc, action, onClick, action2, onClick2, note }: {
-  title: string; desc: string; action?: string; onClick?: () => void; action2?: string; onClick2?: () => void; note?: string;
+function ExportCard({ title, desc, action, onClick, action2, onClick2, note, tooltip }: {
+  title: string; desc: string; action?: string; onClick?: () => void; action2?: string; onClick2?: () => void; note?: string; tooltip?: string;
 }) {
   return (
     <div className="bg-card border border-border rounded-[5px] p-3 mb-2">
-      <div className="font-bold text-[11px] text-foreground">{title}</div>
+      {tooltip ? (
+        <Tooltip>
+          <TooltipTrigger asChild>
+            <div className="font-bold text-[11px] text-foreground cursor-help">{title}</div>
+          </TooltipTrigger>
+          <TooltipContent>{tooltip}</TooltipContent>
+        </Tooltip>
+      ) : (
+        <div className="font-bold text-[11px] text-foreground">{title}</div>
+      )}
       <div className="text-[9px] text-muted-foreground my-1">{desc}</div>
       <div className="flex gap-[6px] items-center">
         {action && (
@@ -346,6 +356,7 @@ export function ExportTab() {
         onClick={() => copyText(getJSON(), 'json')}
         action2="Download .json"
         onClick2={downloadJSON}
+        tooltip="Machine-readable configuration for scripting and automation"
       />
 
       {/* OpenSCAD */}
@@ -358,6 +369,7 @@ export function ExportTab() {
           action2="Download .scad"
           onClick2={downloadOpenSCAD}
           note="Requires BOSL2 library: github.com/BelfrySCAD/BOSL2"
+          tooltip="Parametric 3D model using BOSL2 library. Requires OpenSCAD installed."
         />
       )}
 
@@ -491,6 +503,7 @@ export function ExportTab() {
         action2="Download .py"
         onClick2={downloadFusion360}
         note="Run via: Utilities \u2192 Scripts and Add-Ins \u2192 Run"
+        tooltip="Python API script for Autodesk Fusion 360 parametric modeling"
       />
 
       {/* DXF Flat Pattern */}
@@ -501,6 +514,7 @@ export function ExportTab() {
           action="Download .dxf"
           onClick={downloadDXF}
           note="Open in LibreCAD, DraftSight, or upload to SendCutSend/Protocase"
+          tooltip="Flat pattern for laser cutting. Import into SendCutSend or Protocase."
         />
       )}
 

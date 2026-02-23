@@ -3,6 +3,7 @@ import { Canvas } from '@react-three/fiber';
 import { OrbitControls, Grid, Environment } from '@react-three/drei';
 import * as THREE from 'three';
 import { useConfigStore, selectPanelDims, selectPanelHeight, selectBores, selectEnclosureStyle, selectMountHoleDiameter } from '../store';
+import { Tooltip, TooltipTrigger, TooltipContent } from './ui/tooltip';
 import { EIA, BASE, HEX } from '../constants/eia310';
 import { lookupDevice } from '../constants/deviceLookup';
 import { lookupConnector } from '../constants/connectorLookup';
@@ -416,16 +417,21 @@ export function Preview3D({ frameloop = 'always' }: { frameloop?: 'always' | 'ne
     <div className="flex-1 flex flex-col relative">
       {/* Toolbar */}
       <div className="absolute top-3 right-3 z-10 flex gap-1">
-        <button
-          onClick={() => setWireframe(!wireframe)}
-          className={`px-2 py-1 text-[9px] font-bold rounded border font-mono ${
-            wireframe
-              ? 'bg-primary text-primary-foreground border-primary'
-              : 'bg-[#1a1a22] text-muted-foreground border-border'
-          }`}
-        >
-          {wireframe ? 'SOLID' : 'WIRE'}
-        </button>
+        <Tooltip>
+          <TooltipTrigger asChild>
+            <button
+              onClick={() => setWireframe(!wireframe)}
+              className={`px-2 py-1 text-[9px] font-bold rounded border font-mono ${
+                wireframe
+                  ? 'bg-primary text-primary-foreground border-primary'
+                  : 'bg-[#1a1a22] text-muted-foreground border-border'
+              }`}
+            >
+              {wireframe ? 'SOLID' : 'WIRE'}
+            </button>
+          </TooltipTrigger>
+          <TooltipContent>Toggle wireframe overlay</TooltipContent>
+        </Tooltip>
       </div>
 
       <Canvas

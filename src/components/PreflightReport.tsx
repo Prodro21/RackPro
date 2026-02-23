@@ -1,5 +1,6 @@
 import { useState, useMemo } from 'react';
 import { Button } from './ui/button';
+import { Tooltip, TooltipTrigger, TooltipContent } from './ui/tooltip';
 import type { ValidationResult, ValidationIssue } from '../lib/validation';
 
 interface PreflightReportProps {
@@ -115,13 +116,22 @@ export function PreflightReport({ result, onProceed, format }: PreflightReportPr
                   <div className="pl-4 space-y-1">
                     {group.issues.map((issue, idx) => (
                       <div key={idx} className="flex items-start gap-2 text-[9px]">
-                        <span className="shrink-0 mt-[1px]">
-                          {issue.severity === 'critical' ? (
-                            <span className="text-destructive font-bold">X</span>
-                          ) : (
-                            <span className="text-primary font-bold">/!\</span>
-                          )}
-                        </span>
+                        <Tooltip>
+                          <TooltipTrigger asChild>
+                            <span className="shrink-0 mt-[1px] cursor-help">
+                              {issue.severity === 'critical' ? (
+                                <span className="text-destructive font-bold">X</span>
+                              ) : (
+                                <span className="text-primary font-bold">/!\</span>
+                              )}
+                            </span>
+                          </TooltipTrigger>
+                          <TooltipContent>
+                            {issue.severity === 'critical'
+                              ? 'Critical: blocks export until resolved'
+                              : 'Warning: export allowed but may cause issues'}
+                          </TooltipContent>
+                        </Tooltip>
                         <div>
                           <div className={issue.severity === 'critical' ? 'text-destructive' : 'text-primary'}>
                             {issue.message}

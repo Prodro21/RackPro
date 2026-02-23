@@ -16,6 +16,7 @@ import { Toggle } from './ui/toggle';
 import { Button } from './ui/button';
 import { Label } from './ui/label';
 import { Input } from './ui/input';
+import { Tooltip, TooltipTrigger, TooltipContent } from './ui/tooltip';
 import { CustomDeviceModal } from './CustomDeviceModal';
 
 function confidenceBadge(level: string): { label: string; color: string } {
@@ -222,7 +223,14 @@ export function Sidebar() {
       </div>
 
       {/* Fabrication */}
-      <SectionLabel>FABRICATION</SectionLabel>
+      <Tooltip>
+        <TooltipTrigger asChild>
+          <div>
+            <SectionLabel>FABRICATION</SectionLabel>
+          </div>
+        </TooltipTrigger>
+        <TooltipContent side="right">3D Print (FDM) or Sheet Metal (laser cut + bend)</TooltipContent>
+      </Tooltip>
       <div className="flex gap-[5px] mb-[6px]">
         <FabToggle label="3D Print" active={fabMethod === '3dp'} onClick={() => setFabMethod('3dp')} />
         <FabToggle label="Sheet Metal" active={fabMethod === 'sm'} onClick={() => setFabMethod('sm')} />
@@ -240,7 +248,14 @@ export function Sidebar() {
             onValueChange={setFilamentKey}
             options={Object.entries(FILAMENTS).map(([k, v]) => [k, `${v.name} (${v.heat})`])} full
           />
-          <CompactSlider label="Wall" value={wallThickness} onChange={setWallThickness} min={2} max={6} step={0.5} unit="mm" />
+          <Tooltip>
+            <TooltipTrigger asChild>
+              <div>
+                <CompactSlider label="Wall" value={wallThickness} onChange={setWallThickness} min={2} max={6} step={0.5} unit="mm" />
+              </div>
+            </TooltipTrigger>
+            <TooltipContent side="right">Min wall thickness. 2mm connectors only, 3-4mm for devices.</TooltipContent>
+          </Tooltip>
           {needsSplit && (
             <div className="mt-[6px] px-[7px] py-[5px] bg-primary/10 border border-primary/20 rounded-[3px] text-[9px] text-primary">
               &#9888; {splitInfo.type}: {splitInfo.desc}
@@ -259,7 +274,14 @@ export function Sidebar() {
       )}
 
       {/* Assembly */}
-      <SectionLabel>ASSEMBLY</SectionLabel>
+      <Tooltip>
+        <TooltipTrigger asChild>
+          <div>
+            <SectionLabel>ASSEMBLY</SectionLabel>
+          </div>
+        </TooltipTrigger>
+        <TooltipContent side="right">Monolithic = single body. Modular = separate faceplate + device trays.</TooltipContent>
+      </Tooltip>
       <div className="flex gap-[5px] mb-[6px]">
         <FabToggle label="Monolithic" active={assemblyMode === 'monolithic'} onClick={() => setAssemblyMode('monolithic')} />
         <FabToggle label="Modular" active={assemblyMode === 'modular'} onClick={() => setAssemblyMode('modular')} />
@@ -280,7 +302,14 @@ export function Sidebar() {
       )}
 
       {/* Enclosure */}
-      <SectionLabel>ENCLOSURE</SectionLabel>
+      <Tooltip>
+        <TooltipTrigger asChild>
+          <div>
+            <SectionLabel>ENCLOSURE</SectionLabel>
+          </div>
+        </TooltipTrigger>
+        <TooltipContent side="right">Tray = open sides. Box = fully enclosed with top/bottom walls.</TooltipContent>
+      </Tooltip>
       <div className="flex gap-[5px] mb-[6px]">
         <FabToggle label="Tray" active={enclosureStyle === 'tray'} onClick={() => setEnclosureStyle('tray')} />
         <FabToggle label="Box" active={enclosureStyle === 'box'} onClick={() => setEnclosureStyle('box')} />
@@ -290,7 +319,14 @@ export function Sidebar() {
         onValueChange={v => setMountHoleType(v as MountHoleType)}
         options={Object.entries(BORE_HOLES).map(([k, v]) => [k, v.name])} full
       />
-      <CompactSlider label="Flange Depth" value={flangeDepth} onChange={setFlangeDepth} min={10} max={40} step={1} unit="mm" />
+      <Tooltip>
+        <TooltipTrigger asChild>
+          <div>
+            <CompactSlider label="Flange Depth" value={flangeDepth} onChange={setFlangeDepth} min={10} max={40} step={1} unit="mm" />
+          </div>
+        </TooltipTrigger>
+        <TooltipContent side="right">Retention lip depth behind faceplate. Holds devices in place.</TooltipContent>
+      </Tooltip>
       <div className="flex gap-2 mt-1">
         <CompactCheckbox label="Flanges" checked={flanges} onChange={setFlanges} />
         <CompactCheckbox label="Chamfers" checked={chamfers} onChange={setChamfers} />
@@ -303,7 +339,14 @@ export function Sidebar() {
         Auto depth: <b className="text-foreground/70">{enclosureDepth.toFixed(0)}mm</b> (deepest: {maxDeviceDepth || '\u2014'}mm)
       </div>
       <div className="flex items-center gap-2 mt-1">
-        <CompactCheckbox label="Auto Ribs" checked={autoReinforcement} onChange={setAutoReinforcement} />
+        <Tooltip>
+          <TooltipTrigger asChild>
+            <div>
+              <CompactCheckbox label="Auto Ribs" checked={autoReinforcement} onChange={setAutoReinforcement} />
+            </div>
+          </TooltipTrigger>
+          <TooltipContent side="right">Auto-add reinforcement ribs near thin margins</TooltipContent>
+        </Tooltip>
         {marginWarnings.length > 0 && (
           <span className="text-[8px] px-[4px] py-[1px] rounded bg-primary/10 text-primary">
             {marginWarnings.length} margin{marginWarnings.length > 1 ? 's' : ''}

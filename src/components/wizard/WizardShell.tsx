@@ -10,6 +10,7 @@ import { useNavigate, useBlocker } from '@tanstack/react-router';
 import { useConfigStore } from '../../store/useConfigStore';
 import type { ConnectorZone } from '../../lib/autoLayoutV2';
 import { Button } from '../ui/button';
+import { Tooltip, TooltipTrigger, TooltipContent } from '../ui/tooltip';
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription, DialogFooter } from '../ui/dialog';
 import { FrontView } from '../FrontView';
 import { StepNav } from './StepNav';
@@ -158,14 +159,19 @@ export function WizardShell() {
             <span className="text-[9px] font-mono text-muted-foreground tracking-wide">
               WIZARD -- Step {currentStep + 1}/{STEPS.length}
             </span>
-            <Button
-              onClick={handleCancel}
-              variant="ghost"
-              size="xs"
-              className="text-[9px] font-mono text-destructive hover:text-destructive/80"
-            >
-              Cancel Wizard
-            </Button>
+            <Tooltip>
+              <TooltipTrigger asChild>
+                <Button
+                  onClick={handleCancel}
+                  variant="ghost"
+                  size="xs"
+                  className="text-[9px] font-mono text-destructive hover:text-destructive/80"
+                >
+                  Cancel Wizard
+                </Button>
+              </TooltipTrigger>
+              <TooltipContent>Revert all wizard changes and return to configurator</TooltipContent>
+            </Tooltip>
           </div>
 
           {/* Step content */}
