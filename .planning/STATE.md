@@ -5,15 +5,15 @@
 See: .planning/PROJECT.md (updated 2026-02-23)
 
 **Core value:** Anyone can design a custom rack mount panel with real equipment dimensions and export a fabrication-ready file — without CAD expertise.
-**Current focus:** Phase 1 Frontend Design Rework — Plan 03 complete (sidebar + UI components)
+**Current focus:** Phase 1 Frontend Design Rework — Plan 04 complete (SVG theming + grid background)
 
 ## Current Position
 
 Milestone: Frontend Design Rework
 Phase: 01-frontend-design-rework
-Current Plan: 4 of 5
-Status: Plan 03 complete — sidebar restyled with segment controls, all 13 shadcn/ui primitives updated. Ready for Plan 04.
-Last activity: 2026-02-23 — Plan 03 executed (2 tasks, 7min)
+Current Plan: 5 of 5
+Status: Plan 04 complete — SVG theme palette created, all SVG views theme-aware, grid background added. Ready for Plan 05.
+Last activity: 2026-02-23 — Plan 04 executed (2 tasks, 9min)
 
 ## Performance Metrics
 
@@ -52,6 +52,9 @@ All v1.0 decisions archived in `.planning/milestones/v1.0-ROADMAP.md` and `.plan
 - Replaced Toggle-based fab toggles with custom SegmentControl pill component
 - Removed all dark: prefix classes from UI primitives (dark is :root default)
 - Tooltips use bg-elevated with border instead of bg-primary solid fill
+- SVG colors reference CSS variables directly via var() for instant theme switching
+- Grid background uses CSS ::before pseudo-element with pointer-events: none
+- Semantic SVG color names (panelFace, earFill, splitLine) in centralized palette
 
 ### Pending Todos
 
@@ -68,5 +71,5 @@ None — clean slate for next milestone.
 ## Session Continuity
 
 Last session: 2026-02-23
-Stopped at: Completed 01-03-PLAN.md (Sidebar + UI Components)
-Resume file: .planning/phases/01-frontend-design-rework/01-03-SUMMARY.md
+Stopped at: Completed 01-04-PLAN.md (SVG Theme Palette + Grid Background)
+Resume file: .planning/phases/01-frontend-design-rework/01-04-SUMMARY.md
