@@ -25,7 +25,7 @@ export function WizardModal() {
 
   return (
     <Dialog open={open} onOpenChange={(v) => { if (!v) close(); }}>
-      <DialogContent className="max-w-[740px] w-full h-[60vh] p-0 overflow-hidden flex flex-col">
+      <DialogContent className="max-w-[740px] sm:max-w-[740px] w-full h-[60vh] p-0 overflow-hidden flex flex-col" hideClose>
         <VisuallyHidden>
           <DialogTitle>Quick Setup Wizard</DialogTitle>
         </VisuallyHidden>
