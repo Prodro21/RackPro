@@ -12,16 +12,16 @@ See: .planning/PROJECT.md (updated 2026-02-21)
 Phase: 5 of 6 (UI + 3D Polish) -- IN PROGRESS
 Plan: 5 of 5 in current phase -- COMPLETE
 Status: Executing Phase 5 plans
-Last activity: 2026-02-22 — Completed 05-02-PLAN.md (Command Palette + Tooltips)
+Last activity: 2026-02-23 — Completed 05-04-PLAN.md (PBR Materials + Environment Lighting)
 
 Progress: [██████████] 92%
 
 ## Performance Metrics
 
 **Velocity:**
-- Total plans completed: 22
+- Total plans completed: 23
 - Average duration: 6min
-- Total execution time: 2.24 hours
+- Total execution time: 2.51 hours
 
 **By Phase:**
 
@@ -32,11 +32,11 @@ Progress: [██████████] 92%
 | 02-catalog-browser-routing | 3 | 12min | 4min |
 | 03-export-hardening-web-deployment | 2 | 37min | 19min |
 | 04-guided-wizard-smart-auto-layout | 5 | 31min | 6min |
-| 05-ui-3d-polish | 4 | 31min | 8min |
+| 05-ui-3d-polish | 5 | 48min | 10min |
 
 **Recent Trend:**
-- Last 5 plans: 05-05 (3min), 05-03 (3min), 05-01 (19min), 05-02 (6min)
-- Trend: Phase 5 stabilizing around 6min average per plan
+- Last 5 plans: 05-04 (17min), 05-05 (3min), 05-03 (3min), 05-01 (19min), 05-02 (6min)
+- Trend: Phase 5 complete — all 5 plans executed
 
 *Updated after each plan completion*
 
@@ -133,6 +133,11 @@ Recent decisions affecting current work:
 - [Phase 05]: [05-02]: TooltipProvider at root layout level with delayDuration=300 for consistent behavior
 - [Phase 05]: [05-02]: Tooltip on SectionLabel headers rather than individual toggle buttons for cleaner UX
 - [Phase 05]: [05-02]: ExportCard tooltip prop wraps title text with cursor-help for discoverability
+- [Phase 05]: [05-04]: Procedural texture generation via sharp (scripts/generate-textures.ts) rather than external CC0 downloads
+- [Phase 05]: [05-04]: Carbon filament detection uses actual keys (pacf, petcf, petgcf) not hyphenated variants
+- [Phase 05]: [05-04]: Native HTML select for material dropdown overlay on Canvas (not shadcn Select)
+- [Phase 05]: [05-04]: Environment preset changed from studio to warehouse for metallic reflections
+- [Phase 05]: [05-04]: Tray/connector body materials kept as static MeshStandardMaterial (less prominent)
 
 ### Pending Todos
 
@@ -146,6 +151,6 @@ None yet.
 
 ## Session Continuity
 
-Last session: 2026-02-22
-Stopped at: Completed 05-02-PLAN.md (Command Palette + Tooltips)
+Last session: 2026-02-23
+Stopped at: Completed 05-04-PLAN.md (PBR Materials + Environment Lighting)
 Resume file: None

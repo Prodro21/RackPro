@@ -55,7 +55,7 @@ Requirements for this milestone. Each maps to roadmap phases.
 ### 3D Preview
 
 - [x] **3D-01**: 3D preview canvas stays alive across tab switches (CSS visibility toggle, not unmount/remount) to prevent WebGL context exhaustion on Safari
-- [ ] **3D-02**: 3D preview shows environment lighting and material-appropriate shading (plastic look for FDM, brushed metal for sheet metal)
+- [x] **3D-02**: 3D preview shows environment lighting and material-appropriate shading (plastic look for FDM, brushed metal for sheet metal)
 - [x] **3D-03**: 3D preview renders connector cutouts and device bay openings accurately in the panel geometry
 
 ### Platform
@@ -134,7 +134,7 @@ Which phases cover which requirements. Updated during roadmap creation.
 | EXP-03 | Phase 3 | Complete |
 | EXP-04 | Phase 3 | Complete |
 | 3D-01 | Phase 3 | Complete |
-| 3D-02 | Phase 5 | Pending |
+| 3D-02 | Phase 5 | Complete |
 | 3D-03 | Phase 5 | Complete |
 | PLAT-01 | Phase 2 | Complete |
 | PLAT-02 | Phase 3 | Complete |
