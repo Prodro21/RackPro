@@ -100,12 +100,14 @@ Plans:
   3. Auto-layout groups same-type connectors together (all RJ45 adjacent, all BNC adjacent) rather than placing them in arbitrary order
   4. Auto-layout places heavier devices toward rack ears or center according to a visible weight distribution preference
   5. An auto-layout result passes the same validation checks as manual placement — no overlaps, all elements within bounds, all margins compliant
-**Plans:** 3 plans
+**Plans:** 5 plans
 
 Plans:
-- [ ] 04-01-PLAN.md — Build autoLayoutV2 pure function with connector-type grouping, weight-aware ear placement, connector zone modes, overflow suggestions, and validation; wire suggestLayoutV2 store action and update MCP tool
-- [ ] 04-02-PLAN.md — Build guided wizard at /wizard with 6 steps (standard, U-height, devices, connectors, review, export), live FrontView preview, auto-layout on element changes, undo checkpoint, and sessionStorage persistence
-- [ ] 04-03-PLAN.md — Add ElementLabel type with position/autoNumber/icon, render labels in FrontView SVG with stagger collision handling, label editor in Sidebar, export to DXF (LABELS layer) and OpenSCAD (debossed text), persist via design serializer
+- [x] 04-01-PLAN.md — Build autoLayoutV2 pure function with connector-type grouping, weight-aware ear placement, connector zone modes, overflow suggestions, and validation; wire suggestLayoutV2 store action and update MCP tool
+- [x] 04-02-PLAN.md — Build guided wizard at /wizard with 6 steps (standard, U-height, devices, connectors, review, export), live FrontView preview, auto-layout on element changes, undo checkpoint, and sessionStorage persistence
+- [x] 04-03-PLAN.md — Add ElementLabel type with position/autoNumber/icon, render labels in FrontView SVG with stagger collision handling, label editor in Sidebar, export to DXF (LABELS layer) and OpenSCAD (debossed text), persist via design serializer
+- [ ] 04-04-PLAN.md — Gap closure: Fix between-zone overflow, zone shift bounds clamping, overlap-aware overflow detection, validation surfacing in store and wizard steps, moveElement re-validation
+- [ ] 04-05-PLAN.md — Gap closure: Replace inline DEVICES[]/CONNECTORS[] lookups with catalog-aware lookupDevice()/lookupConnector() in Preview3D and useEnclosure for full 3D rendering of all elements
 
 ### Phase 5: Cost Estimation + UI Polish
 **Goal**: Users can see estimated fabrication cost ranges with explicit assumptions, and all form controls use accessible shadcn/ui components with stable, tested Zustand selectors
@@ -149,8 +151,8 @@ Note: Phases 4 and 5/6 can proceed in parallel after Phase 3 completes (Phase 4 
 |-------|----------------|--------|-----------|
 | 1. Catalog Schema + Data Infrastructure | 4/4 | Complete | 2026-02-22 |
 | 1.1. Device Outline MVP | 3/4 | Gap closure | - |
-| 2. Catalog Browser + Routing | 0/3 | Complete    | 2026-02-22 |
+| 2. Catalog Browser + Routing | 3/3 | Complete    | 2026-02-22 |
 | 3. Export Hardening + Web Deployment | 2/2 | Complete | 2026-02-22 |
-| 4. Guided Wizard + Smart Auto-Layout | 0/3 | Not started | - |
+| 4. Guided Wizard + Smart Auto-Layout | 3/5 | Gap closure | - |
 | 5. Cost Estimation + UI Polish | 0/3 | Not started | - |
 | 6. 3D Preview Polish + Community Contributions | 0/2 | Not started | - |
