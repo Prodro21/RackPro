@@ -14,17 +14,17 @@ export class AppErrorBoundary extends Component<
   render() {
     if (this.state.error) {
       return (
-        <div style={{ padding: 40, color: '#ef4444', fontFamily: 'monospace', background: '#0b0b0e', minHeight: '100vh' }}>
-          <h2>RackPro Error</h2>
-          <pre style={{ color: '#999', fontSize: 12, whiteSpace: 'pre-wrap', marginTop: 12 }}>
+        <div className="min-h-screen p-10 bg-bg-root text-danger font-mono">
+          <h2 className="text-lg font-bold">RackPro Error</h2>
+          <pre className="text-text-secondary text-xs whitespace-pre-wrap mt-3">
             {this.state.error.message}
           </pre>
-          <pre style={{ color: '#555', fontSize: 10, whiteSpace: 'pre-wrap', marginTop: 8 }}>
+          <pre className="text-text-tertiary text-[10px] whitespace-pre-wrap mt-2">
             {this.state.error.stack}
           </pre>
           <button
             onClick={() => { localStorage.clear(); window.location.reload(); }}
-            style={{ marginTop: 16, padding: '8px 16px', background: '#f7b600', color: '#111', border: 'none', borderRadius: 4, cursor: 'pointer', fontFamily: 'monospace', fontWeight: 'bold' }}
+            className="mt-4 px-4 py-2 bg-warning text-text-inverse border-none rounded cursor-pointer font-mono font-bold text-sm"
           >
             Clear Storage &amp; Reload
           </button>

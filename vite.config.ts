@@ -30,8 +30,8 @@ export default defineConfig({
         name: 'RackPro - Rack Mount Panel Configurator',
         short_name: 'RackPro',
         description: 'Design custom rack mount panels with real equipment dimensions',
-        theme_color: '#0b0b0e',
-        background_color: '#0b0b0e',
+        theme_color: '#0c0d11',
+        background_color: '#0c0d11',
         display: 'standalone',
         start_url: '/',
         // TODO: Add PWA icons for full install prompt support

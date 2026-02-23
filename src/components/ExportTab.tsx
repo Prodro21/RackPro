@@ -19,7 +19,7 @@ import type { ValidationResult } from '../lib/validation';
 
 function SectionLabel({ children }: { children: React.ReactNode }) {
   return (
-    <div className="text-xs font-bold text-muted-foreground tracking-wide uppercase mb-2 mt-4 first:mt-0">
+    <div className="text-xs font-bold text-text-tertiary tracking-wide uppercase mb-2 mt-4 first:mt-0">
       {children}
     </div>
   );
@@ -29,18 +29,18 @@ function ExportCard({ title, desc, action, onClick, action2, onClick2, note, too
   title: string; desc: string; action?: string; onClick?: () => void; action2?: string; onClick2?: () => void; note?: string; tooltip?: string;
 }) {
   return (
-    <div className="bg-card border border-border rounded-lg p-3 mb-2">
+    <div className="bg-bg-card border border-border-default rounded-lg p-3 mb-2 hover:border-border-strong transition-colors">
       {tooltip ? (
         <Tooltip>
           <TooltipTrigger asChild>
-            <div className="font-bold text-sm text-foreground cursor-help">{title}</div>
+            <div className="font-bold text-sm text-text-primary cursor-help">{title}</div>
           </TooltipTrigger>
           <TooltipContent>{tooltip}</TooltipContent>
         </Tooltip>
       ) : (
-        <div className="font-bold text-sm text-foreground">{title}</div>
+        <div className="font-bold text-sm text-text-primary">{title}</div>
       )}
-      <div className="text-xs text-muted-foreground my-1">{desc}</div>
+      <div className="text-xs text-text-secondary my-1">{desc}</div>
       <div className="flex gap-2 items-center">
         {action && (
           <Button
@@ -65,7 +65,7 @@ function ExportCard({ title, desc, action, onClick, action2, onClick2, note, too
           </Button>
         )}
       </div>
-      {note && <div className="text-xs text-muted-foreground mt-1 italic">{note}</div>}
+      {note && <div className="text-xs text-text-secondary mt-1 italic">{note}</div>}
     </div>
   );
 }
@@ -413,13 +413,13 @@ export function ExportTab() {
 
       {/* Cost Breakdown */}
       {currentCost && (
-        <div className="bg-card border border-border rounded-lg p-4 mb-3">
+        <div className="bg-bg-card border border-border-default rounded-lg p-4 mb-3">
           <SectionLabel>COST ESTIMATE</SectionLabel>
           <div className="flex items-baseline gap-2 mb-2">
-            <span className="text-xl font-bold text-foreground">
+            <span className="text-xl font-bold text-text-primary">
               ~${currentCost.low.toFixed(0)}&ndash;${currentCost.high.toFixed(0)}
             </span>
-            <span className="text-xs text-muted-foreground">
+            <span className="text-xs text-text-secondary">
               {fabMethod === '3dp' ? 'FDM 3D Print' : 'Sheet Metal'}
             </span>
           </div>
@@ -428,14 +428,14 @@ export function ExportTab() {
           <div className="space-y-1 mb-3">
             {currentCost.assumptions.map((a, i) => (
               <div key={i} className="flex justify-between text-xs">
-                <span className="text-muted-foreground">{a.label}</span>
-                <span className="text-foreground/80 font-mono">{a.value}</span>
+                <span className="text-text-secondary">{a.label}</span>
+                <span className="text-text-primary/80 font-mono">{a.value}</span>
               </div>
             ))}
           </div>
 
           {/* Disclaimer */}
-          <div className="text-xs text-muted-foreground/70 italic mb-3">
+          <div className="text-xs text-text-tertiary italic mb-3">
             Estimate only -- actual cost varies by print settings, supports, and waste. Get an exact quote from a fabrication service.
           </div>
 
@@ -446,16 +446,16 @@ export function ExportTab() {
                 href={FABRICATOR_URLS.sendcutsend}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="text-xs font-bold text-primary hover:underline"
+                className="text-xs font-bold text-accent-text hover:underline"
               >
                 Get Quote: SendCutSend
               </a>
-              <span className="text-muted-foreground/30">|</span>
+              <span className="text-text-tertiary/30">|</span>
               <a
                 href={FABRICATOR_URLS.protocase}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="text-xs font-bold text-primary hover:underline"
+                className="text-xs font-bold text-accent-text hover:underline"
               >
                 Get Quote: Protocase
               </a>
@@ -465,30 +465,30 @@ export function ExportTab() {
           {/* Compare toggle */}
           <button
             onClick={() => setShowCompare(p => !p)}
-            className="text-xs text-primary hover:underline cursor-pointer bg-transparent border-none p-0"
+            className="text-xs text-accent-text hover:underline cursor-pointer bg-transparent border-none p-0"
           >
             {showCompare ? 'Hide comparison' : `Compare: ${fabMethod === '3dp' ? 'Sheet Metal' : '3D Print'}`}
           </button>
 
           {showCompare && compareCost && (
-            <div className="mt-3 pt-3 border-t border-border">
+            <div className="mt-3 pt-3 border-t border-border-default">
               <div className="flex items-baseline gap-2 mb-2">
-                <span className="text-base font-bold text-foreground/70">
+                <span className="text-base font-bold text-text-primary/70">
                   ~${compareCost.low.toFixed(0)}&ndash;${compareCost.high.toFixed(0)}
                 </span>
-                <span className="text-xs text-muted-foreground">
+                <span className="text-xs text-text-secondary">
                   {fabMethod === '3dp' ? 'Sheet Metal' : 'FDM 3D Print'}
                 </span>
               </div>
               <div className="space-y-1 mb-2">
                 {compareCost.assumptions.map((a, i) => (
                   <div key={i} className="flex justify-between text-xs">
-                    <span className="text-muted-foreground">{a.label}</span>
-                    <span className="text-foreground/80 font-mono">{a.value}</span>
+                    <span className="text-text-secondary">{a.label}</span>
+                    <span className="text-text-primary/80 font-mono">{a.value}</span>
                   </div>
                 ))}
               </div>
-              <div className="text-xs text-muted-foreground/70 italic">
+              <div className="text-xs text-text-tertiary italic">
                 Estimate only -- actual cost varies by fabrication service, material availability, and quantity.
               </div>
               {/* Show fab links for the compared method too if it's SM */}
@@ -498,16 +498,16 @@ export function ExportTab() {
                     href={FABRICATOR_URLS.sendcutsend}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="text-xs font-bold text-primary hover:underline"
+                    className="text-xs font-bold text-accent-text hover:underline"
                   >
                     Get Quote: SendCutSend
                   </a>
-                  <span className="text-muted-foreground/30">|</span>
+                  <span className="text-text-tertiary/30">|</span>
                   <a
                     href={FABRICATOR_URLS.protocase}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="text-xs font-bold text-primary hover:underline"
+                    className="text-xs font-bold text-accent-text hover:underline"
                   >
                     Get Quote: Protocase
                   </a>
@@ -554,20 +554,20 @@ export function ExportTab() {
       )}
 
       {/* Fusion 360 Bridge — live build */}
-      <div className="bg-card border border-border rounded-lg p-4 mb-3">
+      <div className="bg-bg-card border border-border-default rounded-lg p-4 mb-3">
         <div className="flex items-center justify-between mb-1">
-          <div className="text-sm font-bold text-foreground">Fusion 360 Bridge</div>
+          <div className="text-sm font-bold text-text-primary">Fusion 360 Bridge</div>
           <div className="flex items-center gap-2">
-            <span className={`inline-block w-2 h-2 rounded-full ${bridgeStatus === 'connected' ? 'bg-green-500' : bridgeStatus === 'disconnected' ? 'bg-destructive' : 'bg-muted-foreground'}`} />
-            <span className="text-xs text-muted-foreground">
+            <span className={`inline-block w-2 h-2 rounded-full ${bridgeStatus === 'connected' ? 'bg-success' : bridgeStatus === 'disconnected' ? 'bg-danger' : 'bg-text-tertiary'}`} />
+            <span className="text-xs text-text-secondary">
               {bridgeStatus === 'connected' ? `Connected${bridgeDoc ? ` \u2014 ${bridgeDoc}` : ''}` : bridgeStatus === 'disconnected' ? 'Not connected' : 'Checking...'}
             </span>
           </div>
         </div>
-        <div className="text-xs text-muted-foreground mb-2">
+        <div className="text-xs text-text-secondary mb-2">
           Build directly in Fusion 360 via the RackProBridge add-in (localhost:9100).
           {bridgeStatus === 'disconnected' && (
-            <span className="text-muted-foreground/60"> Start it in Fusion: Utilities → Add-Ins → RackProBridge → Run</span>
+            <span className="text-text-tertiary"> Start it in Fusion: Utilities → Add-Ins → RackProBridge → Run</span>
           )}
         </div>
         <div className="flex gap-2 flex-wrap">
@@ -575,7 +575,7 @@ export function ExportTab() {
             onClick={handleBuildInFusion}
             disabled={bridgeStatus !== 'connected' || building}
             size="xs"
-            className="text-xs font-bold bg-primary text-primary-foreground hover:bg-primary/90"
+            className="text-xs font-bold"
           >
             {building ? 'Building...' : 'Build in Fusion'}
           </Button>
@@ -584,7 +584,7 @@ export function ExportTab() {
             disabled={bridgeStatus !== 'connected' || !buildResult?.success || !!exporting}
             size="xs"
             variant="outline"
-            className="text-xs font-bold text-green-500"
+            className="text-xs font-bold text-success"
           >
             {exporting === 'stl' ? 'Exporting...' : 'Export STL'}
           </Button>
@@ -593,7 +593,7 @@ export function ExportTab() {
             disabled={bridgeStatus !== 'connected' || !buildResult?.success || !!exporting}
             size="xs"
             variant="outline"
-            className="text-xs font-bold text-[#4a90d9]"
+            className="text-xs font-bold text-accent-text"
           >
             {exporting === 'step' ? 'Exporting...' : 'Export STEP'}
           </Button>
@@ -602,7 +602,7 @@ export function ExportTab() {
             disabled={bridgeStatus !== 'connected' || !!exporting}
             size="xs"
             variant="outline"
-            className="text-xs text-muted-foreground"
+            className="text-xs text-text-secondary"
           >
             {exporting === 'screenshot' ? 'Capturing...' : 'Screenshot'}
           </Button>
@@ -610,7 +610,7 @@ export function ExportTab() {
             onClick={checkBridge}
             size="xs"
             variant="outline"
-            className="text-xs text-muted-foreground"
+            className="text-xs text-text-secondary"
           >
             Refresh
           </Button>
@@ -618,7 +618,7 @@ export function ExportTab() {
 
         {/* Export path input */}
         <div className="flex items-center gap-2 mt-2">
-          <span className="text-xs text-muted-foreground shrink-0">Path:</span>
+          <span className="text-xs text-text-secondary shrink-0">Path:</span>
           <Input
             type="text"
             value={exportPath}
@@ -629,36 +629,36 @@ export function ExportTab() {
         </div>
 
         {buildResult && buildResult.success && (
-          <div className="mt-2 text-xs text-green-500">
+          <div className="mt-2 text-xs text-success">
             Build complete — {buildResult.bodies?.length ?? 0} bodies, {buildResult.features?.length ?? 0} features
             {buildResult.warnings && buildResult.warnings.length > 0 && (
-              <div className="text-primary mt-1">{buildResult.warnings.join('; ')}</div>
+              <div className="text-warning mt-1">{buildResult.warnings.join('; ')}</div>
             )}
           </div>
         )}
         {buildError && (
-          <div className="mt-2 text-xs text-destructive">{buildError}</div>
+          <div className="mt-2 text-xs text-danger">{buildError}</div>
         )}
         {exportResult && (
-          <div className="mt-1 text-xs text-[#4a90d9]">{exportResult}</div>
+          <div className="mt-1 text-xs text-accent-text">{exportResult}</div>
         )}
 
         {/* Physical properties after build */}
         {physProps?.success && physProps.bodies && physProps.bodies.length > 0 && (
-          <div className="mt-2 border-t border-border pt-2">
-            <div className="text-xs text-muted-foreground tracking-wide mb-1">PHYSICAL PROPERTIES</div>
+          <div className="mt-2 border-t border-border-default pt-2">
+            <div className="text-xs text-text-tertiary tracking-wide mb-1">PHYSICAL PROPERTIES</div>
             {physProps.bodies.map((body, i) => (
-              <div key={i} className="flex justify-between text-xs py-1 border-t border-border first:border-t-0">
-                <span className="text-foreground/80">{body.name}</span>
-                <span className="text-muted-foreground">
+              <div key={i} className="flex justify-between text-xs py-1 border-t border-border-subtle first:border-t-0">
+                <span className="text-text-primary/80">{body.name}</span>
+                <span className="text-text-secondary">
                   {body.mass_g != null ? `${body.mass_g.toFixed(1)}g` : ''}
                   {body.volume_cm3 != null ? ` / ${body.volume_cm3.toFixed(2)}cm\u00b3` : ''}
                 </span>
               </div>
             ))}
-            <div className="flex justify-between text-xs pt-1 border-t border-border mt-1">
-              <span className="text-primary font-bold">Total</span>
-              <span className="text-primary font-bold">
+            <div className="flex justify-between text-xs pt-1 border-t border-border-default mt-1">
+              <span className="text-accent-text font-bold">Total</span>
+              <span className="text-accent-text font-bold">
                 {physProps.bodies.reduce((s, b) => s + (b.mass_g ?? 0), 0).toFixed(1)}g
               </span>
             </div>
@@ -692,9 +692,9 @@ export function ExportTab() {
 
       {/* Device Tray DXF Flat Patterns */}
       {fabMethod === 'sm' && elements.filter(e => e.type === 'device').length > 0 && (
-        <div className="bg-card border border-border rounded-lg p-4 mb-3">
-          <div className="text-sm font-bold text-foreground mb-1">Device Tray DXFs</div>
-          <div className="text-xs text-muted-foreground mb-2">
+        <div className="bg-bg-card border border-border-default rounded-lg p-4 mb-3">
+          <div className="text-sm font-bold text-text-primary mb-1">Device Tray DXFs</div>
+          <div className="text-xs text-text-secondary mb-2">
             Cruciform flat patterns for laser-cut sheet metal trays. Each tray has a floor, side walls, rear wall, and front mounting tab with M3 holes.
           </div>
           <div className="flex gap-2 flex-wrap">
@@ -705,7 +705,7 @@ export function ExportTab() {
                   onClick={() => downloadTrayDXF(i)}
                   size="xs"
                   variant="outline"
-                  className="text-xs font-bold text-green-500"
+                  className="text-xs font-bold text-success"
                 >
                   {el.label} Tray .dxf
                 </Button>
@@ -742,9 +742,9 @@ export function ExportTab() {
 
       {/* Config Preview */}
       {elements.length > 0 && (
-        <div className="mt-4 bg-card border border-border rounded-lg p-4">
+        <div className="mt-4 bg-bg-card border border-border-default rounded-lg p-4">
           <SectionLabel>CONFIG PREVIEW</SectionLabel>
-          <pre className="text-xs text-muted-foreground whitespace-pre-wrap break-all max-h-[260px] overflow-auto m-0 font-mono">{getJSON()}</pre>
+          <pre className="text-xs text-text-secondary whitespace-pre-wrap break-all max-h-[260px] overflow-auto m-0 font-mono">{getJSON()}</pre>
         </div>
       )}
     </div>

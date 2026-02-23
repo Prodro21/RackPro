@@ -4,7 +4,7 @@ import { SVG_COLORS } from '../lib/svgTheme';
 
 function SectionLabel({ children }: { children: React.ReactNode }) {
   return (
-    <div className="text-xs font-semibold text-muted-foreground tracking-wide uppercase mb-2 mt-4 first:mt-0">
+    <div className="text-xs font-semibold text-text-tertiary tracking-wide uppercase mb-2 mt-4 first:mt-0">
       {children}
     </div>
   );
@@ -12,14 +12,14 @@ function SectionLabel({ children }: { children: React.ReactNode }) {
 
 function SpecTable({ rows }: { rows: [string, string][] }) {
   return (
-    <div className="bg-muted rounded-lg border border-border overflow-hidden">
+    <div className="bg-bg-card rounded-lg border border-border-default overflow-hidden">
       {rows.map(([label, value], i) => (
         <div
           key={i}
-          className="flex justify-between px-3 py-1.5 text-xs border-t border-border first:border-t-0"
+          className="flex justify-between px-3 py-1.5 text-xs border-t border-border-subtle first:border-t-0"
         >
-          <span className="text-muted-foreground">{label}</span>
-          <span className="text-foreground/90 font-medium font-mono">{value}</span>
+          <span className="text-text-secondary">{label}</span>
+          <span className="text-text-primary/90 font-medium font-mono">{value}</span>
         </div>
       ))}
     </div>
@@ -39,29 +39,29 @@ export function SplitView() {
       <SectionLabel>Split Strategy &mdash; {fabMethod === '3dp' ? printer.name : 'Sheet Metal'}</SectionLabel>
 
       {fabMethod !== '3dp' ? (
-        <div className="text-sm text-muted-foreground leading-relaxed">
+        <div className="text-sm text-text-secondary leading-relaxed">
           Sheet metal panels are fabricated flat and bent &mdash; no split needed regardless of size. The flat pattern is laser-cut or CNC-punched from a single sheet.
         </div>
       ) : (
         <>
-          <div className="bg-card border border-border rounded-lg p-4 mb-3">
+          <div className="bg-bg-card border border-border-default rounded-lg p-4 mb-3">
             <div className="font-bold text-sm mb-1.5" style={{ color: needsSplit ? SVG_COLORS.warning : SVG_COLORS.success }}>
               {needsSplit
                 ? `\u26a0 Panel exceeds ${bedW}mm bed \u2192 ${splitInfo.type}`
                 : `\u2713 Panel fits on ${printer.name} bed (${panDims.totalWidth.toFixed(0)}mm \u2264 ${bedW}mm)`
               }
             </div>
-            {needsSplit && <div className="text-xs text-muted-foreground mb-2">{splitInfo.desc}</div>}
+            {needsSplit && <div className="text-xs text-text-secondary mb-2">{splitInfo.desc}</div>}
             <SpecTable rows={splitInfo.parts.map(p => [p.name, `${p.w.toFixed(1)}mm wide \u2022 ${p.fitsX && p.fitsY ? '\u2713 fits' : '\u26a0'}`])} />
           </div>
 
           {needsSplit && splitInfo.type === '3-piece' && (
-            <div className="bg-card border border-border rounded-lg p-4 mb-3">
-              <div className="font-bold text-sm text-green-600 mb-1.5">OpenSCAD-Style Lockpin Joint</div>
-              <div className="text-xs text-muted-foreground leading-relaxed mb-3">
-                Adapted from the HomeRacker design. The center panel has <b className="text-foreground">mountbars</b> (15&times;15mm posts) extending from the rear at each split line. Each mountbar has <b className="text-foreground">lockpin holes</b> &mdash; chamfered 4&times;4mm square holes that accept printed or metal lock pins.
+            <div className="bg-bg-card border border-border-default rounded-lg p-4 mb-3">
+              <div className="font-bold text-sm text-success mb-1.5">OpenSCAD-Style Lockpin Joint</div>
+              <div className="text-xs text-text-secondary leading-relaxed mb-3">
+                Adapted from the HomeRacker design. The center panel has <b className="text-text-primary">mountbars</b> (15&times;15mm posts) extending from the rear at each split line. Each mountbar has <b className="text-text-primary">lockpin holes</b> &mdash; chamfered 4&times;4mm square holes that accept printed or metal lock pins.
                 <br /><br />
-                The side ear pieces have matching <b className="text-foreground">lockpin receptacles</b> &mdash; outer holes (4mm + chamfer + tolerance) that slide over the pins. The U-shaped connector on the side ear wraps around the mountbar creating a rigid mechanical interlock.
+                The side ear pieces have matching <b className="text-text-primary">lockpin receptacles</b> &mdash; outer holes (4mm + chamfer + tolerance) that slide over the pins. The U-shaped connector on the side ear wraps around the mountbar creating a rigid mechanical interlock.
                 <br /><br />
                 The rear support structure (tray/bracket) spans the split line, adding additional rigidity.
               </div>
@@ -75,7 +75,7 @@ export function SplitView() {
               ]} />
 
               {/* Exploded joint SVG */}
-              <svg viewBox="0 0 300 120" className="w-full mt-3 rounded-lg border border-border" style={{ backgroundColor: SVG_COLORS.canvasBg }}>
+              <svg viewBox="0 0 300 120" className="w-full mt-3 rounded-lg border border-border-default" style={{ backgroundColor: SVG_COLORS.canvasBg }}>
                 <text x={150} y={12} textAnchor="middle" fill={SVG_COLORS.elementText} fontSize={7} fontFamily="inherit">EXPLODED JOINT &mdash; TOP VIEW</text>
                 {/* Center */}
                 <rect x={100} y={25} width={100} height={70} fill={SVG_COLORS.panelFace} stroke={SVG_COLORS.accent} strokeWidth={0.8} rx={1} />
@@ -105,14 +105,14 @@ export function SplitView() {
             </div>
           )}
 
-          <div className="bg-card border border-border rounded-lg p-4">
-            <div className="font-bold text-sm text-foreground mb-1.5">Material Considerations</div>
-            <div className="text-xs text-muted-foreground leading-relaxed">
-              <b className="text-green-600">3D Print (FDM)</b> &mdash; Lock pins can be printed separately in the same material. For PETG/ABS, the friction fit is usually sufficient. For PLA, consider adding an M3&times;12mm bolt through each lockpin hole for positive retention. Print mountbars with 4+ wall loops for strength.
+          <div className="bg-bg-card border border-border-default rounded-lg p-4">
+            <div className="font-bold text-sm text-text-primary mb-1.5">Material Considerations</div>
+            <div className="text-xs text-text-secondary leading-relaxed">
+              <b className="text-success">3D Print (FDM)</b> &mdash; Lock pins can be printed separately in the same material. For PETG/ABS, the friction fit is usually sufficient. For PLA, consider adding an M3&times;12mm bolt through each lockpin hole for positive retention. Print mountbars with 4+ wall loops for strength.
               <br /><br />
-              <b className="text-primary">Sheet Metal</b> &mdash; No split needed. Panel is a single flat pattern with bend lines. The flange, side walls, and rear panel are all formed from one piece. PEM fasteners or weld nuts for assembly.
+              <b className="text-accent-text">Sheet Metal</b> &mdash; No split needed. Panel is a single flat pattern with bend lines. The flange, side walls, and rear panel are all formed from one piece. PEM fasteners or weld nuts for assembly.
               <br /><br />
-              <b className="text-muted-foreground">Rear support</b> &mdash; The tray/bracket extends across the full width including split lines, acting as a structural bridge. For 3D prints, this is critical &mdash; it prevents the joint from flexing under device weight.
+              <b className="text-text-secondary">Rear support</b> &mdash; The tray/bracket extends across the full width including split lines, acting as a structural bridge. For 3D prints, this is critical &mdash; it prevents the joint from flexing under device weight.
             </div>
           </div>
         </>

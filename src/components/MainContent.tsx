@@ -14,7 +14,7 @@ const Preview3D = lazy(() =>
 
 function Loading3D() {
   return (
-    <div className="flex-1 flex items-center justify-center bg-background text-muted-foreground text-sm">
+    <div className="flex-1 flex items-center justify-center bg-bg-main text-text-secondary text-sm">
       Loading 3D preview...
     </div>
   );
@@ -33,12 +33,12 @@ class Preview3DErrorBoundary extends Component<
   render() {
     if (this.state.error) {
       return (
-        <div className="flex-1 flex flex-col items-center justify-center bg-background text-muted-foreground gap-3 p-6">
-          <div className="text-destructive text-sm font-bold">3D Preview Error</div>
-          <div className="text-sm text-muted-foreground max-w-[400px] text-center">
+        <div className="flex-1 flex flex-col items-center justify-center bg-bg-main text-text-secondary gap-3 p-6">
+          <div className="text-danger text-sm font-bold">3D Preview Error</div>
+          <div className="text-sm text-text-secondary max-w-[400px] text-center">
             The 3D preview encountered an error (possibly degenerate CSG geometry). Try adjusting element positions or panel dimensions.
           </div>
-          <pre className="text-xs text-muted-foreground/60 bg-muted rounded-lg p-4 max-w-[500px] overflow-auto font-mono">
+          <pre className="text-xs text-text-tertiary bg-bg-elevated rounded-lg p-4 max-w-[500px] overflow-auto font-mono">
             {this.state.error.message}
           </pre>
           <Button

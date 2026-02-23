@@ -435,7 +435,7 @@ export function Preview3D({ frameloop = 'always' }: { frameloop?: 'always' | 'ne
             <select
               value={materialOverride}
               onChange={e => setMaterialOverride(e.target.value as MaterialPreset)}
-              className="h-7 px-2 text-xs font-semibold rounded-md border font-mono bg-white/90 text-foreground border-border outline-none cursor-pointer backdrop-blur-sm"
+              className="h-7 px-2 text-xs font-semibold rounded-md border font-mono bg-bg-elevated text-text-primary border-border-default outline-none cursor-pointer backdrop-blur-sm"
             >
               {MATERIAL_OPTIONS.map(opt => (
                 <option key={opt.value} value={opt.value}>{opt.label}</option>
@@ -451,8 +451,8 @@ export function Preview3D({ frameloop = 'always' }: { frameloop?: 'always' | 'ne
               onClick={() => setWireframe(!wireframe)}
               className={`px-3 py-1 text-xs font-semibold rounded-md border backdrop-blur-sm ${
                 wireframe
-                  ? 'bg-primary text-primary-foreground border-primary'
-                  : 'bg-white/90 text-foreground border-border'
+                  ? 'bg-accent text-white border-accent'
+                  : 'bg-bg-elevated text-text-primary border-border-default'
               }`}
             >
               {wireframe ? 'SOLID' : 'WIRE'}
@@ -466,7 +466,7 @@ export function Preview3D({ frameloop = 'always' }: { frameloop?: 'always' | 'ne
         frameloop={frameloop}
         camera={{ position: [3, 2, 4], fov: 50 }}
         className="flex-1"
-        style={{ background: '#0e0e12' }}
+        style={{ background: 'var(--bg-root)' }}
       >
         <ambientLight intensity={0.4} />
         <directionalLight position={[5, 5, 5]} intensity={0.8} />
