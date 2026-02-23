@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { useConfigStore, selectPanelDims, selectPanelHeight, selectEnclosureDepth, selectMaxDeviceDepth, selectNeedsSplit, selectSplitInfo, selectUsedWidth, selectRemainingWidth, selectTotalWeight, selectSelectedElement, selectMetal, selectFilament, selectPrinter, selectMarginWarnings, selectAssemblyMode, selectMountHoleType, selectCostEstimate } from '../store';
+import { useUIStore } from '../store/useUIStore';
 import { DEFAULT_FILAMENT_PRICES } from '../lib/costEstimation';
 import { useCustomDevices } from '../store/useCustomDevices';
 import { useCatalogStore } from '../catalog/useCatalogStore';
@@ -142,6 +143,8 @@ function SegmentControl({ options, value, onChange }: {
 export function Sidebar() {
   const [showCustomModal, setShowCustomModal] = useState(false);
   const [editCustomKey, setEditCustomKey] = useState<string | undefined>();
+  const openCatalogModal = useUIStore(s => s.openCatalogModal);
+  const openWizardModal = useUIStore(s => s.openWizardModal);
   const customDevices = useCustomDevices(s => s.customDevices);
   const removeCustomDevice = useCustomDevices(s => s.removeCustomDevice);
   const standard = useConfigStore(s => s.standard);
@@ -785,6 +788,23 @@ export function Sidebar() {
             </div>
           </>
         )}
+      </div>
+
+      {/* Modal trigger buttons */}
+      <div className="h-px bg-border-subtle" />
+      <div className="space-y-1.5 px-3 py-2 shrink-0">
+        <button
+          onClick={openCatalogModal}
+          className="w-full h-8 text-xs font-medium rounded-md border border-border-default hover:bg-bg-elevated transition-colors"
+        >
+          Browse Catalog...
+        </button>
+        <button
+          onClick={openWizardModal}
+          className="w-full h-8 text-xs font-medium rounded-md border border-dashed border-border-default hover:bg-bg-elevated transition-colors"
+        >
+          Quick Setup Wizard
+        </button>
       </div>
 
       <CustomDeviceModal

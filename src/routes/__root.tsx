@@ -1,6 +1,5 @@
 import { useEffect } from 'react';
 import { Outlet } from '@tanstack/react-router';
-import { NavSidebar } from '../components/NavSidebar';
 import { useCatalogStore } from '../catalog/useCatalogStore';
 import { useKeyboard, useCommandPalette } from '../hooks/useKeyboard';
 import { useDesignPersistence } from '../hooks/useDesignPersistence';
@@ -19,11 +18,8 @@ export function RootLayout() {
 
   return (
     <TooltipProvider delayDuration={300}>
-      <div className="w-screen h-screen overflow-hidden bg-bg-root text-text-primary flex">
-        <NavSidebar />
-        <div className="flex-1 flex flex-col min-w-0 overflow-hidden">
-          <Outlet />
-        </div>
+      <div className="w-screen h-screen overflow-hidden bg-bg-root text-text-primary flex flex-col">
+        <Outlet />
         <Toaster position="bottom-center" />
         <CommandPalette open={commandPaletteOpen} onOpenChange={setCommandPaletteOpen} />
       </div>

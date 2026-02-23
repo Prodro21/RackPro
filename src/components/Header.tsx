@@ -1,4 +1,5 @@
 import { useConfigStore } from '../store';
+import { useUIStore } from '../store/useUIStore';
 import { useTheme } from '../hooks/useTheme';
 import { Tooltip, TooltipTrigger, TooltipContent } from './ui/tooltip';
 import { cn } from '../lib/utils';
@@ -18,6 +19,7 @@ export function Header() {
   const setActiveTab = useConfigStore(s => s.setActiveTab);
   const undo = useConfigStore(s => s.undo);
   const redo = useConfigStore(s => s.redo);
+  const openWizardModal = useUIStore(s => s.openWizardModal);
   const { theme, toggle: toggleTheme } = useTheme();
 
   return (
@@ -32,10 +34,23 @@ export function Header() {
             <line x1="18" y1="7" x2="18" y2="17" />
           </svg>
         </div>
-        <span className="text-sm font-semibold text-text-primary tracking-tight whitespace-nowrap">
-          RackPro
-        </span>
+        <div className="min-w-0">
+          <span className="text-sm font-semibold text-text-primary tracking-tight whitespace-nowrap block leading-tight">
+            RackPro
+          </span>
+          <span className="text-[11px] text-text-tertiary whitespace-nowrap block leading-tight">
+            EIA-310 &bull; 3D Print / Sheet Metal &bull; Full Enclosure
+          </span>
+        </div>
       </div>
+
+      {/* Quick Setup button */}
+      <button
+        onClick={openWizardModal}
+        className="h-7 px-2.5 text-[11px] font-medium rounded-md border border-dashed border-border-default text-text-tertiary hover:text-text-secondary hover:bg-bg-hover transition-all whitespace-nowrap shrink-0"
+      >
+        Quick Setup
+      </button>
 
       {/* Separator */}
       <div className="w-px h-5 bg-border-default shrink-0" />
