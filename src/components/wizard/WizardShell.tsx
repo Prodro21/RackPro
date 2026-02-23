@@ -146,17 +146,17 @@ export function WizardShell() {
   };
 
   return (
-    <div className="flex-1 flex flex-col bg-background text-foreground min-h-0">
+    <div className="flex-1 flex flex-col bg-bg-main text-text-primary min-h-0">
       {/* Step navigation bar */}
       <StepNav steps={STEPS} labels={LABELS} current={currentStep} onChange={goToStep} />
 
       {/* Main content: form + preview */}
       <div className="flex-1 flex min-h-0">
         {/* Left: wizard form panel */}
-        <div className="w-[420px] shrink-0 flex flex-col border-r border-border overflow-y-auto">
+        <div className="w-[420px] shrink-0 flex flex-col border-r border-border-default overflow-y-auto">
           {/* Cancel button header */}
-          <div className="flex items-center justify-between px-3 py-1.5 border-b border-border bg-secondary/50">
-            <span className="text-xs font-mono text-muted-foreground tracking-wide">
+          <div className="flex items-center justify-between px-3 py-1.5 border-b border-border-default bg-bg-elevated/50">
+            <span className="text-xs font-mono text-text-tertiary tracking-wide">
               WIZARD -- Step {currentStep + 1}/{STEPS.length}
             </span>
             <Tooltip>
@@ -165,7 +165,7 @@ export function WizardShell() {
                   onClick={handleCancel}
                   variant="ghost"
                   size="xs"
-                  className="text-xs text-destructive hover:text-destructive/80"
+                  className="text-xs text-danger hover:text-danger/80"
                 >
                   Cancel Wizard
                 </Button>
@@ -181,17 +181,17 @@ export function WizardShell() {
         </div>
 
         {/* Right: live FrontView preview */}
-        <div className="flex-1 flex items-center justify-center overflow-auto bg-background">
+        <div className="flex-1 flex items-center justify-center overflow-auto bg-bg-main">
           <FrontView />
         </div>
       </div>
 
       {/* Navigation blocker confirmation dialog */}
       <Dialog open={blocker.status === 'blocked'} onOpenChange={(open) => { if (!open) blocker.reset?.(); }}>
-        <DialogContent className="bg-secondary border-border max-w-sm">
+        <DialogContent className="bg-bg-elevated border-border-default max-w-sm">
           <DialogHeader>
             <DialogTitle className="text-sm font-bold">Leave wizard?</DialogTitle>
-            <DialogDescription className="text-xs text-muted-foreground">
+            <DialogDescription className="text-xs text-text-secondary">
               Your progress is saved. You can resume the wizard later from where you left off.
             </DialogDescription>
           </DialogHeader>

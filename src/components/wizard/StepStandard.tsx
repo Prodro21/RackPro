@@ -44,8 +44,8 @@ export function StepStandard({ onNext }: StepStandardProps) {
   return (
     <div className="flex flex-col gap-4 p-4">
       <div>
-        <h2 className="text-sm font-bold text-foreground mb-1">Rack Standard</h2>
-        <p className="text-xs text-muted-foreground">
+        <h2 className="text-sm font-bold text-text-primary mb-1">Rack Standard</h2>
+        <p className="text-xs text-text-secondary">
           Choose the rack width for your panel. This determines available space for devices and connectors.
         </p>
       </div>
@@ -60,16 +60,16 @@ export function StepStandard({ onNext }: StepStandardProps) {
               className={`
                 text-left p-4 rounded border-2 transition-all
                 ${isSelected
-                  ? 'border-primary bg-primary/10'
-                  : 'border-border hover:border-primary/40 bg-card'
+                  ? 'border-accent bg-accent-subtle'
+                  : 'border-border-default hover:border-border-strong bg-bg-card'
                 }
               `}
             >
               <div className="flex items-center justify-between mb-1">
-                <span className="text-sm font-bold text-foreground">{opt.title}</span>
-                <span className="text-xs font-mono text-muted-foreground">{opt.width}</span>
+                <span className="text-sm font-bold text-text-primary">{opt.title}</span>
+                <span className="text-xs font-mono text-text-secondary">{opt.width}</span>
               </div>
-              <p className="text-xs text-muted-foreground">{opt.desc}</p>
+              <p className="text-xs text-text-secondary">{opt.desc}</p>
             </button>
           );
         })}

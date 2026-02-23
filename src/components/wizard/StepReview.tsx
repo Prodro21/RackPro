@@ -77,45 +77,45 @@ export function StepReview({ onNext, onBack, onCancel, onEditInConfigurator }: S
   return (
     <div className="flex flex-col gap-4 p-4">
       <div>
-        <h2 className="text-sm font-bold text-foreground mb-1">Review Design</h2>
-        <p className="text-xs text-muted-foreground">
+        <h2 className="text-sm font-bold text-text-primary mb-1">Review Design</h2>
+        <p className="text-xs text-text-secondary">
           Review your panel configuration. The live preview on the right shows the final layout.
         </p>
       </div>
 
       {/* Summary */}
-      <div className="bg-card border border-border rounded p-3 space-y-1.5">
-        <div className="text-xs font-mono text-muted-foreground tracking-wide mb-2">SUMMARY</div>
+      <div className="bg-bg-card border border-border-default rounded p-3 space-y-1.5">
+        <div className="text-xs font-mono text-text-tertiary tracking-wide mb-2">SUMMARY</div>
         <div className="grid grid-cols-2 gap-x-4 gap-y-1 text-xs">
-          <span className="text-muted-foreground">Rack Standard</span>
-          <span className="text-foreground font-bold">{standard === '19' ? '19" (Standard)' : '10" (Compact)'}</span>
+          <span className="text-text-secondary">Rack Standard</span>
+          <span className="text-text-primary font-bold">{standard === '19' ? '19" (Standard)' : '10" (Compact)'}</span>
 
-          <span className="text-muted-foreground">U-Height</span>
-          <span className="text-foreground font-bold">{uHeight}U ({panH.toFixed(1)}mm)</span>
+          <span className="text-text-secondary">U-Height</span>
+          <span className="text-text-primary font-bold">{uHeight}U ({panH.toFixed(1)}mm)</span>
 
-          <span className="text-muted-foreground">Panel Width</span>
-          <span className="text-foreground font-bold">{panDims.panelWidth.toFixed(1)}mm</span>
+          <span className="text-text-secondary">Panel Width</span>
+          <span className="text-text-primary font-bold">{panDims.panelWidth.toFixed(1)}mm</span>
 
-          <span className="text-muted-foreground">Used Width</span>
-          <span className={`font-bold ${usedWidth > panDims.panelWidth ? 'text-destructive' : 'text-green-500'}`}>
+          <span className="text-text-secondary">Used Width</span>
+          <span className={`font-bold ${usedWidth > panDims.panelWidth ? 'text-danger' : 'text-success'}`}>
             {usedWidth.toFixed(1)}mm ({((usedWidth / panDims.panelWidth) * 100).toFixed(0)}%)
           </span>
 
-          <span className="text-muted-foreground">Devices</span>
-          <span className="text-foreground font-bold">{deviceCount}</span>
+          <span className="text-text-secondary">Devices</span>
+          <span className="text-text-primary font-bold">{deviceCount}</span>
 
-          <span className="text-muted-foreground">Connectors</span>
-          <span className="text-foreground font-bold">{connectorCount}</span>
+          <span className="text-text-secondary">Connectors</span>
+          <span className="text-text-primary font-bold">{connectorCount}</span>
 
           {fanCount > 0 && (
             <>
-              <span className="text-muted-foreground">Fans</span>
-              <span className="text-foreground font-bold">{fanCount}</span>
+              <span className="text-text-secondary">Fans</span>
+              <span className="text-text-primary font-bold">{fanCount}</span>
             </>
           )}
 
-          <span className="text-muted-foreground">Total Elements</span>
-          <span className="text-foreground font-bold">{elements.length}</span>
+          <span className="text-text-secondary">Total Elements</span>
+          <span className="text-text-primary font-bold">{elements.length}</span>
         </div>
       </div>
 
@@ -130,7 +130,7 @@ export function StepReview({ onNext, onBack, onCancel, onEditInConfigurator }: S
 
       {/* Empty panel notice */}
       {elements.length === 0 && (
-        <div className="bg-card border border-border rounded p-3 text-xs text-muted-foreground text-center">
+        <div className="bg-bg-card border border-border-default rounded p-3 text-xs text-text-secondary text-center">
           No elements placed. This will export as a blank panel with mounting ears and bores.
         </div>
       )}
@@ -142,7 +142,7 @@ export function StepReview({ onNext, onBack, onCancel, onEditInConfigurator }: S
             onClick={onEditInConfigurator}
             variant="outline"
             size="sm"
-            className="flex-1 text-xs hover:border-primary hover:text-primary"
+            className="flex-1 text-xs hover:border-accent hover:text-accent-text"
           >
             Edit in Configurator
           </Button>
@@ -168,7 +168,7 @@ export function StepReview({ onNext, onBack, onCancel, onEditInConfigurator }: S
             onClick={onCancel}
             variant="ghost"
             size="xs"
-            className="text-xs text-destructive hover:text-destructive/80"
+            className="text-xs text-danger hover:text-danger/80"
           >
             Cancel Wizard
           </Button>

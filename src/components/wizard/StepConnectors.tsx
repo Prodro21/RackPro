@@ -124,14 +124,14 @@ export function StepConnectors({
   return (
     <div className="flex flex-col h-full">
       <div className="p-4 pb-2">
-        <h2 className="text-sm font-bold text-foreground mb-1">Add Connectors</h2>
-        <p className="text-xs text-muted-foreground mb-3">
+        <h2 className="text-sm font-bold text-text-primary mb-1">Add Connectors</h2>
+        <p className="text-xs text-text-secondary mb-3">
           Browse the connector catalog and add pass-through connectors. This step is optional.
         </p>
 
         {/* Connector zone picker */}
         <div className="mb-3">
-          <div className="text-xs font-mono text-muted-foreground mb-1.5 tracking-wide">
+          <div className="text-xs font-mono text-text-tertiary mb-1.5 tracking-wide">
             CONNECTOR ZONE
           </div>
           <div className="grid grid-cols-4 gap-1">
@@ -144,8 +144,8 @@ export function StepConnectors({
                   className={`
                     flex flex-col items-center gap-1 px-2 py-1.5 rounded border text-center transition-all
                     ${isActive
-                      ? 'border-primary bg-primary/10 text-primary'
-                      : 'border-border text-muted-foreground hover:border-muted-foreground'
+                      ? 'border-accent bg-accent-subtle text-accent-text'
+                      : 'border-border-default text-text-tertiary hover:border-border-strong'
                     }
                   `}
                 >
@@ -170,7 +170,7 @@ export function StepConnectors({
         {!isConnectorCategoryActive && (
           <button
             onClick={() => toggleCategory('connector')}
-            className="mt-1.5 text-xs text-primary hover:underline"
+            className="mt-1.5 text-xs text-accent-text hover:underline"
           >
             Show connectors only
           </button>
@@ -178,7 +178,7 @@ export function StepConnectors({
         {(categories.size > 0 || query) && (
           <button
             onClick={clearFilters}
-            className="mt-1 ml-2 text-xs text-muted-foreground hover:text-foreground"
+            className="mt-1 ml-2 text-xs text-text-tertiary hover:text-text-primary"
           >
             Clear filters
           </button>
@@ -197,22 +197,22 @@ export function StepConnectors({
 
       {/* Placed connectors list */}
       {placedConnectors.length > 0 && (
-        <div className="border-t border-border p-3">
-          <div className="text-xs font-mono text-muted-foreground mb-1 tracking-wide">
+        <div className="border-t border-border-default p-3">
+          <div className="text-xs font-mono text-text-tertiary mb-1 tracking-wide">
             PLACED CONNECTORS ({placedConnectors.length})
           </div>
           <div className="flex flex-col gap-1 max-h-[120px] overflow-y-auto">
             {placedConnectors.map((el) => (
               <div
                 key={el.id}
-                className="flex items-center justify-between px-2 py-1 rounded bg-card border border-border text-xs"
+                className="flex items-center justify-between px-2 py-1 rounded bg-bg-card border border-border-default text-xs"
               >
-                <span className="text-foreground truncate">{el.label}</span>
+                <span className="text-text-primary truncate">{el.label}</span>
                 <Button
                   onClick={() => handleRemoveConnector(el.id)}
                   variant="ghost"
                   size="xs"
-                  className="text-destructive hover:text-destructive/80 text-xs shrink-0 ml-2"
+                  className="text-danger hover:text-danger/80 text-xs shrink-0 ml-2"
                 >
                   Remove
                 </Button>
@@ -223,7 +223,7 @@ export function StepConnectors({
       )}
 
       {/* Navigation */}
-      <div className="flex items-center justify-between p-3 border-t border-border">
+      <div className="flex items-center justify-between p-3 border-t border-border-default">
         <Button
           onClick={onBack}
           variant="outline"

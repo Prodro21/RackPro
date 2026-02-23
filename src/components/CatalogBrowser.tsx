@@ -68,7 +68,7 @@ export function CatalogBrowser() {
 
       {/* Right 40%: Live FrontView panel preview */}
       <div
-        className="bg-background overflow-hidden border-l border-border"
+        className="bg-bg-main overflow-hidden border-l border-border-default"
         style={{ width: '40%' }}
       >
         <FrontView />

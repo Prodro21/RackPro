@@ -27,8 +27,8 @@ export function StepUHeight({ onNext, onBack }: StepUHeightProps) {
   return (
     <div className="flex flex-col gap-4 p-4">
       <div>
-        <h2 className="text-sm font-bold text-foreground mb-1">U-Height</h2>
-        <p className="text-xs text-muted-foreground">
+        <h2 className="text-sm font-bold text-text-primary mb-1">U-Height</h2>
+        <p className="text-xs text-text-secondary">
           Select how tall your panel should be. 1U is the most common for network equipment.
         </p>
       </div>
@@ -44,13 +44,13 @@ export function StepUHeight({ onNext, onBack }: StepUHeightProps) {
               className={`
                 flex flex-col items-center justify-center p-3 rounded border-2 transition-all
                 ${isSelected
-                  ? 'border-primary bg-primary/10'
-                  : 'border-border hover:border-primary/40 bg-card'
+                  ? 'border-accent bg-accent-subtle'
+                  : 'border-border-default hover:border-border-strong bg-bg-card'
                 }
               `}
             >
-              <span className="text-lg font-bold text-foreground">{u}U</span>
-              <span className="text-xs font-mono text-muted-foreground">{h.toFixed(1)}mm</span>
+              <span className="text-lg font-bold text-text-primary">{u}U</span>
+              <span className="text-xs font-mono text-text-secondary">{h.toFixed(1)}mm</span>
             </button>
           );
         })}

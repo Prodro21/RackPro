@@ -61,7 +61,7 @@ export function CatalogSearchSidebar({
   const hasActiveFilters = query.length > 0 || categories.size > 0 || brands.size > 0;
 
   return (
-    <div className="w-[220px] shrink-0 bg-secondary border-r border-border overflow-y-auto flex flex-col p-3 gap-3">
+    <div className="w-[220px] shrink-0 bg-bg-sidebar border-r border-border-subtle overflow-y-auto flex flex-col p-3 gap-3">
       {/* Search input */}
       <div className="relative">
         <Input
@@ -74,7 +74,7 @@ export function CatalogSearchSidebar({
         {query.length > 0 && (
           <button
             onClick={() => setQuery('')}
-            className="absolute right-1.5 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-foreground text-xs w-4 h-4 flex items-center justify-center"
+            className="absolute right-1.5 top-1/2 -translate-y-1/2 text-text-tertiary hover:text-text-primary text-xs w-4 h-4 flex items-center justify-center"
             aria-label="Clear search"
           >
             x
@@ -83,14 +83,14 @@ export function CatalogSearchSidebar({
       </div>
 
       {/* Result count */}
-      <div className="text-xs text-muted-foreground">
+      <div className="text-xs text-text-secondary">
         {resultCount} item{resultCount !== 1 ? 's' : ''}
       </div>
 
       {/* Category filters */}
       {availableCategories.length > 0 && (
         <div>
-          <div className="text-xs font-bold uppercase tracking-wider text-muted-foreground mb-1.5">
+          <div className="text-[10px] font-semibold uppercase tracking-wider text-text-tertiary mb-1.5">
             Categories
           </div>
           <div className="flex flex-wrap gap-1">
@@ -102,8 +102,8 @@ export function CatalogSearchSidebar({
                   onClick={() => toggleCategory(cat)}
                   className={`text-xs px-1.5 py-0.5 rounded border transition-colors ${
                     isActive
-                      ? 'bg-primary/20 border-primary text-primary'
-                      : 'border-border text-muted-foreground hover:border-muted-foreground hover:text-foreground'
+                      ? 'bg-accent-subtle border-accent text-accent-text'
+                      : 'border-border-default text-text-tertiary hover:border-border-strong hover:text-text-primary'
                   }`}
                 >
                   {categoryLabel(cat)}
@@ -117,7 +117,7 @@ export function CatalogSearchSidebar({
       {/* Brand filters */}
       {availableBrands.length > 0 && (
         <div>
-          <div className="text-xs font-bold uppercase tracking-wider text-muted-foreground mb-1.5">
+          <div className="text-[10px] font-semibold uppercase tracking-wider text-text-tertiary mb-1.5">
             Brands
           </div>
           <div className="flex flex-wrap gap-1">
@@ -129,8 +129,8 @@ export function CatalogSearchSidebar({
                   onClick={() => toggleBrand(brand)}
                   className={`text-xs px-1.5 py-0.5 rounded border transition-colors ${
                     isActive
-                      ? 'bg-primary/20 border-primary text-primary'
-                      : 'border-border text-muted-foreground hover:border-muted-foreground hover:text-foreground'
+                      ? 'bg-accent-subtle border-accent text-accent-text'
+                      : 'border-border-default text-text-tertiary hover:border-border-strong hover:text-text-primary'
                   }`}
                 >
                   {brand}

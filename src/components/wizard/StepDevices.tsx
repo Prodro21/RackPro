@@ -95,8 +95,8 @@ export function StepDevices({ onNext, onBack, connectorZone }: StepDevicesProps)
   return (
     <div className="flex flex-col h-full">
       <div className="p-4 pb-2">
-        <h2 className="text-sm font-bold text-foreground mb-1">Add Devices</h2>
-        <p className="text-xs text-muted-foreground mb-3">
+        <h2 className="text-sm font-bold text-text-primary mb-1">Add Devices</h2>
+        <p className="text-xs text-text-secondary mb-3">
           Browse the device catalog and add items to your panel. This step is optional -- skip if building a connector-only patch panel.
         </p>
 
@@ -120,8 +120,8 @@ export function StepDevices({ onNext, onBack, connectorZone }: StepDevicesProps)
                 className={`
                   px-2 py-1.5 rounded text-xs transition-colors border
                   ${isActive
-                    ? 'border-primary bg-primary/15 text-primary'
-                    : 'border-border text-muted-foreground hover:border-muted-foreground'
+                    ? 'border-accent bg-accent-subtle text-accent-text'
+                    : 'border-border-default text-text-tertiary hover:border-border-strong'
                   }
                 `}
               >
@@ -132,7 +132,7 @@ export function StepDevices({ onNext, onBack, connectorZone }: StepDevicesProps)
           {(categories.size > 0 || query) && (
             <button
               onClick={clearFilters}
-              className="px-2 py-1.5 rounded text-xs text-muted-foreground hover:text-foreground"
+              className="px-2 py-1.5 rounded text-xs text-text-tertiary hover:text-text-primary"
             >
               Clear
             </button>
@@ -152,22 +152,22 @@ export function StepDevices({ onNext, onBack, connectorZone }: StepDevicesProps)
 
       {/* Placed devices list */}
       {placedDevices.length > 0 && (
-        <div className="border-t border-border p-3">
-          <div className="text-xs font-mono text-muted-foreground mb-1 tracking-wide">
+        <div className="border-t border-border-default p-3">
+          <div className="text-xs font-mono text-text-tertiary mb-1 tracking-wide">
             PLACED DEVICES ({placedDevices.length})
           </div>
           <div className="flex flex-col gap-1 max-h-[120px] overflow-y-auto">
             {placedDevices.map((el) => (
               <div
                 key={el.id}
-                className="flex items-center justify-between px-2 py-1 rounded bg-card border border-border text-xs"
+                className="flex items-center justify-between px-2 py-1 rounded bg-bg-card border border-border-default text-xs"
               >
-                <span className="text-foreground truncate">{el.label}</span>
+                <span className="text-text-primary truncate">{el.label}</span>
                 <Button
                   onClick={() => handleRemoveDevice(el.id)}
                   variant="ghost"
                   size="xs"
-                  className="text-destructive hover:text-destructive/80 text-xs shrink-0 ml-2"
+                  className="text-danger hover:text-danger/80 text-xs shrink-0 ml-2"
                 >
                   Remove
                 </Button>
@@ -178,7 +178,7 @@ export function StepDevices({ onNext, onBack, connectorZone }: StepDevicesProps)
       )}
 
       {/* Navigation */}
-      <div className="flex items-center justify-between p-3 border-t border-border">
+      <div className="flex items-center justify-between p-3 border-t border-border-default">
         <Button
           onClick={onBack}
           variant="outline"

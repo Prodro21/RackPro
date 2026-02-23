@@ -81,8 +81,8 @@ export function StepExport({ onBack, onDone, onStartOver }: StepExportProps) {
   return (
     <div className="flex flex-col gap-4 p-4">
       <div>
-        <h2 className="text-sm font-bold text-foreground mb-1">Export</h2>
-        <p className="text-xs text-muted-foreground">
+        <h2 className="text-sm font-bold text-text-primary mb-1">Export</h2>
+        <p className="text-xs text-text-secondary">
           Download your panel design in various formats for fabrication.
         </p>
       </div>
@@ -166,13 +166,13 @@ export function StepExport({ onBack, onDone, onStartOver }: StepExportProps) {
 
       {/* Empty panel notice */}
       {elements.length === 0 && (
-        <div className="bg-card border border-border rounded p-3 text-xs text-muted-foreground text-center">
+        <div className="bg-bg-card border border-border-default rounded p-3 text-xs text-text-secondary text-center">
           Exporting a blank panel with mounting ears and bore pattern.
         </div>
       )}
 
       {/* Actions */}
-      <div className="flex items-center justify-between mt-4 pt-3 border-t border-border">
+      <div className="flex items-center justify-between mt-4 pt-3 border-t border-border-default">
         <div className="flex items-center gap-2">
           <Button
             onClick={onBack}
@@ -186,7 +186,7 @@ export function StepExport({ onBack, onDone, onStartOver }: StepExportProps) {
             onClick={onStartOver}
             variant="ghost"
             size="xs"
-            className="text-xs text-destructive hover:text-destructive/80"
+            className="text-xs text-danger hover:text-danger/80"
           >
             Start Over
           </Button>
@@ -194,7 +194,7 @@ export function StepExport({ onBack, onDone, onStartOver }: StepExportProps) {
         <Button
           onClick={onDone}
           size="sm"
-          className="text-xs font-bold bg-green-500 text-white hover:bg-green-600"
+          className="text-xs font-bold bg-success text-white hover:bg-success/90"
         >
           Done
         </Button>
@@ -221,9 +221,9 @@ function ExportRow({
   actions: ExportAction[];
 }) {
   return (
-    <div className="bg-card border border-border rounded p-3">
-      <div className="text-sm font-bold text-foreground mb-0.5">{title}</div>
-      <div className="text-xs text-muted-foreground mb-2">{desc}</div>
+    <div className="bg-bg-card border border-border-default rounded p-3 hover:border-border-strong transition-colors">
+      <div className="text-sm font-bold text-text-primary mb-0.5">{title}</div>
+      <div className="text-xs text-text-secondary mb-2">{desc}</div>
       <div className="flex items-center gap-2">
         {actions.map((a) => (
           <Button
