@@ -263,7 +263,7 @@ export function CommandPalette({ open, onOpenChange }: CommandPaletteProps) {
           <CommandSeparator />
         )}
 
-        <CommandGroup heading="Navigation">
+        <CommandGroup heading="Tools">
           <CommandItem value="nav-catalog" onSelect={handleOpenCatalog}>
             <span className="text-[13px] mr-1">&#9776;</span>
             Browse Catalog
