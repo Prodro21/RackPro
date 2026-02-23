@@ -30,4 +30,5 @@ export {
   selectMountHoleType,
   selectMountHoleDiameter,
   selectValidationIssueIds,
+  selectCostEstimate,
 } from './selectors';

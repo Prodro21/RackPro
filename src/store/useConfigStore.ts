@@ -35,6 +35,7 @@ interface Snapshot {
   faceFabMethod: FabMethod;
   trayFabMethod: FabMethod;
   enclosureStyle: EnclosureStyle;
+  filamentPriceOverrides: Record<string, number>;
 }
 
 const UNDO_LIMIT = 50;
@@ -54,6 +55,7 @@ function takeSnapshot(s: ConfigState): Snapshot {
     autoReinforcement: s.autoReinforcement,
     assemblyMode: s.assemblyMode, faceFabMethod: s.faceFabMethod, trayFabMethod: s.trayFabMethod,
     enclosureStyle: s.enclosureStyle,
+    filamentPriceOverrides: { ...s.filamentPriceOverrides },
   };
 }
 
@@ -109,11 +111,15 @@ export interface ConfigState {
   // Enclosure style
   enclosureStyle: EnclosureStyle;
 
+  // Cost estimation
+  filamentPriceOverrides: Record<string, number>;
+
   // Validation (UI-only, not undoable)
   validationIssueIds: string[];
 
   // Actions
   setStandard: (std: RackStandard) => void;
+  setFilamentPriceOverride: (key: string, price: number) => void;
   setUHeight: (u: number) => void;
   setFabMethod: (fab: FabMethod) => void;
   setMetalKey: (key: string) => void;
@@ -186,9 +192,14 @@ export const useConfigStore = create<ConfigState>()(
       faceFabMethod: '3dp',
       trayFabMethod: '3dp',
       enclosureStyle: 'tray',
+      filamentPriceOverrides: {},
       validationIssueIds: [],
 
       // Simple setters (push undo for config changes)
+      setFilamentPriceOverride: (key, price) => {
+        pushUndo(get());
+        set(produce((s: ConfigState) => { s.filamentPriceOverrides[key] = price; }));
+      },
       setStandard: (std) => { pushUndo(get()); set({ standard: std }); },
       setUHeight: (u) => { pushUndo(get()); set({ uHeight: u }); },
       setFabMethod: (fab) => { pushUndo(get()); set({ fabMethod: fab }); },

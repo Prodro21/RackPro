@@ -30,6 +30,7 @@ export interface SerializedDesign {
   faceFabMethod: string;
   trayFabMethod: string;
   enclosureStyle: string;
+  filamentPriceOverrides?: Record<string, number>;
   elements: Array<{
     id: string;
     type: string;
@@ -76,6 +77,9 @@ export function extractSerializable(state: ConfigState): SerializedDesign {
     faceFabMethod: state.faceFabMethod,
     trayFabMethod: state.trayFabMethod,
     enclosureStyle: state.enclosureStyle,
+    ...(Object.keys(state.filamentPriceOverrides ?? {}).length > 0
+      ? { filamentPriceOverrides: state.filamentPriceOverrides }
+      : {}),
     elements: state.elements.map((el) => ({
       id: el.id,
       type: el.type,
@@ -134,9 +138,10 @@ export function decodeDesign(encoded: string): SerializedDesign | null {
  * even if the slug is not in the current catalog.
  */
 export function applyDesignToStore(design: SerializedDesign): void {
-  const { v: _v, ...rest } = design;
+  const { v: _v, filamentPriceOverrides: fpo, ...rest } = design;
   useConfigStore.setState({
     ...rest,
+    filamentPriceOverrides: fpo ?? {},
     // Ensure elements have proper types for the store
     elements: design.elements.map((el) => ({
       id: el.id,

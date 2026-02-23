@@ -8,6 +8,8 @@ import { lookupDevice } from '../constants/deviceLookup';
 import { METALS, FILAMENTS, bendAllowance90 } from '../constants/materials';
 import { PRINTERS } from '../constants/printers';
 import { computeMarginWarnings, defaultMinGap } from '../lib/margins';
+import { estimatePrintCost, estimateSheetMetalCost, FILAMENT_DENSITY, DEFAULT_FILAMENT_PRICES, DEFAULT_FILL_FACTOR, SHEET_METAL_RATE_PER_CM2 } from '../lib/costEstimation';
+import type { CostEstimate } from '../lib/costEstimation';
 import { computeTrayReinforcement } from '../lib/trayReinforcement';
 import { computeTrayDimensions } from '../lib/trayGeometry';
 
@@ -315,4 +317,48 @@ export const selectTrayReinforcements = (s: ConfigState): TrayReinforcementEntry
   }).filter((e): e is TrayReinforcementEntry => e !== null);
 
   return _trVal;
+};
+
+// ─── Cost estimate (memoized) ────────────────────────────────
+
+let _ceKey: string;
+let _ceVal: CostEstimate | null;
+export const selectCostEstimate = (s: ConfigState): CostEstimate | null => {
+  const key = `${s.standard}_${s.uHeight}_${s.fabMethod}_${s.filamentKey}_${s.metalKey}_${s.wallThickness}_${s.flangeDepth}_${s.elements.length}_${JSON.stringify(s.filamentPriceOverrides)}`;
+  if (key === _ceKey) return _ceVal;
+  _ceKey = key;
+
+  const { totalWidth } = selectPanelDims(s);
+  const panH = panelHeight(s.uHeight);
+
+  if (s.fabMethod === '3dp') {
+    const encDepth = selectEnclosureDepth(s);
+    const density = FILAMENT_DENSITY[s.filamentKey] ?? 1.24;
+    const pricePerKg = s.filamentPriceOverrides[s.filamentKey] ?? DEFAULT_FILAMENT_PRICES[s.filamentKey] ?? 22;
+    const fil = FILAMENTS[s.filamentKey];
+    _ceVal = estimatePrintCost({
+      panelWidth: totalWidth,
+      panelHeight: panH,
+      enclosureDepth: encDepth,
+      fillFactor: DEFAULT_FILL_FACTOR,
+      materialDensity: density,
+      pricePerKg,
+      materialName: fil?.name ?? s.filamentKey,
+    });
+  } else {
+    const mt = METALS[s.metalKey];
+    if (!mt) { _ceVal = null; return _ceVal; }
+    const ba90 = bendAllowance90(mt.br, mt.t, 0.40);
+    const flatW = totalWidth + 2 * (s.flangeDepth + ba90);
+    const flatH = panH + 2 * (s.flangeDepth + ba90);
+    const rate = SHEET_METAL_RATE_PER_CM2[s.metalKey] ?? 0.07;
+    _ceVal = estimateSheetMetalCost({
+      flatWidth: flatW,
+      flatHeight: flatH,
+      ratePerCm2: rate,
+      materialName: mt.name,
+    });
+  }
+
+  return _ceVal;
 };
