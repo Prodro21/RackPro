@@ -48,5 +48,5 @@ Plans:
 
 Plans:
 - [x] 02-01-PLAN.md — Routing teardown + useUIStore + header subtitle + sidebar trigger buttons
-- [ ] 02-02-PLAN.md — Modal conversion (CatalogModal + WizardModal + CommandPalette update + orphan cleanup)
+- [x] 02-02-PLAN.md — Modal conversion (CatalogModal + WizardModal + CommandPalette update + orphan cleanup)
 - [ ] 02-03-PLAN.md — CSS/visual fixes (grid dot contrast, grid background visibility, human verification)
