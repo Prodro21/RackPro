@@ -282,6 +282,18 @@ function groupConnectorsByFamily(connectors: ResolvedConnector[]): ConnectorGrou
   return groups;
 }
 
+// ─── Device Bounds Clamping ──────────────────────────────────
+
+/** FIX 2: Clamp device centers so edges stay within [0, panW]. */
+function clampDeviceBounds(
+  devicePlacements: Array<{ el: ResolvedDevice; cx: number }>,
+  panW: number,
+): void {
+  for (const dp of devicePlacements) {
+    dp.cx = Math.max(dp.el.w / 2, Math.min(panW - dp.el.w / 2, dp.cx));
+  }
+}
+
 // ─── Connector Zone Placement ─────────────────────────────────
 
 interface ConnectorPlacement {
@@ -325,7 +337,6 @@ function placeConnectorsInZone(
   switch (zone) {
     case 'between': {
       // Place connectors in the gap between device clusters
-      const gapStart = devicePlacements.length > 0 ? devLeftEdge : spacing;
       // Find actual gap between left-cluster and right-cluster
       const sortedByX = [...devicePlacements].sort((a, b) => a.cx - b.cx);
       let betweenStart: number;
@@ -354,12 +365,22 @@ function placeConnectorsInZone(
         betweenEnd = panW - spacing;
       }
 
+      // FIX 1: Check bounds before placing — overflow connectors spill rightward
       let cursor = betweenStart;
+      let fallbackCursor = devRightEdge + spacing;
       for (const con of ordered) {
-        const cx = cursor + con.w / 2;
-        placements.push({ el: con, cx });
-        cursor = cx + con.w / 2 + spacing;
+        if (cursor + con.w / 2 > betweenEnd) {
+          // Connector exceeds between-zone boundary — place after rightmost device
+          const cx = fallbackCursor + con.w / 2;
+          placements.push({ el: con, cx });
+          fallbackCursor = cx + con.w / 2 + spacing;
+        } else {
+          const cx = cursor + con.w / 2;
+          placements.push({ el: con, cx });
+          cursor = cx + con.w / 2 + spacing;
+        }
       }
+      clampDeviceBounds(devicePlacements, panW);
       break;
     }
 
@@ -379,6 +400,8 @@ function placeConnectorsInZone(
           dp.cx += shift;
         }
       }
+      // FIX 2: Clamp device bounds after shift
+      clampDeviceBounds(devicePlacements, panW);
       break;
     }
 
@@ -402,6 +425,8 @@ function placeConnectorsInZone(
           dp.cx -= shift;
         }
       }
+      // FIX 2: Clamp device bounds after shift
+      clampDeviceBounds(devicePlacements, panW);
       break;
     }
 
@@ -456,12 +481,16 @@ function placeConnectorsInZone(
           const right = dp.cx + dp.el.w / 2;
           if (right > newDevRight) newDevRight = right;
         }
-        // Check if devices overlap with right connectors
+        // FIX 2: Check if devices overlap with right connectors and shift leftward
         if (newDevRight > rightConLeft) {
-          // Compress right connectors further right or leave as-is
-          // (overflow detection will catch it)
+          const shift = newDevRight - rightConLeft + spacing;
+          for (const dp of devicePlacements) {
+            dp.cx -= shift;
+          }
         }
       }
+      // FIX 2: Clamp device bounds after shift
+      clampDeviceBounds(devicePlacements, panW);
       break;
     }
   }
@@ -475,49 +504,91 @@ function detectOverflow(
   placed: PanelElement[],
   panW: number,
   panH: number,
-  _spacing: number,
+  spacing: number,
 ): OverflowSuggestion | null {
-  // Check if any faceplate elements exceed panel bounds
+  const faceplate = placed.filter(el => el.surface !== 'rear');
+
+  // Check if any faceplate elements exceed panel bounds (edge overflow)
   let maxRight = 0;
   let maxBottom = 0;
-  for (const el of placed) {
-    if (el.surface === 'rear') continue; // fans on rear don't count for faceplate overflow
+  for (const el of faceplate) {
     const right = el.x + el.w / 2;
     const bottom = el.y + el.h / 2;
     if (right > maxRight) maxRight = right;
     if (bottom > maxBottom) maxBottom = bottom;
   }
 
-  const widthOverflow = maxRight > panW;
+  const edgeWidthOverflow = maxRight > panW;
   const heightOverflow = maxBottom > panH;
 
-  if (!widthOverflow && !heightOverflow) return null;
+  // FIX 3: Total-width check — sum element widths + spacing
+  const totalElementWidth = faceplate.reduce((sum, el) => sum + el.w, 0);
+  const totalWidthNeeded = faceplate.length > 0
+    ? totalElementWidth + spacing * (faceplate.length - 1)
+    : 0;
+  const totalWidthOverflow = totalWidthNeeded > panW;
 
-  const totalWidthNeeded = maxRight;
+  // FIX 3: Pairwise overlap check
+  let hasOverlaps = false;
+  for (let i = 0; i < faceplate.length && !hasOverlaps; i++) {
+    for (let j = i + 1; j < faceplate.length; j++) {
+      if (aabbOverlap(faceplate[i], faceplate[j])) {
+        hasOverlaps = true;
+        break;
+      }
+    }
+  }
+
+  if (!edgeWidthOverflow && !heightOverflow && !totalWidthOverflow && !hasOverlaps) return null;
+
   const suggestions: string[] = [];
+  const messages: string[] = [];
 
-  if (widthOverflow) {
-    // Determine current standard from panel width
-    const is10inch = panW < 300; // 10" panels are ~222mm
+  if (edgeWidthOverflow) {
+    messages.push(`elements exceed panel width by ${(maxRight - panW).toFixed(1)}mm`);
+    const is10inch = panW < 300;
     if (is10inch) {
       suggestions.push('Switch to 19" standard (450.85mm panel width)');
     }
     suggestions.push(`Remove items to fit within ${panW.toFixed(1)}mm panel width`);
   }
 
+  if (totalWidthOverflow && !edgeWidthOverflow) {
+    messages.push(`total element width (${totalWidthNeeded.toFixed(1)}mm) exceeds panel width (${panW.toFixed(1)}mm)`);
+    suggestions.push(`Remove items to fit within ${panW.toFixed(1)}mm panel width`);
+  }
+
+  if (hasOverlaps) {
+    messages.push('overlapping elements detected');
+    suggestions.push('Increase panel size or reduce elements to eliminate overlaps');
+  }
+
   if (heightOverflow) {
+    messages.push(`elements exceed panel height by ${(maxBottom - panH).toFixed(1)}mm`);
     suggestions.push('Increase to 2U for more vertical space');
   }
 
   return {
-    message: `Elements exceed panel bounds by ${(Math.max(maxRight - panW, 0)).toFixed(1)}mm wide, ${(Math.max(maxBottom - panH, 0)).toFixed(1)}mm tall`,
+    message: messages.join('; ').replace(/^./, c => c.toUpperCase()),
     suggestions,
-    totalWidth: +totalWidthNeeded.toFixed(2),
+    totalWidth: +Math.max(maxRight, totalWidthNeeded).toFixed(2),
     availableWidth: panW,
   };
 }
 
 // ─── Post-Layout Validation ───────────────────────────────────
+
+/**
+ * Re-validate element positions after manual moves.
+ * Exported for use by moveElement in the store.
+ */
+export function revalidatePositions(
+  elements: PanelElement[],
+  panW: number,
+  panH: number,
+): string[] {
+  return validateLayout(elements, panW, panH);
+}
 
 function validateLayout(
   placed: PanelElement[],
