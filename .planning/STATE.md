@@ -5,23 +5,23 @@
 See: .planning/PROJECT.md (updated 2026-02-21)
 
 **Core value:** Anyone can design a custom rack mount panel with real equipment dimensions and export a fabrication-ready file — without CAD expertise.
-**Current focus:** Phase 4 COMPLETE — Guided Wizard + Smart Auto-Layout (all gap closure plans done)
+**Current focus:** Phase 5 IN PROGRESS — UI + 3D Polish
 
 ## Current Position
 
-Phase: 4 of 6 (Guided Wizard + Smart Auto-Layout) -- COMPLETE
-Plan: 5 of 5 in current phase -- COMPLETE
-Status: Phase 4 Complete (including gap closure plans 04-04, 04-05)
-Last activity: 2026-02-23 — Completed 04-04-PLAN.md (Auto-Layout Gap Closure)
+Phase: 5 of 6 (UI + 3D Polish) -- IN PROGRESS
+Plan: 3 of 5 in current phase -- COMPLETE
+Status: Executing Phase 5 plans
+Last activity: 2026-02-23 — Completed 05-03-PLAN.md (CSG Boolean Subtraction)
 
-Progress: [████████░░] 80%
+Progress: [████████░░] 84%
 
 ## Performance Metrics
 
 **Velocity:**
-- Total plans completed: 18
+- Total plans completed: 20
 - Average duration: 6min
-- Total execution time: 1.72 hours
+- Total execution time: 1.82 hours
 
 **By Phase:**
 
@@ -32,10 +32,11 @@ Progress: [████████░░] 80%
 | 02-catalog-browser-routing | 3 | 12min | 4min |
 | 03-export-hardening-web-deployment | 2 | 37min | 19min |
 | 04-guided-wizard-smart-auto-layout | 5 | 31min | 6min |
+| 05-ui-3d-polish | 1 | 3min | 3min |
 
 **Recent Trend:**
-- Last 5 plans: 04-01 (9min), 04-02 (9min), 04-03 (8min), 04-05 (2min), 04-04 (3min)
-- Trend: Gap closure plans execute fastest (targeted fixes)
+- Last 5 plans: 04-03 (8min), 04-05 (2min), 04-04 (3min), 05-05 (3min)
+- Trend: Targeted plans execute fastest
 
 *Updated after each plan completion*
 
@@ -116,6 +117,8 @@ Recent decisions affecting current work:
 - [Phase 04]: [04-04]: clampDeviceBounds called at end of every zone shift case for uniform safety
 - [Phase 04]: [04-04]: revalidatePositions is a thin export alias so validateLayout stays internal
 - [Phase 04]: [04-04]: positionKey joins id:x:y for all elements as stable change-detection key
+- [Phase 05]: [05-05]: selectMaxDeviceDepth memoized for performance even though it returns a primitive (avoids redundant iteration)
+- [Phase 05]: [05-05]: as unknown as ConfigState double cast for partial mock objects in tests (tsc strict mode)
 
 ### Pending Todos
 
@@ -130,5 +133,5 @@ None yet.
 ## Session Continuity
 
 Last session: 2026-02-23
-Stopped at: Completed 04-04-PLAN.md (Auto-Layout Gap Closure) — Phase 4 fully complete with all gap closure plans
+Stopped at: Completed 05-05-PLAN.md (Selector Stability Memoization + Tests)
 Resume file: None

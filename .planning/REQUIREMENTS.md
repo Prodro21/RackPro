@@ -63,7 +63,7 @@ Requirements for this milestone. Each maps to roadmap phases.
 - [x] **PLAT-01**: App uses hash-based client-side routing with lazy-loaded route components for catalog, configurator, and wizard views
 - [x] **PLAT-02**: App is deployed as a static site on Cloudflare Pages (or equivalent) with SPA fallback routing
 - [ ] **PLAT-03**: UI uses shadcn/ui components replacing raw HTML form elements (selects, inputs, dialogs) for a professional appearance
-- [ ] **PLAT-04**: All new Zustand selectors returning objects/arrays include module-level memoization with documented cache keys and stability tests
+- [x] **PLAT-04**: All new Zustand selectors returning objects/arrays include module-level memoization with documented cache keys and stability tests
 
 ## v2 Requirements
 
@@ -125,21 +125,21 @@ Which phases cover which requirements. Updated during roadmap creation.
 | LAYOUT-02 | Phase 4 | Complete |
 | LAYOUT-03 | Phase 4 | Complete |
 | LAYOUT-04 | Phase 4 | Complete |
-| COST-01 | Phase 5 | Pending |
-| COST-02 | Phase 5 | Pending |
-| COST-03 | Phase 5 | Pending |
-| COST-04 | Phase 5 | Pending |
+| COST-01 | Phase 6 | Pending |
+| COST-02 | Phase 6 | Pending |
+| COST-03 | Phase 6 | Pending |
+| COST-04 | Phase 6 | Pending |
 | EXP-01 | Phase 3 | Complete |
 | EXP-02 | Phase 3 | Complete |
 | EXP-03 | Phase 3 | Complete |
 | EXP-04 | Phase 3 | Complete |
 | 3D-01 | Phase 3 | Complete |
-| 3D-02 | Phase 6 | Pending |
-| 3D-03 | Phase 6 | Pending |
+| 3D-02 | Phase 5 | Pending |
+| 3D-03 | Phase 5 | Pending |
 | PLAT-01 | Phase 2 | Complete |
 | PLAT-02 | Phase 3 | Complete |
 | PLAT-03 | Phase 5 | Pending |
-| PLAT-04 | Phase 5 | Pending |
+| PLAT-04 | Phase 5 | Complete |
 
 **Coverage:**
 - v1 requirements: 34 total
