@@ -205,6 +205,9 @@ export function Sidebar() {
   const setFilamentPriceOverride = useConfigStore(s => s.setFilamentPriceOverride);
   const setActiveTab = useConfigStore(s => s.setActiveTab);
 
+  const catalogDevices = useCatalogStore(s => s.devices);
+  const catalogConnectors = useCatalogStore(s => s.connectors);
+
   const budgetPct = Math.min(100, (usedWidth / panDims.panelWidth) * 100);
   const budgetColor = remainingWidth < 0 ? '#ef4444' : remainingWidth < 30 ? 'oklch(0.72 0.15 185)' : '#4ade80';
 
@@ -602,11 +605,10 @@ export function Sidebar() {
             />
           )}
           {(() => {
-            const catStore = useCatalogStore.getState();
             const entry = selEl.type === 'device'
-              ? catStore.devices.find(d => d.slug === selEl.key)
+              ? catalogDevices.find(d => d.slug === selEl.key)
               : selEl.type === 'connector'
-              ? catStore.connectors.find(c => c.slug === selEl.key)
+              ? catalogConnectors.find(c => c.slug === selEl.key)
               : null;
             if (!entry) return null;
             const badge = confidenceBadge(entry.dataSource);
