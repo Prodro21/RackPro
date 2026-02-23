@@ -10,6 +10,7 @@ import { lookupConnector } from '../constants/connectorLookup';
 import { FANS } from '../constants/fans';
 import { useEnclosure, type TrayGeometry } from '../hooks/useEnclosure';
 import { buildCSGFaceplate, csgCacheKey, type CutoutDef } from '../lib/csg';
+import { usePanelMaterial, type MaterialPreset, type PanelMaterials } from '../hooks/usePanelMaterial';
 
 /** Build an ExtrudeGeometry for a hex-lightweighted tray floor.
  *  Creates a rectangle with hexagonal holes punched through it. */
@@ -68,16 +69,15 @@ function buildHexFloorGeo(w: number, d: number, t: number, sc: number): THREE.Ex
   return new THREE.ExtrudeGeometry(shape, { depth: t * sc, bevelEnabled: false });
 }
 
-const MATERIAL_PANEL = new THREE.MeshStandardMaterial({ color: '#2a2a35', metalness: 0.3, roughness: 0.7 });
-const MATERIAL_WALL = new THREE.MeshStandardMaterial({ color: '#1e1e26', metalness: 0.2, roughness: 0.8 });
-const MATERIAL_EAR = new THREE.MeshStandardMaterial({ color: '#1a1a22', metalness: 0.4, roughness: 0.6 });
+// Tray and connector body materials kept as static MeshStandardMaterial (less prominent, no PBR upgrade needed)
 const MATERIAL_TRAY = new THREE.MeshStandardMaterial({ color: '#1a1a22', metalness: 0.2, roughness: 0.8, transparent: true, opacity: 0.5 });
 const MATERIAL_HEX_TRAY = new THREE.MeshStandardMaterial({ color: '#2a2a35', metalness: 0.3, roughness: 0.6, side: THREE.DoubleSide });
 const MATERIAL_CONNECTOR_BODY = new THREE.MeshStandardMaterial({ color: '#444444', metalness: 0.1, roughness: 0.7, transparent: true, opacity: 0.6 });
 
 /** Renders a single device tray — hex-lightweighted floor + U-channel side walls. */
-function TrayMesh({ tray, panW, panH, wallT, scale }: {
+function TrayMesh({ tray, panW, panH, wallT, scale, wallMaterial }: {
   tray: TrayGeometry; panW: number; panH: number; wallT: number; scale: number;
+  wallMaterial: THREE.Material;
 }) {
   const trayX = (tray.x - panW / 2) * scale;
   // Floor sits at the bottom of the device cutout (not the panel bottom)
@@ -134,20 +134,20 @@ function TrayMesh({ tray, panW, panH, wallT, scale }: {
     <group>
       {floor}
       {/* Left side wall */}
-      <mesh position={[trayX - (wallHalfW - tray.wallT / 2) * scale, sideWallY, trayZ]} material={MATERIAL_WALL}>
+      <mesh position={[trayX - (wallHalfW - tray.wallT / 2) * scale, sideWallY, trayZ]} material={wallMaterial}>
         <boxGeometry args={[tray.wallT * scale, sideH * scale, tray.d * scale]} />
       </mesh>
       {/* Right side wall */}
-      <mesh position={[trayX + (wallHalfW - tray.wallT / 2) * scale, sideWallY, trayZ]} material={MATERIAL_WALL}>
+      <mesh position={[trayX + (wallHalfW - tray.wallT / 2) * scale, sideWallY, trayZ]} material={wallMaterial}>
         <boxGeometry args={[tray.wallT * scale, sideH * scale, tray.d * scale]} />
       </mesh>
 
       {/* Left wedge stopper */}
-      <mesh position={[trayX - (wallHalfW - wedgeW / 2) * scale, sideWallY, wedgeZ]} material={MATERIAL_WALL}>
+      <mesh position={[trayX - (wallHalfW - wedgeW / 2) * scale, sideWallY, wedgeZ]} material={wallMaterial}>
         <boxGeometry args={[wedgeW * scale, wedgeH * scale, wedgeD * scale]} />
       </mesh>
       {/* Right wedge stopper */}
-      <mesh position={[trayX + (wallHalfW - wedgeW / 2) * scale, sideWallY, wedgeZ]} material={MATERIAL_WALL}>
+      <mesh position={[trayX + (wallHalfW - wedgeW / 2) * scale, sideWallY, wedgeZ]} material={wallMaterial}>
         <boxGeometry args={[wedgeW * scale, wedgeH * scale, wedgeD * scale]} />
       </mesh>
 
@@ -155,11 +155,11 @@ function TrayMesh({ tray, panW, panH, wallT, scale }: {
       {needsStabilizers && (
         <>
           {/* Left stabilizer */}
-          <mesh position={[trayX - (wallHalfW - tray.wallT / 2) * scale, stabY, stabZ]} material={MATERIAL_WALL}>
+          <mesh position={[trayX - (wallHalfW - tray.wallT / 2) * scale, stabY, stabZ]} material={wallMaterial}>
             <boxGeometry args={[tray.wallT * scale, stabH * scale, stabD * scale]} />
           </mesh>
           {/* Right stabilizer */}
-          <mesh position={[trayX + (wallHalfW - tray.wallT / 2) * scale, stabY, stabZ]} material={MATERIAL_WALL}>
+          <mesh position={[trayX + (wallHalfW - tray.wallT / 2) * scale, stabY, stabZ]} material={wallMaterial}>
             <boxGeometry args={[tray.wallT * scale, stabH * scale, stabD * scale]} />
           </mesh>
         </>
@@ -246,16 +246,20 @@ function ConnectorBodies({ panW, panH, wallT, scale }: {
   );
 }
 
-function EnclosureMesh() {
+function EnclosureMesh({ materialOverride }: { materialOverride: MaterialPreset }) {
   const enclosure = useEnclosure();
   const elements = useConfigStore(s => s.elements);
   const fabMethod = useConfigStore(s => s.fabMethod);
+  const filamentKey = useConfigStore(s => s.filamentKey);
   const flangeDepth = useConfigStore(s => s.flangeDepth);
   const enclosureStyle = useConfigStore(selectEnclosureStyle);
   const panDims = useConfigStore(selectPanelDims);
   const panH = useConfigStore(selectPanelHeight);
   const bores = useConfigStore(selectBores);
   const boreDia = useConfigStore(selectMountHoleDiameter);
+
+  // PBR materials from the hook — auto-switch on fab method + filament
+  const materials = usePanelMaterial(fabMethod, filamentKey, materialOverride);
 
   const { panelWidth: panW, totalWidth: totW } = panDims;
   const { depth, faceplate, rearPanel } = enclosure;
@@ -318,7 +322,7 @@ function EnclosureMesh() {
   return (
     <group>
       {/* Faceplate with CSG-subtracted cutout holes */}
-      <mesh geometry={faceplateGeo} material={MATERIAL_PANEL} position={[0, 0, 0]} />
+      <mesh geometry={faceplateGeo} material={materials.faceplate} position={[0, 0, 0]} />
 
       {/* Ears */}
       {[0, 1].map(s => {
@@ -326,7 +330,7 @@ function EnclosureMesh() {
           ? -(panW / 2 + EIA.EAR_WIDTH / 2) * scale
           : (panW / 2 + EIA.EAR_WIDTH / 2) * scale;
         return (
-          <mesh key={`ear${s}`} position={[earX, 0, 0]} material={MATERIAL_EAR}>
+          <mesh key={`ear${s}`} position={[earX, 0, 0]} material={materials.ear}>
             <boxGeometry args={[EIA.EAR_WIDTH * scale, panH * scale, wallT * scale]} />
           </mesh>
         );
@@ -348,14 +352,14 @@ function EnclosureMesh() {
 
       {/* Top wall (box style only) */}
       {enclosureStyle === 'box' && (
-        <mesh position={[0, panH / 2 * scale - wallT / 2 * scale, -depth / 2 * scale]} material={MATERIAL_WALL}>
+        <mesh position={[0, panH / 2 * scale - wallT / 2 * scale, -depth / 2 * scale]} material={materials.wall}>
           <boxGeometry args={[panW * scale, wallT * scale, depth * scale]} />
         </mesh>
       )}
 
       {/* Bottom wall (box style only) */}
       {enclosureStyle === 'box' && (
-        <mesh position={[0, -panH / 2 * scale + wallT / 2 * scale, -depth / 2 * scale]} material={MATERIAL_WALL}>
+        <mesh position={[0, -panH / 2 * scale + wallT / 2 * scale, -depth / 2 * scale]} material={materials.wall}>
           <boxGeometry args={[panW * scale, wallT * scale, depth * scale]} />
         </mesh>
       )}
@@ -373,19 +377,19 @@ function EnclosureMesh() {
         return (
           <group key={`lip-${el.id}`}>
             {/* Top lip bar */}
-            <mesh position={[lipX, lipY + lipH / 2 - barT / 2, lipZ]} material={MATERIAL_WALL}>
+            <mesh position={[lipX, lipY + lipH / 2 - barT / 2, lipZ]} material={materials.wall}>
               <boxGeometry args={[lipW, barT, lipD]} />
             </mesh>
             {/* Bottom lip bar */}
-            <mesh position={[lipX, lipY - lipH / 2 + barT / 2, lipZ]} material={MATERIAL_WALL}>
+            <mesh position={[lipX, lipY - lipH / 2 + barT / 2, lipZ]} material={materials.wall}>
               <boxGeometry args={[lipW, barT, lipD]} />
             </mesh>
             {/* Left lip bar */}
-            <mesh position={[lipX - lipW / 2 + barT / 2, lipY, lipZ]} material={MATERIAL_WALL}>
+            <mesh position={[lipX - lipW / 2 + barT / 2, lipY, lipZ]} material={materials.wall}>
               <boxGeometry args={[barT, lipH - barT * 2, lipD]} />
             </mesh>
             {/* Right lip bar */}
-            <mesh position={[lipX + lipW / 2 - barT / 2, lipY, lipZ]} material={MATERIAL_WALL}>
+            <mesh position={[lipX + lipW / 2 - barT / 2, lipY, lipZ]} material={materials.wall}>
               <boxGeometry args={[barT, lipH - barT * 2, lipD]} />
             </mesh>
           </group>
@@ -394,14 +398,14 @@ function EnclosureMesh() {
 
       {/* Rear panel */}
       {rearPanel && (
-        <mesh position={[0, 0, -depth * scale]} material={MATERIAL_PANEL}>
+        <mesh position={[0, 0, -depth * scale]} material={materials.faceplate}>
           <boxGeometry args={[rearPanel.w * scale, rearPanel.h * scale, rearPanel.t * scale]} />
         </mesh>
       )}
 
       {/* Device trays */}
       {enclosure.trays.map(tray => (
-        <TrayMesh key={tray.elementId} tray={tray} panW={panW} panH={panH} wallT={wallT} scale={scale} />
+        <TrayMesh key={tray.elementId} tray={tray} panW={panW} panH={panH} wallT={wallT} scale={scale} wallMaterial={materials.wall} />
       ))}
 
       {/* Simplified connector/fan body meshes behind faceplate */}
@@ -410,13 +414,37 @@ function EnclosureMesh() {
   );
 }
 
+const MATERIAL_OPTIONS: { value: MaterialPreset; label: string }[] = [
+  { value: 'auto', label: 'Auto' },
+  { value: 'metal', label: 'Aluminum' },
+  { value: 'plastic', label: 'Plastic' },
+  { value: 'carbon', label: 'Carbon' },
+];
+
 export function Preview3D({ frameloop = 'always' }: { frameloop?: 'always' | 'never' | 'demand' }) {
   const [wireframe, setWireframe] = useState(false);
+  const [materialOverride, setMaterialOverride] = useState<MaterialPreset>('auto');
 
   return (
     <div className="flex-1 flex flex-col relative">
       {/* Toolbar */}
-      <div className="absolute top-3 right-3 z-10 flex gap-1">
+      <div className="absolute top-3 right-3 z-10 flex gap-1 items-center">
+        {/* Material override dropdown */}
+        <Tooltip>
+          <TooltipTrigger asChild>
+            <select
+              value={materialOverride}
+              onChange={e => setMaterialOverride(e.target.value as MaterialPreset)}
+              className="h-6 px-1.5 text-[9px] font-bold rounded border font-mono bg-[#1a1a22] text-muted-foreground border-border outline-none cursor-pointer"
+            >
+              {MATERIAL_OPTIONS.map(opt => (
+                <option key={opt.value} value={opt.value}>{opt.label}</option>
+              ))}
+            </select>
+          </TooltipTrigger>
+          <TooltipContent>Material appearance override</TooltipContent>
+        </Tooltip>
+
         <Tooltip>
           <TooltipTrigger asChild>
             <button
@@ -444,8 +472,8 @@ export function Preview3D({ frameloop = 'always' }: { frameloop?: 'always' | 'ne
         <directionalLight position={[5, 5, 5]} intensity={0.8} />
         <directionalLight position={[-3, 2, -2]} intensity={0.3} />
         <Suspense fallback={null}>
-          <Environment preset="studio" />
-          <EnclosureMesh />
+          <Environment preset="warehouse" />
+          <EnclosureMesh materialOverride={materialOverride} />
         </Suspense>
         <OrbitControls makeDefault />
         <Grid
