@@ -26,15 +26,16 @@ Full details: `.planning/milestones/v1.0-ROADMAP.md`
 
 - [x] **Phase 8: Visual Theme Rework** — Light Professional with #FF5500 Orange (4/4 plans) — completed 2026-02-23
 
-### Phase 1: Frontend Design Rework
+### Phase 1: Frontend Design Rework (5/5 plans) -- completed 2026-02-23
 
 **Goal:** Rework the app's visual design to match HTML mockups — dual dark/light theme system, new layout structure (icon-nav + sidebar + main), DM Sans + JetBrains Mono typography, component restyling, and branding update. Visual/styling overhaul only — no functional changes.
 **Depends on:** Phase 8
 **Plans:** 5 plans
+**Status:** COMPLETE
 
 Plans:
 - [x] 01-01-PLAN.md — Theme foundation (CSS variables, fonts, useTheme hook, backward-compat bridge)
 - [x] 01-02-PLAN.md — Layout + navigation (root layout, NavSidebar, Header with segmented tabs, StatusBar)
 - [x] 01-03-PLAN.md — Sidebar + UI components (compact controls, segment toggles, shadcn/ui restyling)
-- [ ] 01-04-PLAN.md — SVG theme-awareness (FrontView, SideView, SplitView, grid background)
-- [ ] 01-05-PLAN.md — Page restyling (Catalog, Wizard, ExportTab, SpecsTab, modals, 3D preview)
+- [x] 01-04-PLAN.md — SVG theme-awareness (FrontView, SideView, SplitView, grid background)
+- [x] 01-05-PLAN.md — Page restyling (Catalog, Wizard, ExportTab, SpecsTab, modals, 3D preview)

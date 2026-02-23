@@ -5,15 +5,15 @@
 See: .planning/PROJECT.md (updated 2026-02-23)
 
 **Core value:** Anyone can design a custom rack mount panel with real equipment dimensions and export a fabrication-ready file — without CAD expertise.
-**Current focus:** Phase 1 Frontend Design Rework — Plan 04 complete (SVG theming + grid background)
+**Current focus:** Phase 1 Frontend Design Rework — COMPLETE (all 5 plans executed)
 
 ## Current Position
 
 Milestone: Frontend Design Rework
 Phase: 01-frontend-design-rework
-Current Plan: 5 of 5
-Status: Plan 04 complete — SVG theme palette created, all SVG views theme-aware, grid background added. Ready for Plan 05.
-Last activity: 2026-02-23 — Plan 04 executed (2 tasks, 9min)
+Current Plan: 5 of 5 (COMPLETE)
+Status: Phase complete — all pages and components restyled with new theme tokens. Complete visual consistency across dark and light themes.
+Last activity: 2026-02-23 — Plan 05 executed (2 tasks, 13min)
 
 ## Performance Metrics
 
@@ -55,6 +55,9 @@ All v1.0 decisions archived in `.planning/milestones/v1.0-ROADMAP.md` and `.plan
 - SVG colors reference CSS variables directly via var() for instant theme switching
 - Grid background uses CSS ::before pseudo-element with pointer-events: none
 - Semantic SVG color names (panelFace, earFill, splitLine) in centralized palette
+- 3D canvas background uses var(--bg-root) CSS variable for theme adaptation
+- PWA theme_color updated to #0c0d11 matching --bg-root
+- Data visualization colors (confidence badges, budget bars) kept as inline hex (not theme-dependent)
 
 ### Pending Todos
 
@@ -71,5 +74,5 @@ None — clean slate for next milestone.
 ## Session Continuity
 
 Last session: 2026-02-23
-Stopped at: Completed 01-04-PLAN.md (SVG Theme Palette + Grid Background)
-Resume file: .planning/phases/01-frontend-design-rework/01-04-SUMMARY.md
+Stopped at: Completed 01-05-PLAN.md (Remaining Pages Restyle) — Phase 01 COMPLETE
+Resume file: .planning/phases/01-frontend-design-rework/01-05-SUMMARY.md
