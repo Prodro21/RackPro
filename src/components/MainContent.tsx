@@ -71,26 +71,27 @@ export function MainContent() {
   }, [is3dVisible]);
 
   return (
-    <div className="flex-1 flex flex-col bg-background min-w-0 overflow-hidden">
-      {activeTab === 'front' && <FrontView />}
-      {activeTab === 'side' && <SideView />}
-      {activeTab === 'split' && <SplitView />}
-      {activeTab === 'specs' && <SpecsTab />}
-      {activeTab === 'export' && <ExportTab />}
+    <div className="flex-1 flex flex-col bg-bg-main min-w-0 overflow-hidden grid-bg">
+      <div className="relative z-[1] flex-1 flex flex-col min-h-0">
+        {activeTab === 'front' && <FrontView />}
+        {activeTab === 'side' && <SideView />}
+        {activeTab === 'split' && <SplitView />}
+        {activeTab === 'specs' && <SpecsTab />}
+        {activeTab === 'export' && <ExportTab />}
 
-      {/* 3D preview: always mounted, hidden via CSS when not active.
-          This prevents Safari WebGL context exhaustion from mount/unmount cycles. */}
-      <div
-        className="flex-1 flex flex-col"
-        style={{ display: is3dVisible ? 'flex' : 'none' }}
-      >
-        <Preview3DErrorBoundary>
-          <Suspense fallback={<Loading3D />}>
-            <Preview3D frameloop={is3dVisible ? 'always' : 'never'} />
-          </Suspense>
-        </Preview3DErrorBoundary>
+        {/* 3D preview: always mounted, hidden via CSS when not active.
+            This prevents Safari WebGL context exhaustion from mount/unmount cycles. */}
+        <div
+          className="flex-1 flex flex-col"
+          style={{ display: is3dVisible ? 'flex' : 'none' }}
+        >
+          <Preview3DErrorBoundary>
+            <Suspense fallback={<Loading3D />}>
+              <Preview3D frameloop={is3dVisible ? 'always' : 'never'} />
+            </Suspense>
+          </Preview3DErrorBoundary>
+        </div>
       </div>
-
     </div>
   );
 }
