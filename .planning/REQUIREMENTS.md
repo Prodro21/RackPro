@@ -62,7 +62,7 @@ Requirements for this milestone. Each maps to roadmap phases.
 
 - [x] **PLAT-01**: App uses hash-based client-side routing with lazy-loaded route components for catalog, configurator, and wizard views
 - [x] **PLAT-02**: App is deployed as a static site on Cloudflare Pages (or equivalent) with SPA fallback routing
-- [ ] **PLAT-03**: UI uses shadcn/ui components replacing raw HTML form elements (selects, inputs, dialogs) for a professional appearance
+- [x] **PLAT-03**: UI uses shadcn/ui components replacing raw HTML form elements (selects, inputs, dialogs) for a professional appearance
 - [x] **PLAT-04**: All new Zustand selectors returning objects/arrays include module-level memoization with documented cache keys and stability tests
 
 ## v2 Requirements
@@ -138,7 +138,7 @@ Which phases cover which requirements. Updated during roadmap creation.
 | 3D-03 | Phase 5 | Complete |
 | PLAT-01 | Phase 2 | Complete |
 | PLAT-02 | Phase 3 | Complete |
-| PLAT-03 | Phase 5 | Pending |
+| PLAT-03 | Phase 5 | Complete |
 | PLAT-04 | Phase 5 | Complete |
 
 **Coverage:**

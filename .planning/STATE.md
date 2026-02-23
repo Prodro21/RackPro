@@ -10,18 +10,18 @@ See: .planning/PROJECT.md (updated 2026-02-21)
 ## Current Position
 
 Phase: 5 of 6 (UI + 3D Polish) -- IN PROGRESS
-Plan: 3 of 5 in current phase -- COMPLETE
+Plan: 4 of 5 in current phase -- COMPLETE
 Status: Executing Phase 5 plans
-Last activity: 2026-02-23 — Completed 05-03-PLAN.md (CSG Boolean Subtraction)
+Last activity: 2026-02-22 — Completed 05-01-PLAN.md (shadcn/ui Foundation + Component Migration)
 
-Progress: [████████░░] 84%
+Progress: [█████████░] 88%
 
 ## Performance Metrics
 
 **Velocity:**
-- Total plans completed: 20
+- Total plans completed: 21
 - Average duration: 6min
-- Total execution time: 1.82 hours
+- Total execution time: 2.14 hours
 
 **By Phase:**
 
@@ -32,11 +32,11 @@ Progress: [████████░░] 84%
 | 02-catalog-browser-routing | 3 | 12min | 4min |
 | 03-export-hardening-web-deployment | 2 | 37min | 19min |
 | 04-guided-wizard-smart-auto-layout | 5 | 31min | 6min |
-| 05-ui-3d-polish | 2 | 6min | 3min |
+| 05-ui-3d-polish | 3 | 25min | 8min |
 
 **Recent Trend:**
-- Last 5 plans: 04-05 (2min), 04-04 (3min), 05-05 (3min), 05-03 (3min)
-- Trend: Phase 5 plans averaging 3min (well-scoped, targeted)
+- Last 5 plans: 04-04 (3min), 05-05 (3min), 05-03 (3min), 05-01 (19min)
+- Trend: 05-01 larger scope (full component migration), other Phase 5 plans averaging 3min
 
 *Updated after each plan completion*
 
@@ -122,6 +122,11 @@ Recent decisions affecting current work:
 - [Phase 05]: [05-03]: Direct three-bvh-csg Brush/Evaluator API (not @react-three/csg wrapper) for batching control
 - [Phase 05]: [05-03]: Fan cutouts use circular CSG (cutoutDiameter) not square, for realistic rendering
 - [Phase 05]: [05-03]: Device elements excluded from ConnectorBodies (trays already provide spatial footprint)
+- [Phase 05]: [05-01]: Inline SectionLabel/SpecTable in SpecsTab/SplitView rather than shared module extraction
+- [Phase 05]: [05-01]: Dialog open prop pattern for CustomDeviceModal instead of conditional rendering
+- [Phase 05]: [05-01]: Compact wrapper pattern (CompactSelect/Slider/Checkbox, FabToggle) in Sidebar for dense layouts
+- [Phase 05]: [05-01]: Kept raw buttons for complex multi-state patterns (selection cards, filter pills, step indicators)
+- [Phase 05]: [05-01]: Sonner toast positioned bottom-center with dark theme in root layout
 
 ### Pending Todos
 
@@ -135,6 +140,6 @@ None yet.
 
 ## Session Continuity
 
-Last session: 2026-02-23
-Stopped at: Completed 05-03-PLAN.md (CSG Boolean Subtraction)
+Last session: 2026-02-22
+Stopped at: Completed 05-01-PLAN.md (shadcn/ui Foundation + Component Migration)
 Resume file: None
