@@ -160,14 +160,19 @@ export const selectFilament = (s: ConfigState) => FILAMENTS[s.filamentKey];
 
 export const selectPrinter = (s: ConfigState) => PRINTERS[s.printerKey];
 
-export const selectMaxDeviceDepth = (s: ConfigState) => {
+let _mddEls: PanelElement[];
+let _mddVal: number;
+export const selectMaxDeviceDepth = (s: ConfigState): number => {
+  if (s.elements === _mddEls) return _mddVal;
+  _mddEls = s.elements;
   let d = 0;
   s.elements.forEach(el => {
     if (el.type === 'device') d = Math.max(d, lookupDevice(el.key)?.d ?? 0);
     else if (el.type === 'fan') d = Math.max(d, FANS[el.key]?.depthBehind ?? 0);
     else d = Math.max(d, CONNECTORS[el.key]?.depthBehind ?? 0);
   });
-  return d;
+  _mddVal = d;
+  return _mddVal;
 };
 
 export const selectEnclosureDepth = (s: ConfigState) => {
@@ -199,13 +204,25 @@ export const selectBendAllowance90 = (s: ConfigState) => {
   return bendAllowance90(mt.br, mt.t, 0.40);
 };
 
-// ─── Surface-aware selectors ─────────────────────────────────
+// ─── Surface-aware selectors (memoized) ─────────────────────
 
-export const selectFaceplateElements = (s: ConfigState) =>
-  s.elements.filter(e => !e.surface || e.surface === 'faceplate');
+let _feEls: PanelElement[];
+let _feVal: PanelElement[];
+export const selectFaceplateElements = (s: ConfigState): PanelElement[] => {
+  if (s.elements === _feEls) return _feVal;
+  _feEls = s.elements;
+  _feVal = s.elements.filter(e => !e.surface || e.surface === 'faceplate');
+  return _feVal;
+};
 
-export const selectRearElements = (s: ConfigState) =>
-  s.elements.filter(e => e.surface === 'rear');
+let _reEls: PanelElement[];
+let _reVal: PanelElement[];
+export const selectRearElements = (s: ConfigState): PanelElement[] => {
+  if (s.elements === _reEls) return _reVal;
+  _reEls = s.elements;
+  _reVal = s.elements.filter(e => e.surface === 'rear');
+  return _reVal;
+};
 
 // ─── Margin warnings (memoized) ──────────────────────────────
 
