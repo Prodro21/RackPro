@@ -1,17 +1,16 @@
 /**
  * WizardShell -- Main wizard layout with step nav, form area, and FrontView preview.
  *
- * Manages step state (sessionStorage-persisted), undo checkpoint on mount,
- * cancel/revert handler, and TanStack Router navigation guard.
+ * Manages step state, undo checkpoint on mount, cancel/revert handler.
+ * When used inside WizardModal, receives `onClose` callback to close
+ * the modal instead of navigating via TanStack Router.
  */
 
 import { useState, useEffect, useRef, useCallback } from 'react';
-import { useNavigate, useBlocker } from '@tanstack/react-router';
 import { useConfigStore } from '../../store/useConfigStore';
 import type { ConnectorZone } from '../../lib/autoLayoutV2';
 import { Button } from '../ui/button';
 import { Tooltip, TooltipTrigger, TooltipContent } from '../ui/tooltip';
-import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription, DialogFooter } from '../ui/dialog';
 import { FrontView } from '../FrontView';
 import { StepNav } from './StepNav';
 import { StepStandard } from './StepStandard';
@@ -31,23 +30,17 @@ const SESSION_KEY = 'rackpro-wizard-step';
 
 // ─── Component ─────────────────────────────────────────────
 
-export function WizardShell() {
-  const navigate = useNavigate();
+interface WizardShellProps {
+  onClose?: () => void;
+}
 
-  // Step state persisted in sessionStorage
-  const [currentStep, setCurrentStep] = useState<number>(() => {
-    const stored = sessionStorage.getItem(SESSION_KEY);
-    if (stored != null) {
-      const parsed = parseInt(stored, 10);
-      if (!isNaN(parsed) && parsed >= 0 && parsed < STEPS.length) return parsed;
-    }
-    return 0;
-  });
+export function WizardShell({ onClose }: WizardShellProps) {
+  // Reset wizard step to 0 on mount (clear stale sessionStorage)
+  const [currentStep, setCurrentStep] = useState<number>(0);
 
-  // Persist step changes to sessionStorage
   useEffect(() => {
-    sessionStorage.setItem(SESSION_KEY, String(currentStep));
-  }, [currentStep]);
+    sessionStorage.removeItem(SESSION_KEY);
+  }, []);
 
   // Connector zone state (shared between StepDevices and StepConnectors)
   const [connectorZone, setConnectorZone] = useState<ConnectorZone>('between');
@@ -72,15 +65,8 @@ export function WizardShell() {
       store.undo();
     }
     sessionStorage.removeItem(SESSION_KEY);
-    navigate({ to: '/' });
-  }, [navigate]);
-
-  // Navigation guard: warn when leaving mid-flow
-  const blocker = useBlocker({
-    shouldBlockFn: () => currentStep > 0 && currentStep < STEPS.length - 1,
-    withResolver: true,
-    enableBeforeUnload: () => currentStep > 0 && currentStep < STEPS.length - 1,
-  });
+    onClose?.();
+  }, [onClose]);
 
   // Step navigation
   const goNext = useCallback(() => {
@@ -100,8 +86,8 @@ export function WizardShell() {
   // "Edit in Configurator" handler (used by Review step)
   const handleEditInConfigurator = useCallback(() => {
     sessionStorage.removeItem(SESSION_KEY);
-    navigate({ to: '/' });
-  }, [navigate]);
+    onClose?.();
+  }, [onClose]);
 
   // Render current step
   const renderStep = () => {
@@ -186,34 +172,6 @@ export function WizardShell() {
         </div>
       </div>
 
-      {/* Navigation blocker confirmation dialog */}
-      <Dialog open={blocker.status === 'blocked'} onOpenChange={(open) => { if (!open) blocker.reset?.(); }}>
-        <DialogContent className="bg-bg-elevated border-border-default max-w-sm">
-          <DialogHeader>
-            <DialogTitle className="text-sm font-bold">Leave wizard?</DialogTitle>
-            <DialogDescription className="text-xs text-text-secondary">
-              Your progress is saved. You can resume the wizard later from where you left off.
-            </DialogDescription>
-          </DialogHeader>
-          <DialogFooter className="gap-2">
-            <Button
-              onClick={() => blocker.reset?.()}
-              variant="outline"
-              size="sm"
-              className="text-xs"
-            >
-              Stay
-            </Button>
-            <Button
-              onClick={() => blocker.proceed?.()}
-              size="sm"
-              className="text-xs font-bold"
-            >
-              Leave
-            </Button>
-          </DialogFooter>
-        </DialogContent>
-      </Dialog>
     </div>
   );
 }

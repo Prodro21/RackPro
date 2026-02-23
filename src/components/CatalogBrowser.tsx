@@ -4,6 +4,9 @@
  *
  * Users can search, filter, and add equipment to their panel design.
  * The right panel shows the current panel state in real-time.
+ *
+ * When `modal` prop is true (used inside CatalogModal), the FrontView
+ * preview pane is hidden and the search + card grid takes full width.
  */
 
 import { useState, useCallback } from 'react';
@@ -12,10 +15,16 @@ import { CatalogSearchSidebar } from './CatalogSearchSidebar';
 import { CatalogCardGrid } from './CatalogCardGrid';
 import { FrontView } from './FrontView';
 import { useConfigStore } from '../store';
+import { useUIStore } from '../store/useUIStore';
+import { toast } from 'sonner';
 
 // ─── Component ──────────────────────────────────────────────
 
-export function CatalogBrowser() {
+interface CatalogBrowserProps {
+  modal?: boolean;
+}
+
+export function CatalogBrowser({ modal = false }: CatalogBrowserProps) {
   const {
     query,
     setQuery,
@@ -40,12 +49,16 @@ export function CatalogBrowser() {
   const handleAdd = useCallback((item: CatalogItem) => {
     const type = item.itemType === 'device' ? 'device' : 'connector';
     useConfigStore.getState().addElement(type, item.slug);
-  }, []);
+    if (modal) {
+      toast(`Added ${item.name} to panel`);
+      useUIStore.getState().closeCatalogModal();
+    }
+  }, [modal]);
 
   return (
     <div className="flex-1 flex min-h-0 overflow-hidden">
-      {/* Left 60%: Search sidebar + Card grid */}
-      <div className="flex min-w-0" style={{ width: '60%' }}>
+      {/* Search sidebar + Card grid — full width in modal mode, 60% otherwise */}
+      <div className="flex min-w-0" style={{ width: modal ? '100%' : '60%' }}>
         <CatalogSearchSidebar
           query={query}
           setQuery={setQuery}
@@ -66,13 +79,15 @@ export function CatalogBrowser() {
         />
       </div>
 
-      {/* Right 40%: Live FrontView panel preview */}
-      <div
-        className="bg-bg-main overflow-hidden border-l border-border-default"
-        style={{ width: '40%' }}
-      >
-        <FrontView />
-      </div>
+      {/* Right 40%: Live FrontView panel preview — hidden in modal mode */}
+      {!modal && (
+        <div
+          className="bg-bg-main overflow-hidden border-l border-border-default"
+          style={{ width: '40%' }}
+        >
+          <FrontView />
+        </div>
+      )}
     </div>
   );
 }
