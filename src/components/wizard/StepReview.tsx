@@ -78,15 +78,15 @@ export function StepReview({ onNext, onBack, onCancel, onEditInConfigurator }: S
     <div className="flex flex-col gap-4 p-4">
       <div>
         <h2 className="text-sm font-bold text-foreground mb-1">Review Design</h2>
-        <p className="text-[10px] text-muted-foreground">
+        <p className="text-xs text-muted-foreground">
           Review your panel configuration. The live preview on the right shows the final layout.
         </p>
       </div>
 
       {/* Summary */}
       <div className="bg-card border border-border rounded p-3 space-y-1.5">
-        <div className="text-[9px] font-mono text-muted-foreground tracking-wide mb-2">SUMMARY</div>
-        <div className="grid grid-cols-2 gap-x-4 gap-y-1 text-[10px]">
+        <div className="text-xs font-mono text-muted-foreground tracking-wide mb-2">SUMMARY</div>
+        <div className="grid grid-cols-2 gap-x-4 gap-y-1 text-xs">
           <span className="text-muted-foreground">Rack Standard</span>
           <span className="text-foreground font-bold">{standard === '19' ? '19" (Standard)' : '10" (Compact)'}</span>
 
@@ -130,7 +130,7 @@ export function StepReview({ onNext, onBack, onCancel, onEditInConfigurator }: S
 
       {/* Empty panel notice */}
       {elements.length === 0 && (
-        <div className="bg-card border border-border rounded p-3 text-[10px] text-muted-foreground text-center">
+        <div className="bg-card border border-border rounded p-3 text-xs text-muted-foreground text-center">
           No elements placed. This will export as a blank panel with mounting ears and bores.
         </div>
       )}
@@ -142,14 +142,14 @@ export function StepReview({ onNext, onBack, onCancel, onEditInConfigurator }: S
             onClick={onEditInConfigurator}
             variant="outline"
             size="sm"
-            className="flex-1 text-xs font-mono hover:border-primary hover:text-primary"
+            className="flex-1 text-xs hover:border-primary hover:text-primary"
           >
             Edit in Configurator
           </Button>
           <Button
             onClick={onNext}
             size="sm"
-            className="flex-1 text-xs font-bold font-mono"
+            className="flex-1 text-xs font-bold"
           >
             Export Now
           </Button>
@@ -160,7 +160,7 @@ export function StepReview({ onNext, onBack, onCancel, onEditInConfigurator }: S
             onClick={onBack}
             variant="outline"
             size="sm"
-            className="text-xs font-mono"
+            className="text-xs"
           >
             Back
           </Button>
@@ -168,7 +168,7 @@ export function StepReview({ onNext, onBack, onCancel, onEditInConfigurator }: S
             onClick={onCancel}
             variant="ghost"
             size="xs"
-            className="text-[9px] font-mono text-destructive hover:text-destructive/80"
+            className="text-xs text-destructive hover:text-destructive/80"
           >
             Cancel Wizard
           </Button>

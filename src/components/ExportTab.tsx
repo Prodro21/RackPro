@@ -19,7 +19,7 @@ import type { ValidationResult } from '../lib/validation';
 
 function SectionLabel({ children }: { children: React.ReactNode }) {
   return (
-    <div className="text-[8px] font-bold text-muted-foreground tracking-[.12em] uppercase mb-[5px] mt-2">
+    <div className="text-xs font-bold text-muted-foreground tracking-wide uppercase mb-2 mt-4 first:mt-0">
       {children}
     </div>
   );
@@ -29,26 +29,26 @@ function ExportCard({ title, desc, action, onClick, action2, onClick2, note, too
   title: string; desc: string; action?: string; onClick?: () => void; action2?: string; onClick2?: () => void; note?: string; tooltip?: string;
 }) {
   return (
-    <div className="bg-card border border-border rounded-[5px] p-3 mb-2">
+    <div className="bg-card border border-border rounded-lg p-3 mb-2">
       {tooltip ? (
         <Tooltip>
           <TooltipTrigger asChild>
-            <div className="font-bold text-[11px] text-foreground cursor-help">{title}</div>
+            <div className="font-bold text-sm text-foreground cursor-help">{title}</div>
           </TooltipTrigger>
           <TooltipContent>{tooltip}</TooltipContent>
         </Tooltip>
       ) : (
-        <div className="font-bold text-[11px] text-foreground">{title}</div>
+        <div className="font-bold text-sm text-foreground">{title}</div>
       )}
-      <div className="text-[9px] text-muted-foreground my-1">{desc}</div>
-      <div className="flex gap-[6px] items-center">
+      <div className="text-xs text-muted-foreground my-1">{desc}</div>
+      <div className="flex gap-2 items-center">
         {action && (
           <Button
             onClick={onClick}
             disabled={!onClick}
             size="xs"
             variant="default"
-            className="text-[9px] font-semibold font-mono"
+            className="text-xs font-semibold"
           >
             {action}
           </Button>
@@ -59,13 +59,13 @@ function ExportCard({ title, desc, action, onClick, action2, onClick2, note, too
             disabled={!onClick2}
             size="xs"
             variant="outline"
-            className="text-[9px] font-semibold font-mono"
+            className="text-xs font-semibold"
           >
             {action2}
           </Button>
         )}
       </div>
-      {note && <div className="text-[8px] text-muted-foreground mt-1 italic">{note}</div>}
+      {note && <div className="text-xs text-muted-foreground mt-1 italic">{note}</div>}
     </div>
   );
 }
@@ -413,21 +413,21 @@ export function ExportTab() {
 
       {/* Cost Breakdown */}
       {currentCost && (
-        <div className="bg-card border border-border rounded-[5px] p-[14px] mb-[10px]">
+        <div className="bg-card border border-border rounded-lg p-4 mb-3">
           <SectionLabel>COST ESTIMATE</SectionLabel>
           <div className="flex items-baseline gap-2 mb-2">
-            <span className="text-[18px] font-bold text-foreground">
+            <span className="text-xl font-bold text-foreground">
               ~${currentCost.low.toFixed(0)}&ndash;${currentCost.high.toFixed(0)}
             </span>
-            <span className="text-[10px] text-muted-foreground">
+            <span className="text-xs text-muted-foreground">
               {fabMethod === '3dp' ? 'FDM 3D Print' : 'Sheet Metal'}
             </span>
           </div>
 
           {/* Assumptions */}
-          <div className="space-y-[2px] mb-3">
+          <div className="space-y-1 mb-3">
             {currentCost.assumptions.map((a, i) => (
-              <div key={i} className="flex justify-between text-[9px]">
+              <div key={i} className="flex justify-between text-xs">
                 <span className="text-muted-foreground">{a.label}</span>
                 <span className="text-foreground/80 font-mono">{a.value}</span>
               </div>
@@ -435,7 +435,7 @@ export function ExportTab() {
           </div>
 
           {/* Disclaimer */}
-          <div className="text-[8px] text-muted-foreground/70 italic mb-3">
+          <div className="text-xs text-muted-foreground/70 italic mb-3">
             Estimate only -- actual cost varies by print settings, supports, and waste. Get an exact quote from a fabrication service.
           </div>
 
@@ -446,7 +446,7 @@ export function ExportTab() {
                 href={FABRICATOR_URLS.sendcutsend}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="text-[9px] font-bold text-primary hover:underline"
+                className="text-xs font-bold text-primary hover:underline"
               >
                 Get Quote: SendCutSend
               </a>
@@ -455,7 +455,7 @@ export function ExportTab() {
                 href={FABRICATOR_URLS.protocase}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="text-[9px] font-bold text-primary hover:underline"
+                className="text-xs font-bold text-primary hover:underline"
               >
                 Get Quote: Protocase
               </a>
@@ -465,7 +465,7 @@ export function ExportTab() {
           {/* Compare toggle */}
           <button
             onClick={() => setShowCompare(p => !p)}
-            className="text-[9px] text-primary hover:underline cursor-pointer bg-transparent border-none p-0"
+            className="text-xs text-primary hover:underline cursor-pointer bg-transparent border-none p-0"
           >
             {showCompare ? 'Hide comparison' : `Compare: ${fabMethod === '3dp' ? 'Sheet Metal' : '3D Print'}`}
           </button>
@@ -473,22 +473,22 @@ export function ExportTab() {
           {showCompare && compareCost && (
             <div className="mt-3 pt-3 border-t border-border">
               <div className="flex items-baseline gap-2 mb-2">
-                <span className="text-[14px] font-bold text-foreground/70">
+                <span className="text-base font-bold text-foreground/70">
                   ~${compareCost.low.toFixed(0)}&ndash;${compareCost.high.toFixed(0)}
                 </span>
-                <span className="text-[10px] text-muted-foreground">
+                <span className="text-xs text-muted-foreground">
                   {fabMethod === '3dp' ? 'Sheet Metal' : 'FDM 3D Print'}
                 </span>
               </div>
-              <div className="space-y-[2px] mb-2">
+              <div className="space-y-1 mb-2">
                 {compareCost.assumptions.map((a, i) => (
-                  <div key={i} className="flex justify-between text-[9px]">
+                  <div key={i} className="flex justify-between text-xs">
                     <span className="text-muted-foreground">{a.label}</span>
                     <span className="text-foreground/80 font-mono">{a.value}</span>
                   </div>
                 ))}
               </div>
-              <div className="text-[8px] text-muted-foreground/70 italic">
+              <div className="text-xs text-muted-foreground/70 italic">
                 Estimate only -- actual cost varies by fabrication service, material availability, and quantity.
               </div>
               {/* Show fab links for the compared method too if it's SM */}
@@ -498,7 +498,7 @@ export function ExportTab() {
                     href={FABRICATOR_URLS.sendcutsend}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="text-[9px] font-bold text-primary hover:underline"
+                    className="text-xs font-bold text-primary hover:underline"
                   >
                     Get Quote: SendCutSend
                   </a>
@@ -507,7 +507,7 @@ export function ExportTab() {
                     href={FABRICATOR_URLS.protocase}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="text-[9px] font-bold text-primary hover:underline"
+                    className="text-xs font-bold text-primary hover:underline"
                   >
                     Get Quote: Protocase
                   </a>
@@ -554,17 +554,17 @@ export function ExportTab() {
       )}
 
       {/* Fusion 360 Bridge — live build */}
-      <div className="bg-card border border-border rounded-[5px] p-[14px] mb-[10px]">
+      <div className="bg-card border border-border rounded-lg p-4 mb-3">
         <div className="flex items-center justify-between mb-1">
-          <div className="text-[11px] font-bold text-foreground">Fusion 360 Bridge</div>
+          <div className="text-sm font-bold text-foreground">Fusion 360 Bridge</div>
           <div className="flex items-center gap-2">
-            <span className={`inline-block w-[6px] h-[6px] rounded-full ${bridgeStatus === 'connected' ? 'bg-green-500' : bridgeStatus === 'disconnected' ? 'bg-destructive' : 'bg-muted-foreground'}`} />
-            <span className="text-[8px] text-muted-foreground">
+            <span className={`inline-block w-2 h-2 rounded-full ${bridgeStatus === 'connected' ? 'bg-green-500' : bridgeStatus === 'disconnected' ? 'bg-destructive' : 'bg-muted-foreground'}`} />
+            <span className="text-xs text-muted-foreground">
               {bridgeStatus === 'connected' ? `Connected${bridgeDoc ? ` \u2014 ${bridgeDoc}` : ''}` : bridgeStatus === 'disconnected' ? 'Not connected' : 'Checking...'}
             </span>
           </div>
         </div>
-        <div className="text-[9px] text-muted-foreground mb-2">
+        <div className="text-xs text-muted-foreground mb-2">
           Build directly in Fusion 360 via the RackProBridge add-in (localhost:9100).
           {bridgeStatus === 'disconnected' && (
             <span className="text-muted-foreground/60"> Start it in Fusion: Utilities → Add-Ins → RackProBridge → Run</span>
@@ -575,7 +575,7 @@ export function ExportTab() {
             onClick={handleBuildInFusion}
             disabled={bridgeStatus !== 'connected' || building}
             size="xs"
-            className="text-[9px] font-bold font-mono bg-primary text-primary-foreground hover:bg-primary/90"
+            className="text-xs font-bold bg-primary text-primary-foreground hover:bg-primary/90"
           >
             {building ? 'Building...' : 'Build in Fusion'}
           </Button>
@@ -584,7 +584,7 @@ export function ExportTab() {
             disabled={bridgeStatus !== 'connected' || !buildResult?.success || !!exporting}
             size="xs"
             variant="outline"
-            className="text-[9px] font-bold font-mono text-green-500"
+            className="text-xs font-bold text-green-500"
           >
             {exporting === 'stl' ? 'Exporting...' : 'Export STL'}
           </Button>
@@ -593,7 +593,7 @@ export function ExportTab() {
             disabled={bridgeStatus !== 'connected' || !buildResult?.success || !!exporting}
             size="xs"
             variant="outline"
-            className="text-[9px] font-bold font-mono text-[#4a90d9]"
+            className="text-xs font-bold text-[#4a90d9]"
           >
             {exporting === 'step' ? 'Exporting...' : 'Export STEP'}
           </Button>
@@ -602,7 +602,7 @@ export function ExportTab() {
             disabled={bridgeStatus !== 'connected' || !!exporting}
             size="xs"
             variant="outline"
-            className="text-[9px] font-mono text-muted-foreground"
+            className="text-xs text-muted-foreground"
           >
             {exporting === 'screenshot' ? 'Capturing...' : 'Screenshot'}
           </Button>
@@ -610,7 +610,7 @@ export function ExportTab() {
             onClick={checkBridge}
             size="xs"
             variant="outline"
-            className="text-[9px] font-mono text-muted-foreground"
+            className="text-xs text-muted-foreground"
           >
             Refresh
           </Button>
@@ -618,18 +618,18 @@ export function ExportTab() {
 
         {/* Export path input */}
         <div className="flex items-center gap-2 mt-2">
-          <span className="text-[8px] text-muted-foreground shrink-0">Path:</span>
+          <span className="text-xs text-muted-foreground shrink-0">Path:</span>
           <Input
             type="text"
             value={exportPath}
             onChange={e => setExportPath(e.target.value)}
-            className="flex-1 h-6 px-2 py-[3px] text-[9px] font-mono"
+            className="flex-1 h-8 px-2 py-1 text-xs font-mono"
             placeholder="~/Desktop/rackpro-panel"
           />
         </div>
 
         {buildResult && buildResult.success && (
-          <div className="mt-2 text-[9px] text-green-500">
+          <div className="mt-2 text-xs text-green-500">
             Build complete — {buildResult.bodies?.length ?? 0} bodies, {buildResult.features?.length ?? 0} features
             {buildResult.warnings && buildResult.warnings.length > 0 && (
               <div className="text-primary mt-1">{buildResult.warnings.join('; ')}</div>
@@ -637,18 +637,18 @@ export function ExportTab() {
           </div>
         )}
         {buildError && (
-          <div className="mt-2 text-[9px] text-destructive">{buildError}</div>
+          <div className="mt-2 text-xs text-destructive">{buildError}</div>
         )}
         {exportResult && (
-          <div className="mt-1 text-[9px] text-[#4a90d9]">{exportResult}</div>
+          <div className="mt-1 text-xs text-[#4a90d9]">{exportResult}</div>
         )}
 
         {/* Physical properties after build */}
         {physProps?.success && physProps.bodies && physProps.bodies.length > 0 && (
           <div className="mt-2 border-t border-border pt-2">
-            <div className="text-[8px] text-muted-foreground tracking-[.08em] mb-1">PHYSICAL PROPERTIES</div>
+            <div className="text-xs text-muted-foreground tracking-wide mb-1">PHYSICAL PROPERTIES</div>
             {physProps.bodies.map((body, i) => (
-              <div key={i} className="flex justify-between text-[9px] py-[1px]">
+              <div key={i} className="flex justify-between text-xs py-1 border-t border-border first:border-t-0">
                 <span className="text-foreground/80">{body.name}</span>
                 <span className="text-muted-foreground">
                   {body.mass_g != null ? `${body.mass_g.toFixed(1)}g` : ''}
@@ -656,7 +656,7 @@ export function ExportTab() {
                 </span>
               </div>
             ))}
-            <div className="flex justify-between text-[9px] pt-1 border-t border-border mt-1">
+            <div className="flex justify-between text-xs pt-1 border-t border-border mt-1">
               <span className="text-primary font-bold">Total</span>
               <span className="text-primary font-bold">
                 {physProps.bodies.reduce((s, b) => s + (b.mass_g ?? 0), 0).toFixed(1)}g
@@ -692,9 +692,9 @@ export function ExportTab() {
 
       {/* Device Tray DXF Flat Patterns */}
       {fabMethod === 'sm' && elements.filter(e => e.type === 'device').length > 0 && (
-        <div className="bg-card border border-border rounded-[5px] p-[14px] mb-[10px]">
-          <div className="text-[11px] font-bold text-foreground mb-1">Device Tray DXFs</div>
-          <div className="text-[9px] text-muted-foreground mb-2">
+        <div className="bg-card border border-border rounded-lg p-4 mb-3">
+          <div className="text-sm font-bold text-foreground mb-1">Device Tray DXFs</div>
+          <div className="text-xs text-muted-foreground mb-2">
             Cruciform flat patterns for laser-cut sheet metal trays. Each tray has a floor, side walls, rear wall, and front mounting tab with M3 holes.
           </div>
           <div className="flex gap-2 flex-wrap">
@@ -705,7 +705,7 @@ export function ExportTab() {
                   onClick={() => downloadTrayDXF(i)}
                   size="xs"
                   variant="outline"
-                  className="text-[9px] font-bold font-mono text-green-500"
+                  className="text-xs font-bold text-green-500"
                 >
                   {el.label} Tray .dxf
                 </Button>
@@ -742,9 +742,9 @@ export function ExportTab() {
 
       {/* Config Preview */}
       {elements.length > 0 && (
-        <div className="mt-[14px] bg-card border border-border rounded-[5px] p-[14px]">
+        <div className="mt-4 bg-card border border-border rounded-lg p-4">
           <SectionLabel>CONFIG PREVIEW</SectionLabel>
-          <pre className="text-[8px] text-muted-foreground whitespace-pre-wrap break-all max-h-[260px] overflow-auto m-0">{getJSON()}</pre>
+          <pre className="text-xs text-muted-foreground whitespace-pre-wrap break-all max-h-[260px] overflow-auto m-0 font-mono">{getJSON()}</pre>
         </div>
       )}
     </div>

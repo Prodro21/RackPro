@@ -19,12 +19,12 @@ export function RootLayout() {
 
   return (
     <TooltipProvider delayDuration={300}>
-      <div className="w-screen h-screen overflow-hidden bg-background text-foreground font-mono flex">
+      <div className="w-screen h-screen overflow-hidden bg-background text-foreground flex">
         <NavSidebar />
         <div className="flex-1 flex flex-col min-w-0 overflow-hidden">
           <Outlet />
         </div>
-        <Toaster position="bottom-center" theme="dark" />
+        <Toaster position="bottom-center" />
         <CommandPalette open={commandPaletteOpen} onOpenChange={setCommandPaletteOpen} />
       </div>
     </TooltipProvider>

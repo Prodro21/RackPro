@@ -125,13 +125,13 @@ export function StepConnectors({
     <div className="flex flex-col h-full">
       <div className="p-4 pb-2">
         <h2 className="text-sm font-bold text-foreground mb-1">Add Connectors</h2>
-        <p className="text-[10px] text-muted-foreground mb-3">
+        <p className="text-xs text-muted-foreground mb-3">
           Browse the connector catalog and add pass-through connectors. This step is optional.
         </p>
 
         {/* Connector zone picker */}
         <div className="mb-3">
-          <div className="text-[9px] font-mono text-muted-foreground mb-1.5 tracking-wide">
+          <div className="text-xs font-mono text-muted-foreground mb-1.5 tracking-wide">
             CONNECTOR ZONE
           </div>
           <div className="grid grid-cols-4 gap-1">
@@ -142,15 +142,15 @@ export function StepConnectors({
                   key={opt.value}
                   onClick={() => handleZoneChange(opt.value)}
                   className={`
-                    flex flex-col items-center gap-0.5 px-2 py-1.5 rounded border text-center transition-all
+                    flex flex-col items-center gap-1 px-2 py-1.5 rounded border text-center transition-all
                     ${isActive
                       ? 'border-primary bg-primary/10 text-primary'
                       : 'border-border text-muted-foreground hover:border-muted-foreground'
                     }
                   `}
                 >
-                  <span className="text-[9px] font-bold">{opt.label}</span>
-                  <span className="text-[7px]">{opt.desc}</span>
+                  <span className="text-xs font-bold">{opt.label}</span>
+                  <span className="text-xs">{opt.desc}</span>
                 </button>
               );
             })}
@@ -170,7 +170,7 @@ export function StepConnectors({
         {!isConnectorCategoryActive && (
           <button
             onClick={() => toggleCategory('connector')}
-            className="mt-1.5 text-[9px] font-mono text-primary hover:underline"
+            className="mt-1.5 text-xs text-primary hover:underline"
           >
             Show connectors only
           </button>
@@ -178,7 +178,7 @@ export function StepConnectors({
         {(categories.size > 0 || query) && (
           <button
             onClick={clearFilters}
-            className="mt-1 ml-2 text-[9px] font-mono text-muted-foreground hover:text-foreground"
+            className="mt-1 ml-2 text-xs text-muted-foreground hover:text-foreground"
           >
             Clear filters
           </button>
@@ -198,21 +198,21 @@ export function StepConnectors({
       {/* Placed connectors list */}
       {placedConnectors.length > 0 && (
         <div className="border-t border-border p-3">
-          <div className="text-[9px] font-mono text-muted-foreground mb-1 tracking-wide">
+          <div className="text-xs font-mono text-muted-foreground mb-1 tracking-wide">
             PLACED CONNECTORS ({placedConnectors.length})
           </div>
           <div className="flex flex-col gap-1 max-h-[120px] overflow-y-auto">
             {placedConnectors.map((el) => (
               <div
                 key={el.id}
-                className="flex items-center justify-between px-2 py-1 rounded bg-card border border-border text-[10px]"
+                className="flex items-center justify-between px-2 py-1 rounded bg-card border border-border text-xs"
               >
                 <span className="text-foreground truncate">{el.label}</span>
                 <Button
                   onClick={() => handleRemoveConnector(el.id)}
                   variant="ghost"
                   size="xs"
-                  className="text-destructive hover:text-destructive/80 text-[9px] font-mono shrink-0 ml-2"
+                  className="text-destructive hover:text-destructive/80 text-xs shrink-0 ml-2"
                 >
                   Remove
                 </Button>
@@ -228,7 +228,7 @@ export function StepConnectors({
           onClick={onBack}
           variant="outline"
           size="sm"
-          className="text-xs font-mono"
+          className="text-xs"
         >
           Back
         </Button>
@@ -238,7 +238,7 @@ export function StepConnectors({
               onClick={onNext}
               variant="outline"
               size="sm"
-              className="text-xs font-mono"
+              className="text-xs"
             >
               Skip
             </Button>
@@ -246,7 +246,7 @@ export function StepConnectors({
           <Button
             onClick={onNext}
             size="sm"
-            className="text-xs font-bold font-mono"
+            className="text-xs font-bold"
           >
             Next
           </Button>

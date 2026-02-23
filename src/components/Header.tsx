@@ -13,25 +13,25 @@ export function Header() {
   const redo = useConfigStore(s => s.redo);
 
   return (
-    <div className="bg-secondary border-b border-border px-3 py-[10px] flex items-center justify-between gap-2 shrink-0 min-w-0">
-      <div className="flex items-center gap-[10px] min-w-0 shrink-1">
-        <div className="w-8 h-8 shrink-0 bg-gradient-to-br from-primary to-primary/70 rounded-[5px] flex items-center justify-center text-[16px] font-black text-primary-foreground">
+    <div className="bg-card border-b border-border px-4 py-2.5 flex items-center justify-between gap-3 shrink-0 min-w-0">
+      <div className="flex items-center gap-3 min-w-0 shrink-1">
+        <div className="w-8 h-8 shrink-0 bg-gradient-to-br from-primary to-primary/70 rounded-lg flex items-center justify-center text-base font-black text-primary-foreground">
           &#8862;
         </div>
         <div className="min-w-0">
-          <div className="text-sm font-bold tracking-[.05em] truncate">RACK MOUNT CONFIGURATOR</div>
-          <div className="text-[8px] text-muted-foreground tracking-[.12em] truncate">EIA-310 &bull; 3D PRINT / SHEET METAL &bull; FULL ENCLOSURE</div>
+          <div className="text-sm font-bold tracking-wide truncate">Rack Mount Configurator</div>
+          <div className="text-xs text-muted-foreground truncate">EIA-310 &bull; 3D Print / Sheet Metal &bull; Full Enclosure</div>
         </div>
       </div>
-      <div className="flex items-center gap-2 shrink-0">
-        <div className="flex gap-[2px]">
+      <div className="flex items-center gap-3 shrink-0">
+        <div className="flex gap-1">
           <Tooltip>
             <TooltipTrigger asChild>
               <Button
                 onClick={undo}
                 variant="ghost"
                 size="icon"
-                className="h-7 w-7 text-[11px] font-mono text-muted-foreground hover:text-foreground"
+                className="h-8 w-8 text-sm text-muted-foreground hover:text-foreground"
               >
                 &#8617;
               </Button>
@@ -44,7 +44,7 @@ export function Header() {
                 onClick={redo}
                 variant="ghost"
                 size="icon"
-                className="h-7 w-7 text-[11px] font-mono text-muted-foreground hover:text-foreground"
+                className="h-8 w-8 text-sm text-muted-foreground hover:text-foreground"
               >
                 &#8618;
               </Button>
@@ -52,17 +52,17 @@ export function Header() {
             <TooltipContent>Redo (Ctrl+Shift+Z)</TooltipContent>
           </Tooltip>
         </div>
-        <div className="flex gap-[1px]">
+        <div className="flex gap-1">
           {TABS.map(t => (
             <Button
               key={t}
               onClick={() => setActiveTab(t)}
               variant={activeTab === t ? 'default' : 'ghost'}
-              size="xs"
-              className={`text-[9px] font-bold tracking-[.08em] uppercase font-mono ${
+              size="sm"
+              className={`text-xs font-semibold tracking-wide uppercase ${
                 activeTab === t
                   ? 'bg-primary text-primary-foreground'
-                  : 'text-muted-foreground'
+                  : 'text-muted-foreground hover:text-foreground'
               }`}
             >
               {t}

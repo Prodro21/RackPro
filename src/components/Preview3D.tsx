@@ -428,14 +428,14 @@ export function Preview3D({ frameloop = 'always' }: { frameloop?: 'always' | 'ne
   return (
     <div className="flex-1 flex flex-col relative">
       {/* Toolbar */}
-      <div className="absolute top-3 right-3 z-10 flex gap-1 items-center">
+      <div className="absolute top-3 right-3 z-10 flex gap-1.5 items-center">
         {/* Material override dropdown */}
         <Tooltip>
           <TooltipTrigger asChild>
             <select
               value={materialOverride}
               onChange={e => setMaterialOverride(e.target.value as MaterialPreset)}
-              className="h-6 px-1.5 text-[9px] font-bold rounded border font-mono bg-[#1a1a22] text-muted-foreground border-border outline-none cursor-pointer"
+              className="h-7 px-2 text-xs font-semibold rounded-md border font-mono bg-white/90 text-foreground border-border outline-none cursor-pointer backdrop-blur-sm"
             >
               {MATERIAL_OPTIONS.map(opt => (
                 <option key={opt.value} value={opt.value}>{opt.label}</option>
@@ -449,10 +449,10 @@ export function Preview3D({ frameloop = 'always' }: { frameloop?: 'always' | 'ne
           <TooltipTrigger asChild>
             <button
               onClick={() => setWireframe(!wireframe)}
-              className={`px-2 py-1 text-[9px] font-bold rounded border font-mono ${
+              className={`px-3 py-1 text-xs font-semibold rounded-md border backdrop-blur-sm ${
                 wireframe
                   ? 'bg-primary text-primary-foreground border-primary'
-                  : 'bg-[#1a1a22] text-muted-foreground border-border'
+                  : 'bg-white/90 text-foreground border-border'
               }`}
             >
               {wireframe ? 'SOLID' : 'WIRE'}

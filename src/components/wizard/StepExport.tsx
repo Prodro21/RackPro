@@ -82,7 +82,7 @@ export function StepExport({ onBack, onDone, onStartOver }: StepExportProps) {
     <div className="flex flex-col gap-4 p-4">
       <div>
         <h2 className="text-sm font-bold text-foreground mb-1">Export</h2>
-        <p className="text-[10px] text-muted-foreground">
+        <p className="text-xs text-muted-foreground">
           Download your panel design in various formats for fabrication.
         </p>
       </div>
@@ -166,7 +166,7 @@ export function StepExport({ onBack, onDone, onStartOver }: StepExportProps) {
 
       {/* Empty panel notice */}
       {elements.length === 0 && (
-        <div className="bg-card border border-border rounded p-3 text-[10px] text-muted-foreground text-center">
+        <div className="bg-card border border-border rounded p-3 text-xs text-muted-foreground text-center">
           Exporting a blank panel with mounting ears and bore pattern.
         </div>
       )}
@@ -178,7 +178,7 @@ export function StepExport({ onBack, onDone, onStartOver }: StepExportProps) {
             onClick={onBack}
             variant="outline"
             size="sm"
-            className="text-xs font-mono"
+            className="text-xs"
           >
             Back
           </Button>
@@ -186,7 +186,7 @@ export function StepExport({ onBack, onDone, onStartOver }: StepExportProps) {
             onClick={onStartOver}
             variant="ghost"
             size="xs"
-            className="text-[9px] font-mono text-destructive hover:text-destructive/80"
+            className="text-xs text-destructive hover:text-destructive/80"
           >
             Start Over
           </Button>
@@ -194,7 +194,7 @@ export function StepExport({ onBack, onDone, onStartOver }: StepExportProps) {
         <Button
           onClick={onDone}
           size="sm"
-          className="text-xs font-bold font-mono bg-green-500 text-white hover:bg-green-600"
+          className="text-xs font-bold bg-green-500 text-white hover:bg-green-600"
         >
           Done
         </Button>
@@ -222,8 +222,8 @@ function ExportRow({
 }) {
   return (
     <div className="bg-card border border-border rounded p-3">
-      <div className="text-[11px] font-bold text-foreground mb-0.5">{title}</div>
-      <div className="text-[9px] text-muted-foreground mb-2">{desc}</div>
+      <div className="text-sm font-bold text-foreground mb-0.5">{title}</div>
+      <div className="text-xs text-muted-foreground mb-2">{desc}</div>
       <div className="flex items-center gap-2">
         {actions.map((a) => (
           <Button
@@ -231,7 +231,7 @@ function ExportRow({
             onClick={a.onClick}
             variant={a.primary ? 'default' : 'outline'}
             size="xs"
-            className="text-[9px] font-bold font-mono"
+            className="text-xs font-bold"
           >
             {a.label}
           </Button>

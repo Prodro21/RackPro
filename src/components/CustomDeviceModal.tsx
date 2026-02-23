@@ -61,65 +61,65 @@ export function CustomDeviceModal({ open, onClose, editKey, editDef }: CustomDev
           <DialogTitle className="text-sm font-bold">
             {isEdit ? 'Edit Custom Device' : 'New Custom Device'}
           </DialogTitle>
-          <DialogDescription className="text-[10px] text-muted-foreground">
+          <DialogDescription className="text-xs text-muted-foreground">
             Define custom device dimensions for your rack panel layout.
           </DialogDescription>
         </DialogHeader>
 
         <div className="space-y-3">
           <div className="space-y-1">
-            <Label className="text-[7px] text-muted-foreground tracking-[.08em]">Name</Label>
+            <Label className="text-xs text-muted-foreground tracking-[.08em]">Name</Label>
             <Input
               type="text"
               value={name}
               onChange={e => setName(e.target.value)}
-              className="h-7 text-[9px] font-mono"
+              className="h-8 text-xs font-mono"
             />
           </div>
           <div className="flex gap-3">
             <div className="space-y-1 flex-1">
-              <Label className="text-[7px] text-muted-foreground tracking-[.08em]">Width (mm)</Label>
-              <Input type="number" value={w} onChange={e => setW(+e.target.value)} min={15} max={390} className="h-7 text-[9px] font-mono" />
+              <Label className="text-xs text-muted-foreground tracking-[.08em]">Width (mm)</Label>
+              <Input type="number" value={w} onChange={e => setW(+e.target.value)} min={15} max={390} className="h-8 text-xs font-mono" />
             </div>
             <div className="space-y-1 flex-1">
-              <Label className="text-[7px] text-muted-foreground tracking-[.08em]">Depth (mm)</Label>
-              <Input type="number" value={d} onChange={e => setD(+e.target.value)} min={30} max={400} className="h-7 text-[9px] font-mono" />
+              <Label className="text-xs text-muted-foreground tracking-[.08em]">Depth (mm)</Label>
+              <Input type="number" value={d} onChange={e => setD(+e.target.value)} min={30} max={400} className="h-8 text-xs font-mono" />
             </div>
             <div className="space-y-1 flex-1">
-              <Label className="text-[7px] text-muted-foreground tracking-[.08em]">Height (mm)</Label>
-              <Input type="number" value={h} onChange={e => setH(+e.target.value)} min={11} max={250} className="h-7 text-[9px] font-mono" />
+              <Label className="text-xs text-muted-foreground tracking-[.08em]">Height (mm)</Label>
+              <Input type="number" value={h} onChange={e => setH(+e.target.value)} min={11} max={250} className="h-8 text-xs font-mono" />
             </div>
           </div>
           <div className="flex gap-3">
             <div className="space-y-1 flex-1">
-              <Label className="text-[7px] text-muted-foreground tracking-[.08em]">Weight (kg)</Label>
-              <Input type="number" value={wt} onChange={e => setWt(+e.target.value)} min={0} max={15} step={0.1} className="h-7 text-[9px] font-mono" />
+              <Label className="text-xs text-muted-foreground tracking-[.08em]">Weight (kg)</Label>
+              <Input type="number" value={wt} onChange={e => setWt(+e.target.value)} min={0} max={15} step={0.1} className="h-8 text-xs font-mono" />
             </div>
             <div className="space-y-1 flex-1">
-              <Label className="text-[7px] text-muted-foreground tracking-[.08em]">Color</Label>
+              <Label className="text-xs text-muted-foreground tracking-[.08em]">Color</Label>
               <input
                 type="color"
                 value={color}
                 onChange={e => setColor(e.target.value)}
-                className="w-full h-7 rounded border border-border cursor-pointer bg-input"
+                className="w-full h-8 rounded border border-border cursor-pointer bg-input"
               />
             </div>
           </div>
           <div className="flex gap-3">
             <div className="space-y-1 flex-1">
-              <Label className="text-[7px] text-muted-foreground tracking-[.08em]">Ports</Label>
-              <Input type="text" value={ports} onChange={e => setPorts(e.target.value)} className="h-7 text-[9px] font-mono" />
+              <Label className="text-xs text-muted-foreground tracking-[.08em]">Ports</Label>
+              <Input type="text" value={ports} onChange={e => setPorts(e.target.value)} className="h-8 text-xs font-mono" />
             </div>
             <div className="space-y-1 flex-1">
-              <Label className="text-[7px] text-muted-foreground tracking-[.08em]">PoE</Label>
-              <Input type="text" value={poe} onChange={e => setPoe(e.target.value)} className="h-7 text-[9px] font-mono" />
+              <Label className="text-xs text-muted-foreground tracking-[.08em]">PoE</Label>
+              <Input type="text" value={poe} onChange={e => setPoe(e.target.value)} className="h-8 text-xs font-mono" />
             </div>
           </div>
         </div>
 
         {/* Preview */}
         <div className="mt-2 bg-background rounded p-3">
-          <div className="text-[8px] text-muted-foreground mb-2">PREVIEW (relative to 1U)</div>
+          <div className="text-xs text-muted-foreground mb-2">PREVIEW (relative to 1U)</div>
           <svg width={maxPreviewW + 20} height={60} viewBox={`0 0 ${maxPreviewW + 20} 60`}>
             {/* 1U reference */}
             <rect x={10} y={5} width={maxPreviewW} height={maxPreviewH * scale} fill="none" stroke="#333" strokeWidth={0.5} strokeDasharray="3,2" />
@@ -142,13 +142,13 @@ export function CustomDeviceModal({ open, onClose, editKey, editDef }: CustomDev
           </svg>
         </div>
 
-        {error && <div className="text-[9px] text-destructive">{error}</div>}
+        {error && <div className="text-xs text-destructive">{error}</div>}
 
         <DialogFooter className="gap-2">
-          <Button variant="outline" size="sm" onClick={onClose} className="text-[9px] font-mono">
+          <Button variant="outline" size="sm" onClick={onClose} className="text-xs">
             Cancel
           </Button>
-          <Button size="sm" onClick={handleSave} className="text-[9px] font-mono font-bold">
+          <Button size="sm" onClick={handleSave} className="text-xs font-bold">
             {isEdit ? 'Update' : 'Create'}
           </Button>
         </DialogFooter>

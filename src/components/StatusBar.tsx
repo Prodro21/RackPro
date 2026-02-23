@@ -17,16 +17,16 @@ export function StatusBar() {
   const material = fabMethod === '3dp' ? `${printer.name}/${filament.name}` : metal.name;
 
   return (
-    <div className="border-t border-border px-3 py-1 flex justify-between text-[8px] text-muted-foreground bg-secondary shrink-0">
-      <span>
+    <div className="border-t border-border px-4 py-1.5 flex justify-between text-xs text-muted-foreground bg-card shrink-0">
+      <span className="font-mono">
         {panDims.panelWidth.toFixed(0)}&times;{panH.toFixed(0)}&times;{depth.toFixed(0)}mm &bull; {material} &bull; {elements.length} features &bull; {remaining.toFixed(0)}mm free
       </span>
       {invalidCount > 0 && (
-        <span className="text-[#f7b600]">
+        <span className="text-amber-600 font-medium">
           &#9888; {invalidCount} invalid catalog {invalidCount === 1 ? 'entry' : 'entries'}
         </span>
       )}
-      <span>
+      <span className="font-mono">
         {selEl ? `${selEl.label} @ (${selEl.x.toFixed(1)},${selEl.y.toFixed(1)})` : 'Drag to position'}
       </span>
     </div>

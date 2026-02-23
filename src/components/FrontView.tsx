@@ -320,7 +320,7 @@ export function FrontView() {
             cx={OX + EIA.EAR_WIDTH * SC + gx * SC}
             cy={OY + gy * SC}
             r={0.4}
-            fill="#333"
+            fill="#555"
           />
         );
       }
@@ -388,7 +388,7 @@ export function FrontView() {
   return (
     <div
       className={`flex-1 flex items-center justify-center overflow-auto p-4 transition-all ${
-        isDragOver ? 'ring-2 ring-accent-gold/30 ring-inset' : ''
+        isDragOver ? 'ring-2 ring-primary/30 ring-inset' : ''
       }`}
       onDragOver={handleDragOver}
       onDragEnter={handleDragEnter}
@@ -399,20 +399,20 @@ export function FrontView() {
         ref={svgRef}
         viewBox={`0 0 ${vW} ${vH}`}
         className="max-w-full max-h-full"
-        style={{ filter: 'drop-shadow(0 4px 20px rgba(0,0,0,.5))' }}
+        style={{ filter: 'drop-shadow(0 2px 12px rgba(0,0,0,.08))' }}
         onMouseDown={() => selectElement(null)}
       >
         {/* Background + grid dots */}
         <defs>
           <pattern id="g" width={5 * SC} height={5 * SC} patternUnits="userSpaceOnUse" patternTransform={`translate(${OX},${OY})`}>
-            <circle cx={5 * SC} cy={5 * SC} r={0.3} fill="#222" />
+            <circle cx={5 * SC} cy={5 * SC} r={0.3} fill="#555" />
           </pattern>
         </defs>
-        <rect width={vW} height={vH} fill="#0e0e12" />
+        <rect width={vW} height={vH} fill="#f8f8fa" />
         <rect width={vW} height={vH} fill="url(#g)" />
 
         {/* Total panel outline (dashed) */}
-        <rect x={OX} y={OY} width={totW * SC} height={panH * SC} fill="none" stroke="#333" strokeWidth={0.4} strokeDasharray="4,4" />
+        <rect x={OX} y={OY} width={totW * SC} height={panH * SC} fill="none" stroke="#bbb" strokeWidth={0.4} strokeDasharray="4,4" />
 
         {/* Split lines */}
         {needsSplit && splitInfo.type === '3-piece' && (() => {
@@ -433,7 +433,7 @@ export function FrontView() {
             y={OY}
             width={EIA.EAR_WIDTH * SC}
             height={panH * SC}
-            fill="#1a1a22" stroke="#444" strokeWidth={0.4}
+            fill="#e8e8ec" stroke="#999" strokeWidth={0.4}
           />
         ))}
 
@@ -448,7 +448,7 @@ export function FrontView() {
               x={OX + (s === 0 ? (EIA.EAR_WIDTH / 2 - boreW / 2) * SC : (totW - EIA.EAR_WIDTH / 2 - boreW / 2) * SC)}
               y={OY + by * SC - boreH / 2 * SC}
               width={boreW * SC} height={boreH * SC} rx={boreR * SC}
-              fill="#0e0e12" stroke="#555" strokeWidth={0.35}
+              fill="#f8f8fa" stroke="#999" strokeWidth={0.35}
             />
           ));
         })}
@@ -457,7 +457,7 @@ export function FrontView() {
         <rect
           x={OX + EIA.EAR_WIDTH * SC} y={OY}
           width={panW * SC} height={panH * SC}
-          fill="#1e1e26"
+          fill="#eeeef2"
           stroke={fabMethod === '3dp' ? '#22c55e' : '#f7b600'}
           strokeWidth={0.8}
         />
@@ -466,7 +466,7 @@ export function FrontView() {
         <line
           x1={OX + (totW / 2) * SC} y1={OY}
           x2={OX + (totW / 2) * SC} y2={OY + panH * SC}
-          stroke="#2a2a35" strokeWidth={0.3} strokeDasharray="2,4"
+          stroke="#ccc" strokeWidth={0.3} strokeDasharray="2,4"
         />
 
         {/* Lockpin indicators for 3-piece split */}
@@ -500,7 +500,7 @@ export function FrontView() {
             y1={OY - 4}
             x2={OX + EIA.EAR_WIDTH * SC + gx * SC}
             y2={OY + panH * SC + 4}
-            stroke="#00bcd4" strokeWidth={0.5} strokeDasharray="2,2" opacity={0.7}
+            stroke="#ff5500" strokeWidth={0.5} strokeDasharray="2,2" opacity={0.7}
           />
         ))}
         {drag && snapGuides.guidesH.map((gy, i) => (
@@ -510,7 +510,7 @@ export function FrontView() {
             y1={OY + gy * SC}
             x2={OX + EIA.EAR_WIDTH * SC + panW * SC + 4}
             y2={OY + gy * SC}
-            stroke="#00bcd4" strokeWidth={0.5} strokeDasharray="2,2" opacity={0.7}
+            stroke="#ff5500" strokeWidth={0.5} strokeDasharray="2,2" opacity={0.7}
           />
         ))}
 
@@ -553,7 +553,7 @@ export function FrontView() {
                 <rect
                   x={ex - 3} y={ey - 3}
                   width={ew + 6} height={eh + 6}
-                  fill="none" stroke="#f7b600" strokeWidth={1} strokeDasharray="3,2"
+                  fill="none" stroke="#ff5500" strokeWidth={1} strokeDasharray="3,2"
                   rx={isR || isFan ? (ew + 6) / 2 : 2}
                 />
               )}
@@ -597,14 +597,14 @@ export function FrontView() {
               {/* Fan shape (circle + 4 bolt holes) */}
               {isFan ? (
                 <>
-                  <circle cx={cx} cy={cy} r={ew / 2} fill={isRearSurface ? '#1a1a2200' : '#0d0d14'} stroke="#666" strokeWidth={0.6} strokeDasharray={isRearSurface ? '3,2' : 'none'} />
+                  <circle cx={cx} cy={cy} r={ew / 2} fill={isRearSurface ? '#ffffff00' : '#f0f0f4'} stroke="#999" strokeWidth={0.6} strokeDasharray={isRearSurface ? '3,2' : 'none'} />
                   {/* Center cutout circle */}
-                  <circle cx={cx} cy={cy} r={((lib as typeof FANS[string])?.cutoutDiameter ?? el.w * 0.8) / 2 * SC} fill="#08080d" stroke="#555" strokeWidth={0.4} />
+                  <circle cx={cx} cy={cy} r={((lib as typeof FANS[string])?.cutoutDiameter ?? el.w * 0.8) / 2 * SC} fill="#ffffff" stroke="#555" strokeWidth={0.4} />
                   {/* 4 bolt holes */}
                   {(() => {
                     const hs = ((lib as typeof FANS[string])?.holeSpacing ?? el.w * 0.85) / 2 * SC;
                     return [[-1,-1],[-1,1],[1,-1],[1,1]].map(([dx,dy], bi) => (
-                      <circle key={bi} cx={cx + dx * hs} cy={cy + dy * hs} r={1.5} fill="#08080d" stroke="#555" strokeWidth={0.3} />
+                      <circle key={bi} cx={cx + dx * hs} cy={cy + dy * hs} r={1.5} fill="#ffffff" stroke="#555" strokeWidth={0.3} />
                     ));
                   })()}
                   {isRearSurface && <text x={cx} y={cy - ew / 2 - 4} textAnchor="middle" fill="#888" fontSize={5} fontFamily="inherit">REAR</text>}
@@ -614,14 +614,14 @@ export function FrontView() {
                   <circle
                     cx={cx} cy={cy}
                     r={((lib && 'r' in lib ? (lib as typeof CONNECTORS[string]).r : el.w / 2) ?? el.w / 2) * SC}
-                    fill="#08080d"
+                    fill="#ffffff"
                     stroke={lib && 'color' in lib ? lib.color : '#666'}
                     strokeWidth={1}
                   />
                 ) : (
                   <rect
                     x={ex} y={ey} width={ew} height={eh}
-                    rx={1} fill="#08080d"
+                    rx={1} fill="#ffffff"
                     stroke={lib && 'color' in lib ? lib.color : '#666'}
                     strokeWidth={1}
                   />
@@ -634,7 +634,7 @@ export function FrontView() {
                       <path
                         d={outlinePath}
                         transform={`translate(${ex}, ${ey}) scale(${SC})`}
-                        fill="#0d0d14"
+                        fill="#f0f0f4"
                         stroke={lib && 'color' in lib ? lib.color : '#555'}
                         strokeWidth={0.6 / SC}
                       />
@@ -644,12 +644,12 @@ export function FrontView() {
                     <>
                       <rect
                         x={ex} y={ey} width={ew} height={eh}
-                        rx={1.5} fill="#0d0d14"
+                        rx={1.5} fill="#f0f0f4"
                         stroke={lib && 'color' in lib ? lib.color : '#555'}
                         strokeWidth={0.6}
                       />
-                      <line x1={ex} y1={ey} x2={ex + ew} y2={ey + eh} stroke="#222" strokeWidth={0.3} />
-                      <line x1={ex + ew} y1={ey} x2={ex} y2={ey + eh} stroke="#222" strokeWidth={0.3} />
+                      <line x1={ex} y1={ey} x2={ex + ew} y2={ey + eh} stroke="#ccc" strokeWidth={0.3} />
+                      <line x1={ex + ew} y1={ey} x2={ex} y2={ey + eh} stroke="#ccc" strokeWidth={0.3} />
                     </>
                   );
                 })()
@@ -703,7 +703,7 @@ export function FrontView() {
                       <path
                         d={iconPath}
                         transform={`translate(${lp.cx - iconOffset - 4}, ${lp.y - 4}) scale(1)`}
-                        fill="#999"
+                        fill="#777"
                         stroke="none"
                       />
                     )}
@@ -712,7 +712,7 @@ export function FrontView() {
                       y={lp.y}
                       textAnchor="middle"
                       dominantBaseline={lp.position === 'inside' ? 'central' : 'auto'}
-                      fill="#ccc"
+                      fill="#555"
                       fontSize={5}
                       fontFamily="inherit"
                     >
@@ -729,7 +729,7 @@ export function FrontView() {
         <text
           x={OX + (EIA.EAR_WIDTH + panW / 2) * SC}
           y={OY + panH * SC + 24}
-          textAnchor="middle" fill="#f7b600" fontSize={7} fontFamily="inherit"
+          textAnchor="middle" fill="#ff5500" fontSize={7} fontFamily="inherit"
         >
           {panW.toFixed(1)}mm ({totW === EIA.RACK_19 ? '19' : '10'}")
         </text>
@@ -737,7 +737,7 @@ export function FrontView() {
           x={OX + totW * SC + 20}
           y={OY + panH * SC / 2}
           textAnchor="start" dominantBaseline="central"
-          fill="#f7b600" fontSize={7} fontFamily="inherit"
+          fill="#ff5500" fontSize={7} fontFamily="inherit"
           transform={`rotate(90 ${OX + totW * SC + 20} ${OY + panH * SC / 2})`}
         >
           {panH.toFixed(1)}mm ({useConfigStore.getState().uHeight}U)

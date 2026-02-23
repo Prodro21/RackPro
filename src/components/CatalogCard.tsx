@@ -108,12 +108,12 @@ export function CatalogCard({ item, isExpanded, onToggle, onAdd }: CatalogCardPr
           )}
 
           {/* Category tag */}
-          <div className="inline-block text-[10px] px-1.5 py-0.5 rounded bg-background border border-border text-muted-foreground">
+          <div className="inline-block text-xs px-1.5 py-0.5 rounded bg-background border border-border text-muted-foreground">
             {item.itemType === 'device' ? item.category : 'connector'}
           </div>
 
           {/* Confidence badge text */}
-          <div className="flex items-center gap-1 text-[10px] text-muted-foreground">
+          <div className="flex items-center gap-1 text-xs text-muted-foreground">
             <span
               className="w-1.5 h-1.5 rounded-full"
               style={{ backgroundColor: dotColor }}
@@ -142,7 +142,7 @@ export function CatalogCard({ item, isExpanded, onToggle, onAdd }: CatalogCardPr
 
           {/* Compatible modules (connectors only) */}
           {item.itemType === 'connector' && item.compatibleModules.length > 0 && (
-            <div className="text-[10px] text-muted-foreground">
+            <div className="text-xs text-muted-foreground">
               <span className="font-medium">Modules:</span>{' '}
               {item.compatibleModules.map((m) => m.name).join(', ')}
             </div>

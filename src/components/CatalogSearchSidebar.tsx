@@ -83,14 +83,14 @@ export function CatalogSearchSidebar({
       </div>
 
       {/* Result count */}
-      <div className="text-[10px] text-muted-foreground">
+      <div className="text-xs text-muted-foreground">
         {resultCount} item{resultCount !== 1 ? 's' : ''}
       </div>
 
       {/* Category filters */}
       {availableCategories.length > 0 && (
         <div>
-          <div className="text-[10px] font-bold uppercase tracking-wider text-muted-foreground mb-1.5">
+          <div className="text-xs font-bold uppercase tracking-wider text-muted-foreground mb-1.5">
             Categories
           </div>
           <div className="flex flex-wrap gap-1">
@@ -100,7 +100,7 @@ export function CatalogSearchSidebar({
                 <button
                   key={cat}
                   onClick={() => toggleCategory(cat)}
-                  className={`text-[10px] px-1.5 py-0.5 rounded border transition-colors ${
+                  className={`text-xs px-1.5 py-0.5 rounded border transition-colors ${
                     isActive
                       ? 'bg-primary/20 border-primary text-primary'
                       : 'border-border text-muted-foreground hover:border-muted-foreground hover:text-foreground'
@@ -117,7 +117,7 @@ export function CatalogSearchSidebar({
       {/* Brand filters */}
       {availableBrands.length > 0 && (
         <div>
-          <div className="text-[10px] font-bold uppercase tracking-wider text-muted-foreground mb-1.5">
+          <div className="text-xs font-bold uppercase tracking-wider text-muted-foreground mb-1.5">
             Brands
           </div>
           <div className="flex flex-wrap gap-1">
@@ -127,7 +127,7 @@ export function CatalogSearchSidebar({
                 <button
                   key={brand}
                   onClick={() => toggleBrand(brand)}
-                  className={`text-[10px] px-1.5 py-0.5 rounded border transition-colors ${
+                  className={`text-xs px-1.5 py-0.5 rounded border transition-colors ${
                     isActive
                       ? 'bg-primary/20 border-primary text-primary'
                       : 'border-border text-muted-foreground hover:border-muted-foreground hover:text-foreground'
@@ -147,7 +147,7 @@ export function CatalogSearchSidebar({
           onClick={clearFilters}
           variant="outline"
           size="sm"
-          className="text-[10px]"
+          className="text-xs"
         >
           Clear All Filters
         </Button>

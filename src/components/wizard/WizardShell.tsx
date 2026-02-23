@@ -156,7 +156,7 @@ export function WizardShell() {
         <div className="w-[420px] shrink-0 flex flex-col border-r border-border overflow-y-auto">
           {/* Cancel button header */}
           <div className="flex items-center justify-between px-3 py-1.5 border-b border-border bg-secondary/50">
-            <span className="text-[9px] font-mono text-muted-foreground tracking-wide">
+            <span className="text-xs font-mono text-muted-foreground tracking-wide">
               WIZARD -- Step {currentStep + 1}/{STEPS.length}
             </span>
             <Tooltip>
@@ -165,7 +165,7 @@ export function WizardShell() {
                   onClick={handleCancel}
                   variant="ghost"
                   size="xs"
-                  className="text-[9px] font-mono text-destructive hover:text-destructive/80"
+                  className="text-xs text-destructive hover:text-destructive/80"
                 >
                   Cancel Wizard
                 </Button>
@@ -191,7 +191,7 @@ export function WizardShell() {
         <DialogContent className="bg-secondary border-border max-w-sm">
           <DialogHeader>
             <DialogTitle className="text-sm font-bold">Leave wizard?</DialogTitle>
-            <DialogDescription className="text-[10px] text-muted-foreground">
+            <DialogDescription className="text-xs text-muted-foreground">
               Your progress is saved. You can resume the wizard later from where you left off.
             </DialogDescription>
           </DialogHeader>
@@ -200,14 +200,14 @@ export function WizardShell() {
               onClick={() => blocker.reset?.()}
               variant="outline"
               size="sm"
-              className="text-xs font-mono"
+              className="text-xs"
             >
               Stay
             </Button>
             <Button
               onClick={() => blocker.proceed?.()}
               size="sm"
-              className="text-xs font-bold font-mono"
+              className="text-xs font-bold"
             >
               Leave
             </Button>

@@ -36,17 +36,16 @@ class Preview3DErrorBoundary extends Component<
       return (
         <div className="flex-1 flex flex-col items-center justify-center bg-background text-muted-foreground gap-3 p-6">
           <div className="text-destructive text-sm font-bold">3D Preview Error</div>
-          <div className="text-[10px] text-muted-foreground max-w-[400px] text-center">
+          <div className="text-sm text-muted-foreground max-w-[400px] text-center">
             The 3D preview encountered an error (possibly degenerate CSG geometry). Try adjusting element positions or panel dimensions.
           </div>
-          <pre className="text-[8px] text-muted-foreground/60 bg-secondary rounded p-3 max-w-[500px] overflow-auto">
+          <pre className="text-xs text-muted-foreground/60 bg-muted rounded-lg p-4 max-w-[500px] overflow-auto font-mono">
             {this.state.error.message}
           </pre>
           <Button
             onClick={() => this.setState({ error: null })}
             variant="outline"
-            size="xs"
-            className="text-[9px] font-bold font-mono"
+            size="sm"
           >
             Retry
           </Button>

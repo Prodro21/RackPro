@@ -21,3 +21,7 @@
 Full details: `.planning/milestones/v1.0-ROADMAP.md`
 
 </details>
+
+## Active
+
+- [x] **Phase 8: Visual Theme Rework** — Light Professional with #FF5500 Orange (4/4 plans) — completed 2026-02-23

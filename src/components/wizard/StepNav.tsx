@@ -28,7 +28,7 @@ export function StepNav({ steps, labels, current, onChange }: StepNavProps) {
             }}
             disabled={isLocked}
             className={`
-              flex items-center gap-1.5 px-2 py-1 rounded transition-colors font-mono text-[9px] tracking-wide
+              flex items-center gap-1.5 px-2 py-1 rounded transition-colors text-xs tracking-wide
               ${isActive ? 'bg-primary/15 text-primary font-bold' : ''}
               ${isCompleted ? 'text-green-500 cursor-pointer hover:bg-green-500/10' : ''}
               ${isLocked ? 'text-muted-foreground cursor-not-allowed opacity-50' : ''}
@@ -36,7 +36,7 @@ export function StepNav({ steps, labels, current, onChange }: StepNavProps) {
           >
             <span
               className={`
-                flex items-center justify-center w-4 h-4 rounded-full text-[8px] font-bold border
+                flex items-center justify-center w-4 h-4 rounded-full text-xs font-bold border
                 ${isActive ? 'border-primary bg-primary/20 text-primary' : ''}
                 ${isCompleted ? 'border-green-500 bg-green-500/20 text-green-500' : ''}
                 ${isLocked ? 'border-border bg-transparent text-muted-foreground' : ''}

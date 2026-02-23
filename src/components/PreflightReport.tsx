@@ -48,8 +48,8 @@ export function PreflightReport({ result, onProceed, format }: PreflightReportPr
     <div className="bg-card border border-border rounded-[5px] p-[14px] mb-[10px]">
       {/* Summary bar */}
       <div className="flex items-center justify-between mb-2">
-        <div className="text-[11px] font-bold text-foreground">Preflight Check</div>
-        <div className="flex items-center gap-3 text-[9px] font-mono">
+        <div className="text-sm font-bold text-foreground">Preflight Check</div>
+        <div className="flex items-center gap-3 text-xs font-mono">
           {summary.passed > 0 && (
             <span className="text-green-500">{summary.passed} passed</span>
           )}
@@ -65,15 +65,15 @@ export function PreflightReport({ result, onProceed, format }: PreflightReportPr
       {/* Status message + action */}
       <div className="flex items-center justify-between mb-2">
         {hasCritical ? (
-          <div className="text-[9px] text-destructive font-bold">
+          <div className="text-xs text-destructive font-bold">
             Export blocked -- {summary.critical} critical issue{summary.critical !== 1 ? 's' : ''} must be resolved
           </div>
         ) : hasWarning ? (
-          <div className="text-[9px] text-primary font-bold">
+          <div className="text-xs text-primary font-bold">
             Passed with {summary.warning} warning{summary.warning !== 1 ? 's' : ''}
           </div>
         ) : (
-          <div className="text-[9px] text-green-500 font-bold">
+          <div className="text-xs text-green-500 font-bold">
             All checks passed
           </div>
         )}
@@ -83,7 +83,7 @@ export function PreflightReport({ result, onProceed, format }: PreflightReportPr
           disabled={hasCritical}
           size="xs"
           variant={hasCritical ? 'secondary' : pass ? 'default' : 'outline'}
-          className="text-[9px] font-bold font-mono"
+          className="text-xs font-bold"
         >
           {hasCritical ? `${format} blocked` : `Download ${format}`}
         </Button>
@@ -103,11 +103,11 @@ export function PreflightReport({ result, onProceed, format }: PreflightReportPr
                   onClick={() => toggleGroup(id)}
                   className="flex items-center gap-2 w-full text-left bg-transparent border-none cursor-pointer p-0 py-[2px]"
                 >
-                  <span className="text-[8px] text-muted-foreground">{isOpen ? '\u25BC' : '\u25B6'}</span>
-                  <span className={`text-[9px] font-bold ${hasCrit ? 'text-destructive' : hasWarn ? 'text-primary' : 'text-muted-foreground'}`}>
+                  <span className="text-xs text-muted-foreground">{isOpen ? '\u25BC' : '\u25B6'}</span>
+                  <span className={`text-xs font-bold ${hasCrit ? 'text-destructive' : hasWarn ? 'text-primary' : 'text-muted-foreground'}`}>
                     {group.label}
                   </span>
-                  <span className="text-[8px] text-muted-foreground">
+                  <span className="text-xs text-muted-foreground">
                     ({group.issues.length} issue{group.issues.length !== 1 ? 's' : ''})
                   </span>
                 </button>
@@ -115,7 +115,7 @@ export function PreflightReport({ result, onProceed, format }: PreflightReportPr
                 {isOpen && (
                   <div className="pl-4 space-y-1">
                     {group.issues.map((issue, idx) => (
-                      <div key={idx} className="flex items-start gap-2 text-[9px]">
+                      <div key={idx} className="flex items-start gap-2 text-xs">
                         <Tooltip>
                           <TooltipTrigger asChild>
                             <span className="shrink-0 mt-[1px] cursor-help">
@@ -137,7 +137,7 @@ export function PreflightReport({ result, onProceed, format }: PreflightReportPr
                             {issue.message}
                           </div>
                           {issue.fix && (
-                            <div className="text-muted-foreground text-[8px] mt-[1px]">
+                            <div className="text-muted-foreground text-xs mt-[1px]">
                               Fix: {issue.fix}
                             </div>
                           )}
@@ -154,7 +154,7 @@ export function PreflightReport({ result, onProceed, format }: PreflightReportPr
 
       {/* Empty state */}
       {summary.total === 0 && (
-        <div className="text-[9px] text-muted-foreground">No elements to validate. Add devices or connectors to the panel first.</div>
+        <div className="text-xs text-muted-foreground">No elements to validate. Add devices or connectors to the panel first.</div>
       )}
     </div>
   );

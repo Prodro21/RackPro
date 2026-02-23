@@ -42,14 +42,14 @@ function CollapsibleSection({
       >
         <span className="flex items-center gap-2">
           <span
-            className="text-[10px] transition-transform"
+            className="text-xs transition-transform"
             style={{ transform: isOpen ? 'rotate(90deg)' : 'rotate(0deg)' }}
           >
             &#9654;
           </span>
           {title}
         </span>
-        <span className="text-[10px] font-normal bg-background border border-border rounded-full px-1.5 py-0.5">
+        <span className="text-xs font-normal bg-background border border-border rounded-full px-1.5 py-0.5">
           {count}
         </span>
       </button>
