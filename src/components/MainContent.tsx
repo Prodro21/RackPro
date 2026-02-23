@@ -7,7 +7,6 @@ import { SideView } from './SideView';
 import { SplitView } from './SplitView';
 import { SpecsTab } from './SpecsTab';
 import { ExportTab } from './ExportTab';
-import { StatusBar } from './StatusBar';
 
 const Preview3D = lazy(() =>
   import('./Preview3D').then(m => ({ default: m.Preview3D }))
@@ -92,7 +91,6 @@ export function MainContent() {
         </Preview3DErrorBoundary>
       </div>
 
-      <StatusBar />
     </div>
   );
 }

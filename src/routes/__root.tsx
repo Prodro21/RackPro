@@ -19,7 +19,7 @@ export function RootLayout() {
 
   return (
     <TooltipProvider delayDuration={300}>
-      <div className="w-screen h-screen overflow-hidden bg-background text-foreground flex">
+      <div className="w-screen h-screen overflow-hidden bg-bg-root text-text-primary flex">
         <NavSidebar />
         <div className="flex-1 flex flex-col min-w-0 overflow-hidden">
           <Outlet />
