@@ -5,23 +5,23 @@
 See: .planning/PROJECT.md (updated 2026-02-21)
 
 **Core value:** Anyone can design a custom rack mount panel with real equipment dimensions and export a fabrication-ready file — without CAD expertise.
-**Current focus:** Phase 4 COMPLETE — Guided Wizard + Smart Auto-Layout
+**Current focus:** Phase 4 Gap Closure — Guided Wizard + Smart Auto-Layout
 
 ## Current Position
 
-Phase: 4 of 6 (Guided Wizard + Smart Auto-Layout) -- COMPLETE
-Plan: 3 of 3 in current phase -- COMPLETE
-Status: Phase 4 Complete
-Last activity: 2026-02-22 — Completed 04-03-PLAN.md (Text Labels)
+Phase: 4 of 6 (Guided Wizard + Smart Auto-Layout) -- Gap Closure
+Plan: 5 of 5 in current phase (gap closure plans 04-04, 04-05 added post-UAT)
+Status: Executing gap closure plans
+Last activity: 2026-02-23 — Completed 04-05-PLAN.md (3D Preview Catalog-Aware Lookups)
 
 Progress: [████████░░] 80%
 
 ## Performance Metrics
 
 **Velocity:**
-- Total plans completed: 16
+- Total plans completed: 17
 - Average duration: 6min
-- Total execution time: 1.64 hours
+- Total execution time: 1.67 hours
 
 **By Phase:**
 
@@ -31,11 +31,11 @@ Progress: [████████░░] 80%
 | 01.1-device-outline-mvp | 4 | 11min | 3min |
 | 02-catalog-browser-routing | 3 | 12min | 4min |
 | 03-export-hardening-web-deployment | 2 | 37min | 19min |
-| 04-guided-wizard-smart-auto-layout | 3 | 26min | 9min |
+| 04-guided-wizard-smart-auto-layout | 4 | 28min | 7min |
 
 **Recent Trend:**
-- Last 5 plans: 03-02 (32min), 04-01 (9min), 04-02 (9min), 04-03 (8min)
-- Trend: Steady 9min velocity for Phase 4 plans
+- Last 5 plans: 03-02 (32min), 04-01 (9min), 04-02 (9min), 04-03 (8min), 04-05 (2min)
+- Trend: Gap closure plans execute fastest (targeted fixes)
 
 *Updated after each plan completion*
 
@@ -111,6 +111,7 @@ Recent decisions affecting current work:
 - [Phase 04]: [04-03]: labelConfig threaded through ExportElement for DXF/OpenSCAD generator access
 - [Phase 04]: [04-03]: DXF 5-LABELS layer (color 7/white) with TEXT entities for laser engraving
 - [Phase 04]: [04-03]: OpenSCAD deboss 0.3mm into faceplate with 0.4mm extrude, Liberation Sans font
+- [Phase 04]: [04-05]: 3-branch lookup in Preview3D cutout mesh: connector via lookupConnector, fan via FANS[], device via lookupDevice
 
 ### Pending Todos
 
@@ -124,6 +125,6 @@ None yet.
 
 ## Session Continuity
 
-Last session: 2026-02-22
-Stopped at: Completed 04-03-PLAN.md (Text Labels) — Phase 4 fully complete
+Last session: 2026-02-23
+Stopped at: Completed 04-05-PLAN.md (3D Preview Catalog-Aware Lookups)
 Resume file: None
