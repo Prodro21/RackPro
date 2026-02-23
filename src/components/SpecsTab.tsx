@@ -1,9 +1,9 @@
 import { useMemo } from 'react';
 import { useConfigStore, selectPanelDims, selectPanelHeight, selectEnclosureDepth, selectMaxDeviceDepth, selectTotalWeight, selectNeedsSplit, selectSplitInfo, selectBendAllowance90, selectMetal, selectFilament, selectPrinter, selectMarginWarnings, selectAssemblyMode, selectTrayReinforcements, selectMountHoleType } from '../store';
 import { useCatalogStore } from '../catalog/useCatalogStore';
-import { CONNECTORS } from '../constants/connectors';
-import { DEVICES } from '../constants/devices';
 import { FANS } from '../constants/fans';
+import { lookupDevice } from '../constants/deviceLookup';
+import { lookupConnector } from '../constants/connectorLookup';
 import { BORE_HOLES } from '../constants/eia310';
 import { useReinforcement } from '../hooks/useReinforcement';
 import { generateConfig } from '../export/configJson';
@@ -69,7 +69,8 @@ export function SpecsTab() {
   const mountHoleType = useConfigStore(selectMountHoleType);
   const trayReinforcements = useConfigStore(selectTrayReinforcements);
   const ribs = useReinforcement();
-  const catState = useCatalogStore.getState();
+  const catalogDevices = useCatalogStore(s => s.devices);
+  const catalogConnectors = useCatalogStore(s => s.connectors);
   const bom = useMemo(() => computeBom(generateConfig()), [standard, uHeight, fabMethod, wallThickness, flangeDepth, rearPanel, ventSlots, elements, mountHoleType]);
 
   return (
@@ -144,8 +145,8 @@ export function SpecsTab() {
               </thead>
               <tbody>
                 {elements.map((el, i) => {
-                  const c = el.type === 'connector' ? CONNECTORS[el.key] : null;
-                  const d = el.type === 'device' ? DEVICES[el.key] : null;
+                  const c = el.type === 'connector' ? lookupConnector(el.key) : null;
+                  const d = el.type === 'device' ? lookupDevice(el.key) : null;
                   const f = el.type === 'fan' ? FANS[el.key] : null;
                   return (
                     <tr key={el.id} className="border-t border-border">
@@ -161,9 +162,9 @@ export function SpecsTab() {
                       <td className="px-[6px] py-1">
                         {(() => {
                           const entry = el.type === 'device'
-                            ? catState.devices.find(dd => dd.slug === el.key)
+                            ? catalogDevices.find(dd => dd.slug === el.key)
                             : el.type === 'connector'
-                            ? catState.connectors.find(cc => cc.slug === el.key)
+                            ? catalogConnectors.find(cc => cc.slug === el.key)
                             : null;
                           if (!entry) return <span className="text-[#555]">{'\u2014'}</span>;
                           const badge = confidenceBadge(entry.dataSource);

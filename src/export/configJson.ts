@@ -1,9 +1,9 @@
 import type { ExportConfig } from '../types';
 import { useConfigStore } from '../store/useConfigStore';
 import { selectPanelDims, selectPanelHeight, selectEnclosureDepth, selectMaxDeviceDepth, selectSplitInfo, selectBendAllowance90, selectMetal, selectFilament, selectPrinter, selectMarginWarnings } from '../store/selectors';
-import { CONNECTORS } from '../constants/connectors';
 import { FANS } from '../constants/fans';
 import { lookupDevice } from '../constants/deviceLookup';
+import { lookupConnector } from '../constants/connectorLookup';
 import { computeReinforcement } from '../lib/reinforcement';
 import { getCachedOutlinePath } from '../catalog/outlines';
 
@@ -66,7 +66,7 @@ export function generateConfig(): ExportConfig {
     },
     fabrication: fab,
     elements: s.elements.map(e => {
-      const con = e.type === 'connector' ? CONNECTORS[e.key] : undefined;
+      const con = e.type === 'connector' ? lookupConnector(e.key) : undefined;
       const dev = e.type === 'device' ? lookupDevice(e.key) : undefined;
       const fan = e.type === 'fan' ? FANS[e.key] : undefined;
       const outlinePath = e.type === 'device' ? getCachedOutlinePath(e.key, 'top') : undefined;
