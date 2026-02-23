@@ -1,0 +1,134 @@
+name: "New Connector Submission"
+description: "Submit a new connector type for the RackPro equipment catalog"
+title: "[Connector]: "
+labels: ["catalog-submission", "connector"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for contributing a new connector to the RackPro catalog!
+        Fill in the fields below. All dimensions should be in **millimeters**.
+        After you submit, automation will validate your data and create a draft PR.
+
+  - type: input
+    id: slug
+    attributes:
+      label: Connector Slug
+      description: "Unique identifier. Lowercase letters, numbers, and hyphens only."
+      placeholder: "bnc"
+    validations:
+      required: true
+
+  - type: input
+    id: name
+    attributes:
+      label: Display Name
+      description: "Human-readable connector name."
+      placeholder: "BNC Bulkhead (Jam-Nut)"
+    validations:
+      required: true
+
+  - type: dropdown
+    id: cutoutType
+    attributes:
+      label: Cutout Shape
+      description: "Panel cutout shape for fabrication."
+      options:
+        - round
+        - d-shape
+        - rect
+        - d-sub
+    validations:
+      required: true
+
+  - type: input
+    id: cutoutWidth
+    attributes:
+      label: Cutout Width (mm)
+      description: "Width of the panel cutout in millimeters."
+      placeholder: "14"
+    validations:
+      required: true
+
+  - type: input
+    id: cutoutHeight
+    attributes:
+      label: Cutout Height (mm)
+      description: "Height of the panel cutout in millimeters."
+      placeholder: "14"
+    validations:
+      required: true
+
+  - type: input
+    id: cutoutRadius
+    attributes:
+      label: Cutout Radius (mm)
+      description: "Radius in mm. Required for round and d-shape cutouts."
+      placeholder: "4.75"
+    validations:
+      required: false
+
+  - type: input
+    id: depthBehind
+    attributes:
+      label: Depth Behind Panel (mm)
+      description: "How far the connector body extends behind the panel face."
+      placeholder: "22"
+    validations:
+      required: true
+
+  - type: dropdown
+    id: mountHoles
+    attributes:
+      label: Mount Holes
+      description: "Mounting hole configuration."
+      options:
+        - "0"
+        - "2"
+        - "4"
+    validations:
+      required: true
+
+  - type: dropdown
+    id: category
+    attributes:
+      label: Category
+      description: "Connector category for filtering."
+      options:
+        - audio
+        - video
+        - data
+        - fiber
+        - rf
+        - power
+        - other
+    validations:
+      required: true
+
+  - type: dropdown
+    id: dataSource
+    attributes:
+      label: Data Source
+      description: "Where did you get the cutout dimension data?"
+      options:
+        - manufacturer-datasheet
+        - community-measured
+        - estimated
+    validations:
+      required: true
+
+  - type: input
+    id: productUrl
+    attributes:
+      label: Product URL
+      description: "Link to the manufacturer's product page or datasheet."
+    validations:
+      required: false
+
+  - type: textarea
+    id: notes
+    attributes:
+      label: Notes
+      description: "Any additional information (mounting requirements, panel thickness constraints, etc.)."
+    validations:
+      required: false

@@ -1,0 +1,141 @@
+name: "New Device Submission"
+description: "Submit a new network device for the RackPro equipment catalog"
+title: "[Device]: "
+labels: ["catalog-submission", "device"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for contributing a new device to the RackPro catalog!
+        Fill in the fields below. All dimensions should be in **millimeters** and weight in **kilograms**.
+        After you submit, automation will validate your data and create a draft PR.
+
+  - type: input
+    id: slug
+    attributes:
+      label: Device Slug
+      description: "Unique identifier. Lowercase letters, numbers, and hyphens only."
+      placeholder: "usw-lite-16-poe"
+    validations:
+      required: true
+
+  - type: input
+    id: name
+    attributes:
+      label: Display Name
+      description: "Human-readable product name."
+      placeholder: "USW-Lite-16-PoE"
+    validations:
+      required: true
+
+  - type: input
+    id: brand
+    attributes:
+      label: Brand / Manufacturer
+      placeholder: "Ubiquiti"
+    validations:
+      required: true
+
+  - type: dropdown
+    id: category
+    attributes:
+      label: Category
+      options:
+        - switch
+        - router
+        - gateway
+        - access-point
+        - nas
+        - compute
+        - converter
+        - patch-panel
+        - ups
+        - pdu
+        - other
+    validations:
+      required: true
+
+  - type: input
+    id: width
+    attributes:
+      label: Width (mm)
+      description: "Device width in millimeters."
+      placeholder: "191.7"
+    validations:
+      required: true
+
+  - type: input
+    id: depth
+    attributes:
+      label: Depth (mm)
+      description: "Device depth in millimeters."
+      placeholder: "185"
+    validations:
+      required: true
+
+  - type: input
+    id: height
+    attributes:
+      label: Height (mm)
+      description: "Device height in millimeters."
+      placeholder: "43.7"
+    validations:
+      required: true
+
+  - type: input
+    id: weight
+    attributes:
+      label: Weight (kg)
+      description: "Device weight in kilograms."
+      placeholder: "1.2"
+    validations:
+      required: true
+
+  - type: textarea
+    id: ports
+    attributes:
+      label: Ports
+      description: "Describe the ports, one group per line. Format: count x type speed (poe). Example: 16x RJ45 1G PoE"
+      placeholder: |
+        16x RJ45 1G PoE
+        2x SFP+ 10G
+    validations:
+      required: false
+
+  - type: dropdown
+    id: dataSource
+    attributes:
+      label: Data Source
+      description: "Where did you get the dimension data?"
+      options:
+        - manufacturer-datasheet
+        - community-measured
+        - estimated
+    validations:
+      required: true
+
+  - type: input
+    id: productUrl
+    attributes:
+      label: Product URL
+      description: "Link to the manufacturer's product page or datasheet."
+      placeholder: "https://techspecs.ui.com/unifi/switching/usw-lite-16-poe"
+    validations:
+      required: false
+
+  - type: input
+    id: purchaseUrl
+    attributes:
+      label: Purchase URL
+      description: "Link to purchase the device (optional)."
+      placeholder: "https://store.ui.com/us/en/products/usw-lite-16-poe"
+    validations:
+      required: false
+
+  - type: textarea
+    id: notes
+    attributes:
+      label: Notes
+      description: "Any additional information about the device (form factor, cooling, special mounting, etc.)."
+    validations:
+      required: false
