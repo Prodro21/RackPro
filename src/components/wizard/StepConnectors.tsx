@@ -74,8 +74,13 @@ export function StepConnectors({
         { connectorZone: zone },
       );
       store.replaceElements(result.elements);
+      // FIX 6: Surface validation issues and overflow as toasts
+      store.setValidationIssueIds(result.validationIssues);
       if (result.overflow) {
         showToast(result.overflow.message);
+      }
+      if (result.validationIssues.length > 0) {
+        showToast(`${result.validationIssues.length} element(s) have placement issues`);
       }
     },
     [connectorZone],

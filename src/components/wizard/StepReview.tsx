@@ -54,13 +54,19 @@ export function StepReview({ onNext, onBack, onCancel, onEditInConfigurator }: S
     return result;
   }, []);
 
-  // Run preflight on mount and when elements change
+  // FIX 7: Compute position-sensitive key so preflight re-runs on moves, not just count changes
+  const positionKey = useMemo(
+    () => elements.map(e => `${e.id}:${e.x}:${e.y}`).join(','),
+    [elements],
+  );
+
+  // Run preflight on mount and when element positions change
   useEffect(() => {
     runPreflight();
     return () => {
       useConfigStore.getState().setValidationIssueIds([]);
     };
-  }, [elements.length, fabMethod, runPreflight]);
+  }, [positionKey, fabMethod, runPreflight]);
 
   // Counts
   const deviceCount = useMemo(() => elements.filter((e) => e.type === 'device').length, [elements]);

@@ -59,8 +59,13 @@ export function StepDevices({ onNext, onBack, connectorZone }: StepDevicesProps)
       { connectorZone },
     );
     store.replaceElements(result.elements);
+    // FIX 6: Surface validation issues and overflow as toasts
+    store.setValidationIssueIds(result.validationIssues);
     if (result.overflow) {
       showToast(result.overflow.message);
+    }
+    if (result.validationIssues.length > 0) {
+      showToast(`${result.validationIssues.length} element(s) have placement issues`);
     }
   }, [connectorZone]);
 

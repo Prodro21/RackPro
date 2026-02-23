@@ -5,8 +5,8 @@ import { FANS } from '../constants/fans';
 import { lookupDevice } from '../constants/deviceLookup';
 import { lookupConnector } from '../constants/connectorLookup';
 import { panelDimensions, panelHeight } from '../constants/eia310';
-import { autoLayoutV2 } from '../lib/autoLayoutV2';
-import type { ConnectorZone } from '../lib/autoLayoutV2';
+import { autoLayoutV2, revalidatePositions } from '../lib/autoLayoutV2';
+import type { ConnectorZone, LayoutV2Result } from '../lib/autoLayoutV2';
 
 const uid = () => Math.random().toString(36).slice(2, 9);
 
@@ -148,7 +148,7 @@ export interface ConfigState {
   selectElement: (id: string | null) => void;
 
   // Layout V2
-  suggestLayoutV2: (elementDefs: Array<{ type: ElementType; key: string }>, options?: { spacing?: number; connectorZone?: ConnectorZone }) => void;
+  suggestLayoutV2: (elementDefs: Array<{ type: ElementType; key: string }>, options?: { spacing?: number; connectorZone?: ConnectorZone }) => LayoutV2Result;
   replaceElements: (elements: PanelElement[]) => void;
   saveCheckpoint: () => void;
   getUndoDepth: () => number;
@@ -308,6 +308,12 @@ export const useConfigStore = create<ConfigState>()(
           const el = s.elements.find(e => e.id === id);
           if (el) { el.x = x; el.y = y; }
         }));
+        // FIX 5: Re-validate positions after move
+        const { elements, standard, uHeight } = get();
+        const { panelWidth: panW } = panelDimensions(standard);
+        const panH = panelHeight(uHeight);
+        const issues = revalidatePositions(elements, panW, panH);
+        set({ validationIssueIds: issues });
       },
 
       selectElement: (id) => set({ selectedId: id }),
@@ -320,6 +326,9 @@ export const useConfigStore = create<ConfigState>()(
         const panH = panelHeight(uHeight);
         const result = autoLayoutV2(elementDefs, panW, panH, options);
         set({ elements: result.elements, selectedId: null });
+        // FIX 4: Surface validation issues to UI
+        set({ validationIssueIds: result.validationIssues.length > 0 ? result.validationIssues : [] });
+        return result;
       },
 
       replaceElements: (elements) => {
