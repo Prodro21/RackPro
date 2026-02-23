@@ -79,7 +79,7 @@ export function generateConfig(): ExportConfig {
         w: e.w,
         h: e.h,
         cutout: fan ? 'round' as const : con?.cut ?? 'rect' as const,
-        radius: fan ? fan.cutoutDiameter / 2 : con?.r,
+        radius: fan ? fan.cutoutDiameter / 2 : con?.r ?? dev?.cornerRadius,
         depthBehind: con?.depthBehind ?? dev?.d ?? fan?.depthBehind ?? 0,
         surface: e.surface,
         ...(outlinePath ? { outlinePath } : {}),

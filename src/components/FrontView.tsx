@@ -645,11 +645,12 @@ export function FrontView() {
                       />
                     );
                   }
+                  const devCornerR = el.type === 'device' && lib && 'cornerRadius' in lib ? (lib as { cornerRadius?: number }).cornerRadius : undefined;
                   return (
                     <>
                       <rect
                         x={ex} y={ey} width={ew} height={eh}
-                        rx={1.5} fill={SVG_COLORS.deviceFill}
+                        rx={devCornerR ? devCornerR * SC : 1.5} fill={SVG_COLORS.deviceFill}
                         stroke={lib && 'color' in lib ? lib.color : SVG_COLORS.elementText}
                         strokeWidth={0.6}
                       />

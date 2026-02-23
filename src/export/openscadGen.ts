@@ -269,11 +269,20 @@ function emitMonolithicSCAD(config: ExportConfig): string {
   devices.forEach((el) => {
     const cx = fmt(sxN(el.x, panW));
     const cy = fmt(syN(el.y, panH));
-    out.push(
-      L(`  // ${el.label} — ${el.w}×${el.h}mm`),
-      L(`  translate([${cx}, ${cy}, -eps])`),
-      L(`    cube([${fmt(el.w + 0.2)}, ${fmt(el.h + 0.2)}, wall_t + eps*2], center = true);`),
-    );
+    const cr = el.radius;
+    if (cr && cr > 0.1) {
+      out.push(
+        L(`  // ${el.label} — ${el.w}×${el.h}mm r=${cr}mm`),
+        L(`  translate([${cx}, ${cy}, -eps])`),
+        L(`    cuboid([${fmt(el.w + 0.2)}, ${fmt(el.h + 0.2)}, wall_t + eps*2], rounding=${fmt(cr)}, edges="Z", anchor=CENTER);`),
+      );
+    } else {
+      out.push(
+        L(`  // ${el.label} — ${el.w}×${el.h}mm`),
+        L(`  translate([${cx}, ${cy}, -eps])`),
+        L(`    cube([${fmt(el.w + 0.2)}, ${fmt(el.h + 0.2)}, wall_t + eps*2], center = true);`),
+      );
+    }
   });
   out.push(L('}'), L(''));
 
@@ -681,10 +690,19 @@ function emitModularSCAD(config: ExportConfig): string {
   devices.forEach((el) => {
     const cx = fmt(sxN(el.x, panW));
     const cy = fmt(syN(el.y, panH));
-    out.push(
-      L(`  translate([${cx}, ${cy}, -eps])`),
-      L(`    cube([${fmt(el.w + 0.2)}, ${fmt(el.h + 0.2)}, wall_t + eps*2], center = true);`),
-    );
+    const cr = el.radius;
+    if (cr && cr > 0.1) {
+      out.push(
+        L(`  // ${el.label} — r=${cr}mm`),
+        L(`  translate([${cx}, ${cy}, -eps])`),
+        L(`    cuboid([${fmt(el.w + 0.2)}, ${fmt(el.h + 0.2)}, wall_t + eps*2], rounding=${fmt(cr)}, edges="Z", anchor=CENTER);`),
+      );
+    } else {
+      out.push(
+        L(`  translate([${cx}, ${cy}, -eps])`),
+        L(`    cube([${fmt(el.w + 0.2)}, ${fmt(el.h + 0.2)}, wall_t + eps*2], center = true);`),
+      );
+    }
   });
   out.push(L('}'), L(''));
 

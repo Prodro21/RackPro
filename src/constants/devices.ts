@@ -18,6 +18,7 @@ export const DEVICES: Record<string, DeviceDef> = {
     ports: '10GbE+2.5GbE+WiFi7',
     poe: '—',
     portLayout: { rj45: 2, sfp: 0 },
+    cornerRadius: 8,
   },
   'usw-lite-8': {
     name: 'USW-Lite-8-PoE',

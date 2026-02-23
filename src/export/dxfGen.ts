@@ -146,12 +146,22 @@ export function generateDXF(config: ExportConfig): string {
         break;
       }
       case 'rect': {
-        entities.push(dxfComment(`${el.label} — rect ${el.w}x${el.h}mm`));
-        entities.push(dxfRect(
-          cx - (el.w + 0.2) / 2, cy - (el.h + 0.2) / 2,
-          el.w + 0.2, el.h + 0.2,
-          '2-CUTOUTS'
-        ));
+        const cr = el.radius;
+        if (cr && cr > 0.1) {
+          entities.push(dxfComment(`${el.label} — rounded rect ${el.w}x${el.h}mm r=${cr}mm`));
+          entities.push(dxfRoundRect(
+            cx - (el.w + 0.2) / 2, cy - (el.h + 0.2) / 2,
+            el.w + 0.2, el.h + 0.2, cr,
+            '2-CUTOUTS'
+          ));
+        } else {
+          entities.push(dxfComment(`${el.label} — rect ${el.w}x${el.h}mm`));
+          entities.push(dxfRect(
+            cx - (el.w + 0.2) / 2, cy - (el.h + 0.2) / 2,
+            el.w + 0.2, el.h + 0.2,
+            '2-CUTOUTS'
+          ));
+        }
         break;
       }
       case 'd-sub': {
@@ -506,6 +516,33 @@ function dxfRect(x: number, y: number, w: number, h: number, layer: string): str
   return dxfLWPolyline([
     [x, y], [x + w, y], [x + w, y + h], [x, y + h],
   ], layer);
+}
+
+/** Rounded rectangle as a closed LWPOLYLINE with bulge arcs at corners. */
+function dxfRoundRect(x: number, y: number, w: number, h: number, r: number, layer: string): string {
+  const cr = Math.min(r, w / 2, h / 2);
+  if (cr <= 0.1) return dxfRect(x, y, w, h, layer);
+  // bulge = tan(angle/4) — for 90° arc, bulge = tan(π/8) ≈ 0.4142
+  const bulge = Math.tan(Math.PI / 8);
+  const parts: string[] = [
+    '  0', 'LWPOLYLINE',
+    '  8', layer,
+    ' 70', '1',   // closed
+    ' 90', '8',   // 8 vertices (2 per corner)
+  ];
+  // Bottom edge: left→right, then BR arc
+  parts.push(' 10', (x + cr).toFixed(4), ' 20', y.toFixed(4), ' 42', '0');
+  parts.push(' 10', (x + w - cr).toFixed(4), ' 20', y.toFixed(4), ' 42', bulge.toFixed(6));
+  // Right edge: bottom→top, then TR arc
+  parts.push(' 10', (x + w).toFixed(4), ' 20', (y + cr).toFixed(4), ' 42', '0');
+  parts.push(' 10', (x + w).toFixed(4), ' 20', (y + h - cr).toFixed(4), ' 42', bulge.toFixed(6));
+  // Top edge: right→left, then TL arc
+  parts.push(' 10', (x + w - cr).toFixed(4), ' 20', (y + h).toFixed(4), ' 42', '0');
+  parts.push(' 10', (x + cr).toFixed(4), ' 20', (y + h).toFixed(4), ' 42', bulge.toFixed(6));
+  // Left edge: top→bottom, then BL arc
+  parts.push(' 10', x.toFixed(4), ' 20', (y + h - cr).toFixed(4), ' 42', '0');
+  parts.push(' 10', x.toFixed(4), ' 20', (y + cr).toFixed(4), ' 42', bulge.toFixed(6));
+  return parts.join('\n') + '\n';
 }
 
 /** Closed LWPOLYLINE — CAM tools recognize this as a single boundary. */

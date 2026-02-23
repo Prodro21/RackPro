@@ -132,6 +132,9 @@ export const CatalogDeviceSchema = z.object({
   /** Dimension caveats, e.g. 'depth includes rubber feet'. */
   notes: z.string().optional(),
 
+  /** Corner radius in mm for devices with rounded body corners. */
+  cornerRadius: z.number().positive().optional(),
+
   /** Schema version for forward compatibility. Must be 1 for current schema. */
   schemaVersion: z.literal(1),
 });

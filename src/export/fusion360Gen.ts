@@ -67,6 +67,26 @@ function emitMonolithicBuild(config: ExportConfig): string {
   L(`    return sketch`);
   L(``);
 
+  L(`def create_rounded_rect_sketch(sketch, cx_mm, cy_mm, w_mm, h_mm, r_mm):`);
+  L(`    """Draw a centered rounded rectangle using lines and arcs."""`);
+  L(`    import math`);
+  L(`    sl = sketch.sketchCurves.sketchLines`);
+  L(`    sa = sketch.sketchCurves.sketchArcs`);
+  L(`    r = mm(min(r_mm, w_mm/2, h_mm/2))`);
+  L(`    x1, y1 = mm(cx_mm - w_mm/2), mm(cy_mm - h_mm/2)`);
+  L(`    x2, y2 = mm(cx_mm + w_mm/2), mm(cy_mm + h_mm/2)`);
+  L(`    P3 = adsk.core.Point3D.create`);
+  L(`    sl.addByTwoPoints(P3(x1+r, y1, 0), P3(x2-r, y1, 0))`);
+  L(`    sl.addByTwoPoints(P3(x2, y1+r, 0), P3(x2, y2-r, 0))`);
+  L(`    sl.addByTwoPoints(P3(x2-r, y2, 0), P3(x1+r, y2, 0))`);
+  L(`    sl.addByTwoPoints(P3(x1, y2-r, 0), P3(x1, y1+r, 0))`);
+  L(`    sa.addByCenterStartSweep(P3(x1+r, y1+r, 0), P3(x1, y1+r, 0), math.pi/2)`);
+  L(`    sa.addByCenterStartSweep(P3(x2-r, y1+r, 0), P3(x2-r, y1, 0), math.pi/2)`);
+  L(`    sa.addByCenterStartSweep(P3(x2-r, y2-r, 0), P3(x2, y2-r, 0), math.pi/2)`);
+  L(`    sa.addByCenterStartSweep(P3(x1+r, y2-r, 0), P3(x1+r, y2, 0), math.pi/2)`);
+  L(`    return sketch`);
+  L(``);
+
   L(`def extrude_profile(comp, sketch, thickness_mm, operation, profile_idx=0):`);
   L(`    """Extrude a profile from a sketch."""`);
   L(`    prof = sketch.profiles.item(profile_idx)`);
@@ -180,8 +200,14 @@ function emitMonolithicBuild(config: ExportConfig): string {
     for (const el of devices) {
       const cx = el.x - panW / 2;
       const cy = panH / 2 - el.y;
-      L(`        # ${el.label} — device bay ${el.w}x${el.h}mm`);
-      L(`        create_rect_sketch(skCut, ${cx.toFixed(4)}, ${cy.toFixed(4)}, ${(el.w + 0.2).toFixed(2)}, ${(el.h + 0.2).toFixed(2)})`);
+      const cr = el.radius;
+      if (cr && cr > 0.1) {
+        L(`        # ${el.label} — device bay ${el.w}x${el.h}mm r=${cr}mm`);
+        L(`        create_rounded_rect_sketch(skCut, ${cx.toFixed(4)}, ${cy.toFixed(4)}, ${(el.w + 0.2).toFixed(2)}, ${(el.h + 0.2).toFixed(2)}, ${cr.toFixed(2)})`);
+      } else {
+        L(`        # ${el.label} — device bay ${el.w}x${el.h}mm`);
+        L(`        create_rect_sketch(skCut, ${cx.toFixed(4)}, ${cy.toFixed(4)}, ${(el.w + 0.2).toFixed(2)}, ${(el.h + 0.2).toFixed(2)})`);
+      }
     }
 
     L(`        # Cut all cutouts through faceplate`);
@@ -581,7 +607,13 @@ function emitModularBuild(config: ExportConfig): string {
     for (const el of devices) {
       const cx = el.x - panW / 2;
       const cy = panH / 2 - el.y;
-      L(`        create_rect_sketch(skCut, ${cx.toFixed(4)}, ${cy.toFixed(4)}, ${(el.w + 0.2).toFixed(2)}, ${(el.h + 0.2).toFixed(2)})`);
+      const cr = el.radius;
+      if (cr && cr > 0.1) {
+        L(`        # ${el.label} — device bay r=${cr}mm`);
+        L(`        create_rounded_rect_sketch(skCut, ${cx.toFixed(4)}, ${cy.toFixed(4)}, ${(el.w + 0.2).toFixed(2)}, ${(el.h + 0.2).toFixed(2)}, ${cr.toFixed(2)})`);
+      } else {
+        L(`        create_rect_sketch(skCut, ${cx.toFixed(4)}, ${cy.toFixed(4)}, ${(el.w + 0.2).toFixed(2)}, ${(el.h + 0.2).toFixed(2)})`);
+      }
     }
     L(`        for i in range(skCut.profiles.count):`);
     L(`            prof = skCut.profiles.item(i)`);

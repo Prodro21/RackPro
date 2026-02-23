@@ -60,6 +60,7 @@ export interface DeviceDef {
   ports: string;
   poe: string;
   portLayout?: { rj45: number; sfp: number };
+  cornerRadius?: number;  // rounded corner radius for device cutout (mm)
   isCustom?: boolean;
   createdAt?: number;
 }

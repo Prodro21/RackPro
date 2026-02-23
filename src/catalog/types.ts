@@ -90,6 +90,7 @@ export function toDeviceDef(cd: CatalogDevice): DeviceDef {
       rj45: rj45Count,
       sfp: sfpCount,
     },
+    ...(cd.cornerRadius != null ? { cornerRadius: cd.cornerRadius } : {}),
   };
 }
 

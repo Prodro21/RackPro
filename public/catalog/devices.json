@@ -107,6 +107,7 @@
     "dataSource": "manufacturer-datasheet",
     "source": "https://techspecs.ui.com/unifi/cloud-gateways/ux7",
     "notes": "Tri-band WiFi 7 gateway. 0.96in LCM status display.",
+    "cornerRadius": 8,
     "schemaVersion": 1
   },
   {
