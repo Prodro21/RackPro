@@ -19,6 +19,7 @@ Decimal phases appear between their surrounding integers in numeric order.
 - [ ] **Phase 4: Guided Wizard + Smart Auto-Layout** - Multi-step onboarding wizard and connector-grouping auto-layout replacing the greedy left-to-right algorithm
 - [ ] **Phase 5: UI + 3D Polish** - shadcn/ui component migration with Slate/Teal theme, PBR materials and CSG cutout geometry in 3D preview, Cmd+K command palette, and stable selector tests
 - [ ] **Phase 6: Cost Estimation + Community Contributions** - Filament and sheet metal cost range estimates, and GitHub PR contribution pipeline for community equipment submissions
+- [ ] **Phase 7: Tech Debt Cleanup** - Fix CAT-05 Sidebar reactive selector, delete dead Toast.tsx, set Cloudflare analytics token
 
 ## Phase Details
 
@@ -145,10 +146,24 @@ Plans:
 - [ ] 06-01-PLAN.md — Build `src/lib/costEstimation.ts` with `estimatePrintCost()` and `estimateSheetMetalCost()` pure functions; add CostSummaryCard to Sidebar, CostBreakdown to ExportTab with assumptions/disclaimer/fabricator links; add editable $/kg in sidebar config; fix ExportTab preflight effect position dependency
 - [ ] 06-02-PLAN.md — Write `CONTRIBUTING.md` with dual submission paths (Issue Form + direct PR); create GitHub Issue Form templates for device/connector; build CI validation workflow + issue-to-PR automation workflow; create `scripts/validate-catalog.ts` reusing Zod schemas
 
+### Phase 7: Tech Debt Cleanup
+**Goal**: Close the last integration gap (CAT-05 Sidebar reactive selector) and clean up accumulated tech debt items before milestone completion
+**Depends on**: Phase 6
+**Requirements**: None (all 34/34 requirements already satisfied)
+**Gap Closure:** Closes 1 integration gap from v1.0 audit + 2 tech debt items
+**Success Criteria** (what must be TRUE):
+  1. Sidebar confidence badge uses a reactive `useCatalogStore()` selector (not `getState()` snapshot) so the badge renders correctly even if element is selected before async catalog load completes
+  2. Dead `src/components/Toast.tsx` file is deleted (replaced by Sonner in Phase 5)
+  3. Cloudflare Web Analytics beacon in `index.html` has the real token (or a clear instruction for the user to set it)
+**Plans**: 1 plan
+
+Plans:
+- [ ] 07-01-PLAN.md — Fix CAT-05-SIDEBAR reactive selector in Sidebar.tsx, delete dead Toast.tsx, update Cloudflare analytics token in index.html
+
 ## Progress
 
 **Execution Order:**
-Phases execute in numeric order: 1 → 1.1 → 2 → 3 → 4 → 5 → 6
+Phases execute in numeric order: 1 → 1.1 → 2 → 3 → 4 → 5 → 6 → 7
 
 Note: Phases 4 and 5/6 can proceed in parallel after Phase 3 completes (Phase 4 depends on Phase 2; Phases 5 and 6 depend on Phase 3). Default sequential execution unless explicitly parallelized.
 
@@ -161,3 +176,4 @@ Note: Phases 4 and 5/6 can proceed in parallel after Phase 3 completes (Phase 4 
 | 4. Guided Wizard + Smart Auto-Layout | 3/5 | Gap closure | - |
 | 5. UI + 3D Polish | 4/5 | In Progress|  |
 | 6. Cost Estimation + Community Contributions | 0/2 | Not started | - |
+| 7. Tech Debt Cleanup | 0/1 | Not started | - |
