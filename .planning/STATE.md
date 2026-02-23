@@ -5,15 +5,15 @@
 See: .planning/PROJECT.md (updated 2026-02-23)
 
 **Core value:** Anyone can design a custom rack mount panel with real equipment dimensions and export a fabrication-ready file — without CAD expertise.
-**Current focus:** Phase 1 Frontend Design Rework — Plan 02 complete (layout + navigation + header + status bar)
+**Current focus:** Phase 1 Frontend Design Rework — Plan 03 complete (sidebar + UI components)
 
 ## Current Position
 
 Milestone: Frontend Design Rework
 Phase: 01-frontend-design-rework
-Current Plan: 3 of 5
-Status: Plan 02 complete — layout restructure and navigation/header/status bar restyled. Ready for Plan 03.
-Last activity: 2026-02-23 — Plan 02 executed (2 tasks, 4min)
+Current Plan: 4 of 5
+Status: Plan 03 complete — sidebar restyled with segment controls, all 13 shadcn/ui primitives updated. Ready for Plan 04.
+Last activity: 2026-02-23 — Plan 03 executed (2 tasks, 7min)
 
 ## Performance Metrics
 
@@ -49,6 +49,9 @@ All v1.0 decisions archived in `.planning/milestones/v1.0-ROADMAP.md` and `.plan
 - StatusBar moved from MainContent to configurator route layout for structural consistency
 - NavSidebar uses useMatches for active detection instead of activeProps
 - Header uses native button elements instead of shadcn Button for segmented tabs
+- Replaced Toggle-based fab toggles with custom SegmentControl pill component
+- Removed all dark: prefix classes from UI primitives (dark is :root default)
+- Tooltips use bg-elevated with border instead of bg-primary solid fill
 
 ### Pending Todos
 
@@ -65,5 +68,5 @@ None — clean slate for next milestone.
 ## Session Continuity
 
 Last session: 2026-02-23
-Stopped at: Completed 01-02-PLAN.md (Layout + Navigation + Header + StatusBar)
-Resume file: .planning/phases/01-frontend-design-rework/01-02-SUMMARY.md
+Stopped at: Completed 01-03-PLAN.md (Sidebar + UI Components)
+Resume file: .planning/phases/01-frontend-design-rework/01-03-SUMMARY.md
