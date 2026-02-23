@@ -45,6 +45,10 @@ All v1.0 decisions archived in `.planning/milestones/v1.0-ROADMAP.md` and `.plan
 
 None.
 
+### Roadmap Evolution
+
+- Phase 1 added: Frontend Design Rework
+
 ### Blockers/Concerns
 
 None — clean slate for next milestone.
@@ -52,5 +56,5 @@ None — clean slate for next milestone.
 ## Session Continuity
 
 Last session: 2026-02-23
-Stopped at: v1.0 milestone archived. Ready for `/gsd:new-milestone`.
-Resume file: None
+Stopped at: Phase 1 context gathered
+Resume file: .planning/phases/01-frontend-design-rework/01-CONTEXT.md
