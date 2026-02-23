@@ -5,13 +5,13 @@ import { cva, type VariantProps } from "class-variance-authority"
 import { cn } from "@/lib/utils"
 
 const toggleVariants = cva(
-  "inline-flex items-center justify-center gap-2 rounded-md text-sm font-medium transition-all hover:bg-muted hover:text-muted-foreground disabled:pointer-events-none disabled:opacity-50 data-[state=on]:bg-accent data-[state=on]:text-accent-foreground [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-4 outline-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] whitespace-nowrap cursor-pointer",
+  "inline-flex items-center justify-center gap-2 rounded-md text-sm font-medium transition-all hover:bg-bg-hover hover:text-text-secondary disabled:pointer-events-none disabled:opacity-50 data-[state=on]:bg-bg-elevated data-[state=on]:text-text-primary [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-4 outline-none focus-visible:border-border-focus focus-visible:ring-border-focus/50 focus-visible:ring-[3px] whitespace-nowrap cursor-pointer",
   {
     variants: {
       variant: {
-        default: "bg-transparent",
+        default: "bg-transparent text-text-secondary",
         outline:
-          "border border-input bg-transparent shadow-xs hover:bg-accent hover:text-accent-foreground",
+          "border border-border-default bg-transparent shadow-xs text-text-secondary hover:bg-bg-hover hover:text-text-primary",
       },
       size: {
         default: "h-9 px-2 min-w-9",
