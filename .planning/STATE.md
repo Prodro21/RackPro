@@ -5,23 +5,23 @@
 See: .planning/PROJECT.md (updated 2026-02-21)
 
 **Core value:** Anyone can design a custom rack mount panel with real equipment dimensions and export a fabrication-ready file — without CAD expertise.
-**Current focus:** Phase 6 COMPLETE — Cost Estimation + Community Contributions
+**Current focus:** Phase 7 COMPLETE — Tech Debt Cleanup
 
 ## Current Position
 
-Phase: 6 of 6 (Cost Estimation + Community Contributions) -- COMPLETE
-Plan: 2 of 2 in current phase -- ALL COMPLETE
-Status: Phase 6 complete — all plans executed
-Last activity: 2026-02-23 — Completed 06-01-PLAN.md (Cost Estimation Pure Functions + UI)
+Phase: 7 of 7 (Tech Debt Cleanup) -- COMPLETE
+Plan: 1 of 1 in current phase -- ALL COMPLETE
+Status: Phase 7 complete — all plans executed
+Last activity: 2026-02-23 — Completed 07-01-PLAN.md (Tech Debt Cleanup)
 
 Progress: [████████████] 100%
 
 ## Performance Metrics
 
 **Velocity:**
-- Total plans completed: 25
+- Total plans completed: 26
 - Average duration: 6min
-- Total execution time: 2.65 hours
+- Total execution time: 2.68 hours
 
 **By Phase:**
 
@@ -34,10 +34,11 @@ Progress: [████████████] 100%
 | 04-guided-wizard-smart-auto-layout | 5 | 31min | 6min |
 | 05-ui-3d-polish | 5 | 48min | 10min |
 | 06-cost-estimation-community-contributions | 2 | 8min | 4min |
+| 07-tech-debt-cleanup | 1 | 2min | 2min |
 
 **Recent Trend:**
-- Last 5 plans: 06-01 (4min), 06-02 (4min), 05-04 (17min), 05-05 (3min), 05-03 (3min)
-- Trend: Phase 6 complete — all 2 plans executed
+- Last 5 plans: 07-01 (2min), 06-01 (4min), 06-02 (4min), 05-04 (17min), 05-05 (3min)
+- Trend: Phase 7 complete — all 1 plans executed
 
 *Updated after each plan completion*
 
@@ -148,6 +149,7 @@ Recent decisions affecting current work:
 - [Phase 06]: [06-01]: $/kg input in Sidebar fab config section (not inside cost card) per CONTEXT.md locked decision
 - [Phase 06]: [06-01]: ExportTab computes both fab method costs directly for comparison toggle (not via selector)
 - [Phase 06]: [06-01]: positionKey pattern from StepReview.tsx applied to ExportTab preflight effect for position-sensitive re-runs
+- [Phase 07]: [07-01]: useCatalogStore hook selectors for devices/connectors instead of getState() snapshot -- reactive re-render on async catalog load
 
 ### Pending Todos
 
@@ -162,5 +164,5 @@ None yet.
 ## Session Continuity
 
 Last session: 2026-02-23
-Stopped at: Completed 06-01-PLAN.md (Cost Estimation Pure Functions + UI) — Phase 6 fully complete
+Stopped at: Completed 07-01-PLAN.md (Tech Debt Cleanup) — Phase 7 fully complete
 Resume file: None
