@@ -1,0 +1,13 @@
+{
+  "autodeskProduct": "Fusion",
+  "type": "addin",
+  "id": "com.rackpro.bridge",
+  "author": "RackPro",
+  "description": {
+    "": "RackPro Bridge — HTTP server for bidirectional Fusion 360 control"
+  },
+  "version": "1.0.0",
+  "runOnStartup": false,
+  "supportedOS": "windows|mac",
+  "editEnabled": true
+}
